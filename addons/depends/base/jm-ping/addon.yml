@@ -1,0 +1,9 @@
+Addon:
+  Name: jm-ping
+  SourceType: git
+  Source:
+  Description: ping
+  Type: app
+  DependOns:
+  Conflicts:
+  Migrations:

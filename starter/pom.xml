@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>jm-build-parent</artifactId>
+        <groupId>cn.jimoos</groupId>
+        <version>0.0.1</version>
+        <relativePath>../build-parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>jm-starter-parent</artifactId>
+    <packaging>pom</packaging>
+
+    <name>jm-starter-parent</name>
+    <description>jm starter for dep use</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <sonar.projectKey>jimoos-shop-server</sonar.projectKey>
+        <sonar.moduleKey>${project.groupId}:${project.artifactId}:${sonar.projectKey}</sonar.moduleKey>
+    </properties>
+    <modules>
+        <module>api-starter</module>
+        <module>portal-starter</module>
+    </modules>
+</project>

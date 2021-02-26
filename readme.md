@@ -1,5 +1,7 @@
 # 积墨开源商城 服务端代码
 
+![Build Status](https://github.com/jimoos-cn/jimoos-shop-server/workflows/Java%20CI%20with%20Maven/badge.svg)
+
 ## 项目构建
 
 `mvn clean package -Dmaven.test.skip=true -s docker/settings.xml`

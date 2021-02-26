@@ -32,12 +32,6 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.xiaohuodui</groupId>
-            <artifactId>jm-utils</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>

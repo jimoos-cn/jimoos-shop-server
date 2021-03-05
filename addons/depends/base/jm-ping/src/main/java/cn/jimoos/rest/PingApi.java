@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 /**
  * Ping
  *
- * @author chenqisheng
+ * @author keepcleargas
  */
 @RestController
 @RequestMapping("/v1/pings")

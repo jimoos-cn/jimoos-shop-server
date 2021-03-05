@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-utils
+  Ref: jimoos-public
+  SourceType: git
+  Source: 
+  Description: 实用基础类
+  Type: module
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

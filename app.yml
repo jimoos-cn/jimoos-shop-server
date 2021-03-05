@@ -4,7 +4,7 @@ App: #应用信息
   Description: 积墨商城shop
   Addons:
     - Name: jm-ping
-      Ref: jimo-public
+      Ref: jimoos-public
       Group: base
       SourceType: git
       Source: 
@@ -14,3 +14,17 @@ App: #应用信息
       Conflicts: none
       Migrations: migrations
       Docs: docs
+    - Name: jm-settings
+      Ref: jimoos-public
+      Group: base
+      SourceType: git
+      Source:
+      Description: 基础设置
+      Type: module
+    - Name: jm-utils
+      Ref: jimoos-public
+      Group: base
+      SourceType: git
+      Source:
+      Description: 基础设置
+      Type: module

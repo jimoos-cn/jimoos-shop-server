@@ -23,5 +23,7 @@
     </properties>
     <modules>
         <module>depends/base/jm-ping</module>
+        <module>depends/base/jm-settings</module>
+        <module>depends/base/jm-utils</module>
     </modules>
 </project>

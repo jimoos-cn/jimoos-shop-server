@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-settings
+  Ref: jimoos-public
+  SourceType: git
+  Source: 
+  Description: 基础设置
+  Type: module
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

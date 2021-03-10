@@ -18,4 +18,4 @@
     - [cli工具介绍](jimoos4j-cli/index.md)
 
 * Jimoos Api Tracker
-    - Api Tracker 介绍
+    - [Api-Tracker快速使用](jimoos-api-tracer/index.md)

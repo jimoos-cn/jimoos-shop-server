@@ -8,7 +8,7 @@
 
 ## 快速上手
 
-### 0. 初始化 数据库
+### 1. 初始化 数据库
 
 ```sql
 CREATE TABLE `JM_API_TRACE`
@@ -34,31 +34,6 @@ CREATE TABLE `JM_API_TRACE`
   COLLATE = utf8mb4_unicode_ci COMMENT ='api 接口的 request 和 response 跟踪';
 ```
 
-### 1. 配置 maven setting.conf
-
-```xml
-
-<profile>
-    <id>Repository Proxy</id>
-    <activation>
-        <activeByDefault>true</activeByDefault>
-    </activation>
-    <repositories>
-        <repository>
-            <id>oss</id>
-            <name>oss</name>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-</profile>
-```
-
 ### 2. 在接口模块(监听端)增加 依赖
 
 ```xml
@@ -67,7 +42,7 @@ CREATE TABLE `JM_API_TRACE`
     <dependency>
         <groupId>cn.jimoos</groupId>
         <artifactId>jm-api-tracer</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.1</version>
     </dependency>
     <dependency>
         <groupId>org.zalando</groupId>
@@ -95,7 +70,7 @@ idea 调试如下
 ## 启动 api-trace-manager web 服务
 
 * 1 下载 `manager jar`
-  ,[Manager-Jar 下载地址](https://github.com/jimoos-cn/jimoos-api-tracer/releases/download/v0.0.1/jm-api-tracer-manager-0.0.1-SNAPSHOT.jar)
+  ,[Manager-Jar 下载地址](https://github.com/jimoos-cn/jimoos-api-tracer/releases/download/v0.0.1/jm-api-tracer-manager-0.0.1.jar)
 
 * 2 初始化 application.yml
 
@@ -119,7 +94,7 @@ server:
 * 3 启动 manager.jar
 
 ```bash
-java  -Djava.security.egd=file:/dev/./urandom   -jar jm-api-tracer-manager-0.0.1-SNAPSHOT.jar --spring.config.location=file:application.yml
+java  -Djava.security.egd=file:/dev/./urandom   -jar jm-api-tracer-manager-0.0.1.jar --spring.config.location=file:application.yml
 ```
 
 > 配置数据库连接，需要和 你的应用 数据库连接一致。

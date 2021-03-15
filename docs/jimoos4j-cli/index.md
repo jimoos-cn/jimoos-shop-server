@@ -35,7 +35,7 @@ Commands:
 1. 快速开始一个项目
 
 ```
-jimo4j init //@1 初始化项目 {{demo}}
+jimoos4j init //@1 初始化项目 {{demo}}
 cd {{demo}}  //@2 进入项目
 mvn clean install -Dmaven.test.skip=true //@3 编译
 cd starter/api-starter 
@@ -45,12 +45,34 @@ mvn spring-boot:run //启动 spring-boot 项目
 2. 添加 addon 模块
 
 ```
-jimo4j add-addon // 添加项目 {{addonDemo}}
+jimoos4j add-addon // 添加项目 {{addonDemo}}
 mvn clean install -Dmaven.test.skip=true
 //添加 addonDemo依赖 到 starter pom.xml 下
 cd starter/api-starter 
 mvn spring-boot:run //启动 spring-boot 项目，则 addonDemo 就被加载了。
 ```
+
+3. 同步其它项目的 Addon 模块
+
+在 积墨项目的 app.yml 添加`jm-utils` 模块
+
+```
+   - Name: jm-utils
+     Ref: jimoos-public
+     Group: base
+     SourceType: git
+     Source:
+     Description: 基础设置
+     Type: module
+```
+
+执行命令:
+
+```
+jimoos4j sync 
+```
+
+即 完成同步 `https://github.com/jimoos-cn/jimoos-public` 下的 `jm-utils`
 
 ## 目录说明
 

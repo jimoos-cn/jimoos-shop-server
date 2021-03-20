@@ -1,0 +1,12 @@
+Addon:
+  Name: huawei-obs
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: 华为云OBS存储
+  Type: module
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

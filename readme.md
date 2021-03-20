@@ -10,6 +10,23 @@
 
 文档地址: https://jimoos-cn.github.io/jimoos-shop-server/
 
+## TODO
+
+[X] 数据库配置读取     
+[X] 华为云OBS接入    
+[ ] 用户注册    
+[ ] Banner管理    
+[ ] 商品管理    
+[ ] 购物车     
+[ ] 下单      
+[ ] 优惠券     
+[ ] 我的订单    
+[ ] 商品集合
+
+----
+[ ] 接口部署    
+[ ] 接口文档
+
 ## 项目结构
 
  - api-starter 客户端接口入口

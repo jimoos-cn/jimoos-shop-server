@@ -6,6 +6,10 @@
 
 `mvn clean package -Dmaven.test.skip=true -s docker/settings.xml`
 
+## 业务建模图
+
+![业务建模图](docs/_media/model.jpg)
+
 ## 开发文档入口
 
 文档地址: https://jimoos-cn.github.io/jimoos-shop-server/
@@ -29,7 +33,7 @@
 
 ## 项目结构
 
- - api-starter 客户端接口入口
- - portal-starter 后台管理接口入口
- - `addons/@`下 为项目内插件
- - `addons/depends`为外部插件，外部插件禁止修改。
+- api-starter 客户端接口入口
+- portal-starter 后台管理接口入口
+- `addons/@`下 为项目内插件
+- `addons/depends`为外部插件，外部插件禁止修改。

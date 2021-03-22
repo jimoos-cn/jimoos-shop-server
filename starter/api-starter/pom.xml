@@ -42,6 +42,12 @@
             <artifactId>spring-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>huawei-obs</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <!--连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>

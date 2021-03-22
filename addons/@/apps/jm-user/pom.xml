@@ -3,17 +3,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>jm-starter-parent</artifactId>
+        <artifactId>jm-addons-parent</artifactId>
         <groupId>cn.jimoos</groupId>
         <version>0.0.1</version>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jm-api-starter</artifactId>
+    <groupId>cn.jimoos</groupId>
+    <artifactId>jm-user</artifactId>
+    <version>0.0.1</version>
 
-    <name>jm-api-starter</name>
-    <description>for api develop use</description>
+    <name>jm-user</name>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -44,13 +51,20 @@
 
         <dependency>
             <groupId>cn.jimoos</groupId>
-            <artifactId>huawei-obs</artifactId>
+            <artifactId>jm-settings</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.jimoos</groupId>
-            <artifactId>jm-user</artifactId>
+            <artifactId>jm-event-registry</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <!-- 微信登录-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+            <version>3.7.0</version>
         </dependency>
 
         <!--连接池-->
@@ -76,6 +90,10 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
@@ -108,15 +126,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

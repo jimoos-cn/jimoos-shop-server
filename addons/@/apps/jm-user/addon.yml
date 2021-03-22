@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-user
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: 用户
+  Type: app
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

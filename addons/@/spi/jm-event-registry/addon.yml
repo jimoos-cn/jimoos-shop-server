@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-event-registry
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: 事件注册
+  Type: module
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

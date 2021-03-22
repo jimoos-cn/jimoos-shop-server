@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-event
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: 消息事件
+  Type: module
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

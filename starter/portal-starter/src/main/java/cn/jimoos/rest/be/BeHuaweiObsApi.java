@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * The type Be huawei obs api.
  *
- * @author wangyiwen
+ * @author kison
  * @version 1.0 Created in 2020/11/23 11:11
  */
 @RequestMapping(value = "/bAdmin/v1/huawei/obs")

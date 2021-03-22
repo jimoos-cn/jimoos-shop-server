@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-spi-registry
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: spi 注册中心
+  Type: module
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

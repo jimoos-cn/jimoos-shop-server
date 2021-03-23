@@ -28,18 +28,6 @@ public class BeHuaweiObsApi {
     HuaweiObsService huaweiObsService;
 
     /**
-     * 使用预签名URL方式访问OBS
-     *
-     * @param form the form
-     * @return the temporary signature
-     */
-    @Deprecated
-    @PostMapping(value = "/temporary-signature", produces = "application/json; charset=utf-8")
-    public List<ObsTemporarySignVO> getTemporarySignature(@Valid @RequestBody ObsTemporarySignForm form) {
-        return huaweiObsService.getTemporarySignature(form);
-    }
-
-    /**
      * 获取Huawei obs 图片上传的token
      *
      * @return image upload token

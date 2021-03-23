@@ -1,15 +1,13 @@
 package cn.jimoos.rest;
 
-import cn.jimoos.huaweiobs.form.ObsTemporarySignForm;
 import cn.jimoos.huaweiobs.service.HuaweiObsService;
-import cn.jimoos.huaweiobs.vo.ObsTemporarySignVO;
 import cn.jimoos.huaweiobs.vo.TemporaryAccessKeyVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
-import java.util.List;
 
 /**
  * The type Huawei obs api.
@@ -26,18 +24,6 @@ public class HuaweiObsApi {
      */
     @Resource
     HuaweiObsService huaweiObsService;
-
-    /**
-     * 使用预签名URL方式访问 OBS
-     *
-     * @param form the form
-     * @return the temporary signature
-     */
-    @Deprecated
-    @PostMapping(value = "/temporary-signature", produces = "application/json; charset=utf-8")
-    public List<ObsTemporarySignVO> getTemporarySignature(@Valid @RequestBody ObsTemporarySignForm form) {
-        return huaweiObsService.getTemporarySignature(form);
-    }
 
     /**
      * 获取huawei obs图片上传的token

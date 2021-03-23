@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.UserAddressMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.user.model.UserAddress">
+        <!--@mbg.generated-->
+        <!--@Table t_user_address-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="area" jdbcType="VARCHAR" property="area"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="zip_code" jdbcType="VARCHAR" property="zipCode"/>
+        <result column="default_in" jdbcType="BOOLEAN" property="defaultIn"/>
+        <result column="tag" jdbcType="VARCHAR" property="tag"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, `name`, phone, province, city, area, address, zip_code, default_in, tag, user_id,
+        create_at, update_at, deleted
+    </sql>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.user.model.UserAddress"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_user_address (`name`, phone, province,
+                                    city, area, address,
+                                    zip_code, default_in, tag,
+                                    user_id, create_at, update_at,
+                                    deleted)
+        values (#{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR},
+                #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+                #{zipCode,jdbcType=VARCHAR}, #{defaultIn,jdbcType=BOOLEAN}, #{tag,jdbcType=VARCHAR},
+                #{userId,jdbcType=BIGINT}, #{createAt,jdbcType=BIGINT}, #{updateAt,jdbcType=BIGINT},
+                #{deleted,jdbcType=BOOLEAN})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.user.model.UserAddress">
+        <!--@mbg.generated-->
+        update t_user_address
+        set `name`     = #{name,jdbcType=VARCHAR},
+            phone      = #{phone,jdbcType=VARCHAR},
+            province   = #{province,jdbcType=VARCHAR},
+            city       = #{city,jdbcType=VARCHAR},
+            area       = #{area,jdbcType=VARCHAR},
+            address    = #{address,jdbcType=VARCHAR},
+            zip_code   = #{zipCode,jdbcType=VARCHAR},
+            default_in = #{defaultIn,jdbcType=BOOLEAN},
+            tag        = #{tag,jdbcType=VARCHAR},
+            user_id    = #{userId,jdbcType=BIGINT},
+            create_at  = #{createAt,jdbcType=BIGINT},
+            update_at  = #{updateAt,jdbcType=BIGINT},
+            deleted    = #{deleted,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_user_address
+                (`name`, phone, province, city, area, address, zip_code, default_in, tag, user_id,
+                 create_at, update_at, deleted)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, #{item.province,jdbcType=VARCHAR},
+             #{item.city,jdbcType=VARCHAR}, #{item.area,jdbcType=VARCHAR}, #{item.address,jdbcType=VARCHAR},
+             #{item.zipCode,jdbcType=VARCHAR}, #{item.defaultIn,jdbcType=BOOLEAN}, #{item.tag,jdbcType=VARCHAR},
+             #{item.userId,jdbcType=BIGINT}, #{item.createAt,jdbcType=BIGINT}, #{item.updateAt,jdbcType=BIGINT},
+             #{item.deleted,jdbcType=BOOLEAN})
+        </foreach>
+    </insert>
+
+    <select id="selectByUid" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_address
+        where user_id = #{uid}
+          AND deleted = 0
+        order by default_in desc
+    </select>
+    <select id="selectDefaultAddress" resultMap="BaseResultMap" parameterType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_address
+        where user_id = #{uid}
+          AND default_in = true
+          AND deleted = 0
+        limit 1
+    </select>
+
+    <update id="updateDefaultStatus" parameterType="map">
+        UPDATE t_user_address
+        SET default_in = #{status}
+        WHERE id = #{addressId}
+    </update>
+
+    <update id="resetDefaultStatus" parameterType="map">
+        UPDATE t_user_address
+        SET default_in = false
+        WHERE default_in = true
+          AND user_id = #{uid}
+          AND id != #{defaultAddressId}
+    </update>
+
+    <!--auto generated by MybatisCodeHelper on 2020-12-25-->
+    <select id="findOneByIdAndDeletedFalse" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_address
+        where id = #{id,jdbcType=BIGINT}
+          and deleted = false
+    </select>
+
+    <!--auto generated by MybatisCodeHelper on 2020-12-25-->
+    <update id="updateDeletedById">
+        update t_user_address
+        set deleted=#{updatedDeleted,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--auto generated by MybatisCodeHelper on 2020-12-25-->
+    <update id="updateDeletedByIdAndUserId">
+        update t_user_address
+        set deleted=#{updatedDeleted,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=BIGINT}
+          and user_id = #{userId,jdbcType=BIGINT}
+    </update>
+</mapper>

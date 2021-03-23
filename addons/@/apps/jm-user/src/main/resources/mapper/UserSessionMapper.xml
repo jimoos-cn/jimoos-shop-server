@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.UserSessionMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.user.model.UserSession">
+        <!--@mbg.generated-->
+        <!--@Table t_user_session-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
+        <result column="platform" jdbcType="INTEGER" property="platform"/>
+        <result column="device" jdbcType="VARCHAR" property="device"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="expire_at" jdbcType="BIGINT" property="expireAt"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, token, platform, device, user_id, expire_at, create_at
+    </sql>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.user.model.UserSession"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_user_session (token, platform, device,
+                                    user_id, expire_at, create_at)
+        values (#{token,jdbcType=VARCHAR}, #{platform,jdbcType=INTEGER}, #{device,jdbcType=VARCHAR},
+                #{userId,jdbcType=BIGINT}, #{expireAt,jdbcType=BIGINT}, #{createAt,jdbcType=BIGINT})
+    </insert>
+
+    <select id="findByUidValid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_session
+        where user_id = #{userId}
+          AND expire_at &gt; #{now}
+    </select>
+
+
+    <update id="setExpired" parameterType="map">
+        UPDATE t_user_session
+        SET expire_at = #{expired}
+        WHERE user_id = #{userId}
+          AND platform = #{platform}
+    </update>
+</mapper>

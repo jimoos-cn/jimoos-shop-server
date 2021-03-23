@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 
 /**
  * Back-end settings api
@@ -27,25 +26,24 @@ public class BeSettingsApi {
      * 保存配置
      *
      * @param keyword 例如ali.pay
-     * @param content
-     * @return
+     * @param content 配置内容
+     * @return setting 对象
      */
     @PostMapping(produces = "application/json; charset=utf-8")
-    public BaseSettings saveSetting(@RequestParam("keyword") String keyword, @RequestParam("content") String content) throws IOException {
+    public BaseSettings saveSetting(@RequestParam("keyword") String keyword, @RequestParam("content") String content) {
         BaseSettingsCreateForm baseSettingsCreateForm = new BaseSettingsCreateForm();
         baseSettingsCreateForm.setKeyword(keyword);
         baseSettingsCreateForm.setContent(content);
-        BaseSettings baseSettings = baseSettingsService.save(baseSettingsCreateForm);
-        return baseSettings;
+        return baseSettingsService.save(baseSettingsCreateForm);
     }
 
     /**
      * 查询设置列表
      *
-     * @param keyword
-     * @param offset
-     * @param limit
-     * @return
+     * @param keyword 例如ali.pay
+     * @param offset  -
+     * @param limit   -
+     * @return setting 对象列表
      */
     @GetMapping(value = "/query", produces = "application/json; charset=utf-8")
     public Page<BaseSettings> table(@RequestParam(value = "keyword", required = false) String keyword,
@@ -62,7 +60,7 @@ public class BeSettingsApi {
      * 获取配置
      *
      * @param keyword 例如ali.pay
-     * @return
+     * @return setting 对象
      */
     @GetMapping(value = "/byKeyword", produces = "application/json; charset=utf-8")
     public BaseSettings getSettings(@RequestParam("keyword") String keyword) {

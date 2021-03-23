@@ -1,15 +1,13 @@
 package cn.jimoos.rest.be;
 
-import cn.jimoos.huaweiobs.form.ObsTemporarySignForm;
 import cn.jimoos.huaweiobs.service.HuaweiObsService;
-import cn.jimoos.huaweiobs.vo.ObsTemporarySignVO;
 import cn.jimoos.huaweiobs.vo.TemporaryAccessKeyVO;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
-import java.util.List;
 
 /**
  * The type Be huawei obs api.

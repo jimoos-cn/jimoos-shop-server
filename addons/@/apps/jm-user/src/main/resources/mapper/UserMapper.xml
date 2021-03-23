@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.user.model.User">
+        <!--@mbg.generated-->
+        <!--@Table t_user-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
+        <result column="gender" jdbcType="TINYINT" property="gender"/>
+        <result column="role" jdbcType="TINYINT" property="role"/>
+        <result column="invite_code" jdbcType="VARCHAR" property="inviteCode"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="area" jdbcType="VARCHAR" property="area"/>
+        <result column="birthday" jdbcType="BIGINT" property="birthday"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="ban" jdbcType="BOOLEAN" property="ban"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, phone, nickname, avatar, `password`, salt, gender, `role`, invite_code, province,
+        city, area, birthday, create_at, update_at, ban, deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.user.model.User"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_user (phone, nickname, avatar,
+                            `password`, salt, gender,
+                            `role`, invite_code, province,
+                            city, area, birthday,
+                            create_at, update_at, ban,
+                            deleted)
+        values (#{phone,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
+                #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT},
+                #{role,jdbcType=TINYINT}, #{inviteCode,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR},
+                #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{birthday,jdbcType=BIGINT},
+                #{createAt,jdbcType=BIGINT}, #{updateAt,jdbcType=BIGINT}, #{ban,jdbcType=BOOLEAN},
+                #{deleted,jdbcType=BOOLEAN})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.user.model.User">
+        <!--@mbg.generated-->
+        update t_user
+        set phone       = #{phone,jdbcType=VARCHAR},
+            nickname    = #{nickname,jdbcType=VARCHAR},
+            avatar      = #{avatar,jdbcType=VARCHAR},
+            `password`  = #{password,jdbcType=VARCHAR},
+            salt        = #{salt,jdbcType=VARCHAR},
+            gender      = #{gender,jdbcType=TINYINT},
+            `role`      = #{role,jdbcType=TINYINT},
+            invite_code = #{inviteCode,jdbcType=VARCHAR},
+            province    = #{province,jdbcType=VARCHAR},
+            city        = #{city,jdbcType=VARCHAR},
+            area        = #{area,jdbcType=VARCHAR},
+            birthday    = #{birthday,jdbcType=BIGINT},
+            create_at   = #{createAt,jdbcType=BIGINT},
+            update_at   = #{updateAt,jdbcType=BIGINT},
+            ban         = #{ban,jdbcType=BOOLEAN},
+            deleted     = #{deleted,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_user
+                (phone, nickname, avatar, `password`, salt, gender, `role`, invite_code, province,
+                 city, area, birthday, create_at, update_at, ban, deleted)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.phone,jdbcType=VARCHAR}, #{item.nickname,jdbcType=VARCHAR}, #{item.avatar,jdbcType=VARCHAR},
+             #{item.password,jdbcType=VARCHAR}, #{item.salt,jdbcType=VARCHAR}, #{item.gender,jdbcType=TINYINT},
+             #{item.role,jdbcType=TINYINT}, #{item.inviteCode,jdbcType=VARCHAR}, #{item.province,jdbcType=VARCHAR},
+             #{item.city,jdbcType=VARCHAR}, #{item.area,jdbcType=VARCHAR}, #{item.birthday,jdbcType=BIGINT},
+             #{item.createAt,jdbcType=BIGINT}, #{item.updateAt,jdbcType=BIGINT}, #{item.ban,jdbcType=BOOLEAN},
+             #{item.deleted,jdbcType=BOOLEAN})
+        </foreach>
+    </insert>
+    <!--auto generated by MybatisCodeHelper on 2020-04-24-->
+    <select id="findOneByPhone" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where phone = #{phone,jdbcType=VARCHAR}
+          AND deleted = false
+    </select>
+
+    <!--auto generated by MybatisCodeHelper on 2020-04-24-->
+    <select id="findOneByCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where invite_code = #{inviteCode,jdbcType=VARCHAR}
+          and deleted = false
+    </select>
+
+    <!--auto generated by MybatisCodeHelper on 2020-04-24-->
+    <select id="findByIdIn" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+                where deleted = false
+                  AND id in
+        <foreach close=")" collection="idCollection" index="index" item="item" open="(" separator=",">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+    </select>
+    <select id="countTotalUser" resultType="int">
+        select count(id)
+        from t_user
+        where deleted = false
+    </select>
+
+    <select id="queryTable" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+                where deleted = false
+        <if test="startTime != null">
+            AND create_at &gt; #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND create_at &lt; #{endTime}
+        </if>
+        <if test="phone != null">
+            AND phone = #{phone}
+        </if>
+        <if test="ban != null">
+            AND ban = #{ban}
+        </if>
+        <if test="nickname != null">
+            AND nickname like CONCAT('%', '${nickname}', '%')
+        </if>
+        <if test="role != null">
+
+                        AND role =
+                    #{role}
+        </if>
+        order
+                by
+                create_at
+                desc
+                limit
+                #{offset},
+                #{limit}
+    </select>
+
+    <select id="queryTableCount" resultType="long">
+        select count(id)
+        from t_user
+                where deleted = false
+        <if test="startTime != null">
+            AND create_at &gt; #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND create_at &lt; #{endTime}
+        </if>
+        <if test="ban != null">
+            AND ban = #{ban}
+        </if>
+        <if test="nickname != null">
+            AND nickname like CONCAT('%', '${nickname}', '%')
+        </if>
+        <if test="phone != null">
+
+                        AND phone =
+                    #{phone}
+        </if>
+        <if test="role != null">
+            AND
+                    role
+                    =
+                    #{role}
+        </if>
+    </select>
+</mapper>

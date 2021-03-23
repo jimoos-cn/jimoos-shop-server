@@ -56,8 +56,20 @@
         </dependency>
         <dependency>
             <groupId>cn.jimoos</groupId>
+            <artifactId>jm-spi-registry</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.jimoos</groupId>
             <artifactId>jm-event-registry</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.4.1</version>
         </dependency>
 
         <!-- 微信登录-->

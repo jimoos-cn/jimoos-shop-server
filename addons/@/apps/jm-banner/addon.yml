@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-banner
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: banner 管理
+  Type: module
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

@@ -25,6 +25,7 @@
         <module>depends/base/jm-ping</module>
         <module>depends/base/jm-settings</module>
         <module>depends/base/jm-utils</module>
+        <module>@/apps/jm-banner</module>
         <module>@/apps/jm-user</module>
         <module>@/base/jm-event</module>
         <module>@/spi/jm-event-registry</module>

@@ -11,6 +11,7 @@ import cn.jimoos.form.SocialRegForm;
 import cn.jimoos.service.UserService;
 import cn.jimoos.user.constant.SocialConstant;
 import cn.jimoos.user.vo.UserVO;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.util.StringUtils;
@@ -68,7 +69,7 @@ public class WxMpUserApi {
             socialRegForm.setPhone(wxMaPhoneNumberInfo.getPhoneNumber());
 
             UserVO userVo = userService.maReg(socialRegForm);
-            Map<String, String> map = new HashMap(3);
+            Map<String, String> map = Maps.newHashMapWithExpectedSize(3);
             map.put("socialId", socialRegForm.getSocialId());
             map.put("unionId", socialRegForm.getUnionId());
             map.put("sessionKey", session.getSessionKey());

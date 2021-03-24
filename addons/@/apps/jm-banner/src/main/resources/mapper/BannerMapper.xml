@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.BannerMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.Banner">
+        <!--@mbg.generated-->
+        <!--@Table t_banner-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="img_url" jdbcType="VARCHAR" property="imgUrl"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="position" jdbcType="INTEGER" property="position"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="route_id" jdbcType="BIGINT" property="routeId"/>
+        <result column="target_id" jdbcType="VARCHAR" property="targetId"/>
+        <result column="paths" jdbcType="VARCHAR" property="paths"/>
+        <result column="color" jdbcType="VARCHAR" property="color"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, title, img_url, description, `position`, `status`, sort, route_id, target_id,
+        paths, color, create_at, update_at, deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_banner
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete
+        from t_banner
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.Banner"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_banner (title, img_url, description,
+                              `position`, `status`, sort,
+                              route_id, target_id, paths,
+                              color, create_at, update_at,
+                              deleted)
+        values (#{title,jdbcType=VARCHAR}, #{imgUrl,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+                #{position,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER},
+                #{routeId,jdbcType=BIGINT}, #{targetId,jdbcType=VARCHAR}, #{paths,jdbcType=VARCHAR},
+                #{color,jdbcType=VARCHAR}, #{createAt,jdbcType=BIGINT}, #{updateAt,jdbcType=BIGINT},
+                #{deleted,jdbcType=BOOLEAN})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.Banner"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_banner
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                title,
+            </if>
+            <if test="imgUrl != null">
+                img_url,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="position != null">
+                `position`,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="routeId != null">
+                route_id,
+            </if>
+            <if test="targetId != null">
+                target_id,
+            </if>
+            <if test="paths != null">
+                paths,
+            </if>
+            <if test="color != null">
+                color,
+            </if>
+            <if test="createAt != null">
+                create_at,
+            </if>
+            <if test="updateAt != null">
+                update_at,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="imgUrl != null">
+                #{imgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                #{position,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="routeId != null">
+                #{routeId,jdbcType=BIGINT},
+            </if>
+            <if test="targetId != null">
+                #{targetId,jdbcType=VARCHAR},
+            </if>
+            <if test="paths != null">
+                #{paths,jdbcType=VARCHAR},
+            </if>
+            <if test="color != null">
+                #{color,jdbcType=VARCHAR},
+            </if>
+            <if test="createAt != null">
+                #{createAt,jdbcType=BIGINT},
+            </if>
+            <if test="updateAt != null">
+                #{updateAt,jdbcType=BIGINT},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=BOOLEAN},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.jimoos.model.Banner">
+        <!--@mbg.generated-->
+        update t_banner
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="imgUrl != null">
+                img_url = #{imgUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                `position` = #{position,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="routeId != null">
+                route_id = #{routeId,jdbcType=BIGINT},
+            </if>
+            <if test="targetId != null">
+                target_id = #{targetId,jdbcType=VARCHAR},
+            </if>
+            <if test="paths != null">
+                paths = #{paths,jdbcType=VARCHAR},
+            </if>
+            <if test="color != null">
+                color = #{color,jdbcType=VARCHAR},
+            </if>
+            <if test="createAt != null">
+                create_at = #{createAt,jdbcType=BIGINT},
+            </if>
+            <if test="updateAt != null">
+                update_at = #{updateAt,jdbcType=BIGINT},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.Banner">
+        <!--@mbg.generated-->
+        update t_banner
+        set title       = #{title,jdbcType=VARCHAR},
+            img_url     = #{imgUrl,jdbcType=VARCHAR},
+            description = #{description,jdbcType=VARCHAR},
+            `position`  = #{position,jdbcType=INTEGER},
+            `status`    = #{status,jdbcType=INTEGER},
+            sort        = #{sort,jdbcType=INTEGER},
+            route_id    = #{routeId,jdbcType=BIGINT},
+            target_id   = #{targetId,jdbcType=VARCHAR},
+            paths       = #{paths,jdbcType=VARCHAR},
+            color       = #{color,jdbcType=VARCHAR},
+            create_at   = #{createAt,jdbcType=BIGINT},
+            update_at   = #{updateAt,jdbcType=BIGINT},
+            deleted     = #{deleted,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="backQuery" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_banner
+                where deleted = 0
+        <if test="position != null and position != -1">
+            and `position` = #{position}
+        </if>
+        <if test="status != null and status != -1">
+            and `status` = #{status}
+        </if>
+        <if test="title != null and title != ''">
+            <bind name="bind" value="'%' + title + '%'"/>
+            AND title like #{bind}
+        </if>
+        order by sort asc, create_at desc
+    </select>
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.RouteMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.route.model.Route">
+        <!--@mbg.generated-->
+        <!--@Table t_route-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="route" jdbcType="VARCHAR" property="route"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, description, `type`, route, create_at, update_at, deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_route
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete
+        from t_route
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.route.model.Route"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_route (description, `type`, route,
+                             create_at, update_at, deleted)
+        values (#{description,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{route,jdbcType=VARCHAR},
+                #{createAt,jdbcType=BIGINT}, #{updateAt,jdbcType=BIGINT}, #{deleted,jdbcType=BOOLEAN})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.route.model.Route"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_route
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="description != null">
+                description,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="route != null">
+                route,
+            </if>
+            <if test="createAt != null">
+                create_at,
+            </if>
+            <if test="updateAt != null">
+                update_at,
+            </if>
+            <if test="deleted != null">
+                deleted,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="route != null">
+                #{route,jdbcType=VARCHAR},
+            </if>
+            <if test="createAt != null">
+                #{createAt,jdbcType=BIGINT},
+            </if>
+            <if test="updateAt != null">
+                #{updateAt,jdbcType=BIGINT},
+            </if>
+            <if test="deleted != null">
+                #{deleted,jdbcType=BOOLEAN},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.jimoos.route.model.Route">
+        <!--@mbg.generated-->
+        update t_route
+        <set>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                `type` = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="route != null">
+                route = #{route,jdbcType=VARCHAR},
+            </if>
+            <if test="createAt != null">
+                create_at = #{createAt,jdbcType=BIGINT},
+            </if>
+            <if test="updateAt != null">
+                update_at = #{updateAt,jdbcType=BIGINT},
+            </if>
+            <if test="deleted != null">
+                deleted = #{deleted,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.route.model.Route">
+        <!--@mbg.generated-->
+        update t_route
+        set description = #{description,jdbcType=VARCHAR},
+            `type`      = #{type,jdbcType=INTEGER},
+            route       = #{route,jdbcType=VARCHAR},
+            create_at   = #{createAt,jdbcType=BIGINT},
+            update_at   = #{updateAt,jdbcType=BIGINT},
+            deleted     = #{deleted,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <select id="findByIds" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_route
+                where id in
+        <foreach item="item" index="index" collection="idCollection"
+                 open="(" separator="," close=")">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+    </select>
+</mapper>

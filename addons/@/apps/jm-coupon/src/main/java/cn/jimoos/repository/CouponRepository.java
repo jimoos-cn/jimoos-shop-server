@@ -26,6 +26,10 @@ public class CouponRepository {
         return wrapper(couponMapper.selectByPrimaryKey(couponId), false);
     }
 
+    public CouponEntity findByCode(String code) {
+        return wrapper(couponMapper.findFirstByCode(code), false);
+    }
+
     public CouponRecord findRecordById(Long couponRecordId) {
         CouponRecord couponRecord = couponRecordMapper.selectByPrimaryKey(couponRecordId);
 

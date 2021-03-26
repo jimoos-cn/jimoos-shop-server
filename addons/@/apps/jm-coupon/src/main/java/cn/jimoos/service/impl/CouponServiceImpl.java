@@ -7,6 +7,7 @@ import cn.jimoos.model.CouponRecord;
 import cn.jimoos.repository.CouponRepository;
 import cn.jimoos.service.CouponService;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
@@ -29,6 +30,20 @@ public class CouponServiceImpl implements CouponService {
             couponRepository.saveRecords(couponEntity);
         } else {
             throw new BussException(CouponError.COUPON_NOT_EXIST);
+        }
+    }
+
+    @Override
+    public void takeOneByCode(String code, Long userId) throws BussException {
+        if (StringUtils.isEmpty(code)) {
+            throw new BussException(CouponError.CODE_NOT_VALID);
+        }
+        CouponEntity couponEntity = couponRepository.findByCode(code);
+        if (couponEntity != null) {
+            couponEntity.takeOne(userId);
+            couponRepository.saveRecords(couponEntity);
+        } else {
+            throw new BussException(CouponError.CODE_NOT_VALID);
         }
     }
 

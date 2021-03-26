@@ -17,6 +17,15 @@ public interface CouponService {
     void takeOneCoupon(Long couponId, Long userId) throws BussException;
 
     /**
+     * 使用 兑换码 兑换优惠券
+     *
+     * @param code   兑换码
+     * @param userId 用户 ID
+     * @throws BussException
+     */
+    void takeOneByCode(String code, Long userId) throws BussException;
+
+    /**
      * 使用 用户优惠券
      *
      * @param couponRecordId 用户优惠券ID

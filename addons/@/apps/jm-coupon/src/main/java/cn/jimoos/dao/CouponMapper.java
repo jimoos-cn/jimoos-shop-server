@@ -21,4 +21,12 @@ public interface CouponMapper {
     int updateByPrimaryKey(Coupon record);
 
     int batchInsert(@Param("list") List<Coupon> list);
+
+    /**
+     * 查询最新的一次 code 兑换优惠券
+     *
+     * @param code
+     * @return
+     */
+    Coupon findFirstByCode(@Param("code") String code);
 }

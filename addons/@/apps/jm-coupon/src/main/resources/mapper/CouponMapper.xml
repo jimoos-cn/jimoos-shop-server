@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.CouponMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.Coupon">
+        <!--@mbg.generated-->
+        <!--@Table t_coupon-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="reduce_money" jdbcType="DECIMAL" property="reduceMoney"/>
+        <result column="full_money" jdbcType="DECIMAL" property="fullMoney"/>
+        <result column="des" jdbcType="VARCHAR" property="des"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="effective_start_time" jdbcType="BIGINT" property="effectiveStartTime"/>
+        <result column="effective_end_time" jdbcType="BIGINT" property="effectiveEndTime"/>
+        <result column="start_time" jdbcType="BIGINT" property="startTime"/>
+        <result column="end_time" jdbcType="BIGINT" property="endTime"/>
+        <result column="valid_time" jdbcType="INTEGER" property="validTime"/>
+        <result column="total_num" jdbcType="INTEGER" property="totalNum"/>
+        <result column="remain_num" jdbcType="INTEGER" property="remainNum"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="merchant_id" jdbcType="BIGINT" property="merchantId"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="deleted" jdbcType="INTEGER" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, reduce_money, full_money, des, code, effective_start_time, effective_end_time,
+        start_time, end_time, valid_time, total_num, remain_num, sort, `status`, merchant_id,
+        create_at, update_at, deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_coupon
+        where id = #{id,jdbcType=BIGINT}
+          AND deleted = false
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete
+        from t_coupon
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.Coupon" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_coupon (reduce_money, full_money, des,
+                              code, effective_start_time, effective_end_time,
+                              start_time, end_time, valid_time,
+                              total_num, remain_num, sort,
+                              `status`, merchant_id, create_at,
+                              update_at, deleted)
+        values (#{reduceMoney,jdbcType=DECIMAL}, #{fullMoney,jdbcType=DECIMAL}, #{des,jdbcType=VARCHAR},
+                #{code,jdbcType=VARCHAR}, #{effectiveStartTime,jdbcType=BIGINT}, #{effectiveEndTime,jdbcType=BIGINT},
+                #{startTime,jdbcType=BIGINT}, #{endTime,jdbcType=BIGINT}, #{validTime,jdbcType=INTEGER},
+                #{totalNum,jdbcType=INTEGER}, #{remainNum,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER},
+                #{status,jdbcType=TINYINT}, #{merchantId,jdbcType=BIGINT}, #{createAt,jdbcType=BIGINT},
+                #{updateAt,jdbcType=BIGINT}, #{deleted,jdbcType=INTEGER})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.Coupon">
+        <!--@mbg.generated-->
+        update t_coupon
+        set reduce_money         = #{reduceMoney,jdbcType=DECIMAL},
+            full_money           = #{fullMoney,jdbcType=DECIMAL},
+            des                  = #{des,jdbcType=VARCHAR},
+            code                 = #{code,jdbcType=VARCHAR},
+            effective_start_time = #{effectiveStartTime,jdbcType=BIGINT},
+            effective_end_time   = #{effectiveEndTime,jdbcType=BIGINT},
+            start_time           = #{startTime,jdbcType=BIGINT},
+            end_time             = #{endTime,jdbcType=BIGINT},
+            valid_time           = #{validTime,jdbcType=INTEGER},
+            total_num            = #{totalNum,jdbcType=INTEGER},
+            remain_num           = #{remainNum,jdbcType=INTEGER},
+            sort                 = #{sort,jdbcType=INTEGER},
+            `status`             = #{status,jdbcType=TINYINT},
+            merchant_id          = #{merchantId,jdbcType=BIGINT},
+            create_at            = #{createAt,jdbcType=BIGINT},
+            update_at            = #{updateAt,jdbcType=BIGINT},
+            deleted              = #{deleted,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_coupon
+                (reduce_money, full_money, des, code, effective_start_time, effective_end_time, start_time,
+                 end_time, valid_time, total_num, remain_num, sort, `status`, merchant_id, create_at,
+                 update_at, deleted)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.reduceMoney,jdbcType=DECIMAL}, #{item.fullMoney,jdbcType=DECIMAL}, #{item.des,jdbcType=VARCHAR},
+             #{item.code,jdbcType=VARCHAR}, #{item.effectiveStartTime,jdbcType=BIGINT},
+             #{item.effectiveEndTime,jdbcType=BIGINT},
+             #{item.startTime,jdbcType=BIGINT}, #{item.endTime,jdbcType=BIGINT}, #{item.validTime,jdbcType=INTEGER},
+             #{item.totalNum,jdbcType=INTEGER}, #{item.remainNum,jdbcType=INTEGER}, #{item.sort,jdbcType=INTEGER},
+             #{item.status,jdbcType=TINYINT}, #{item.merchantId,jdbcType=BIGINT}, #{item.createAt,jdbcType=BIGINT},
+             #{item.updateAt,jdbcType=BIGINT}, #{item.deleted,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+</mapper>

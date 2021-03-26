@@ -37,6 +37,9 @@ public class CouponEntity extends Coupon {
      * @param userId
      */
     public void takeOne(Long userId) throws BussException {
+        if (!this.getStatus()) {
+            throw new BussException(CouponError.COUPON_NOT_EXIST);
+        }
         if (this.getRemainNum() <= 0) {
             throw new BussException(CouponError.COUPON_NOT_ENOUGH);
         }
@@ -79,5 +82,14 @@ public class CouponEntity extends Coupon {
         couponRecordInputs.add(couponRecordInput);
 
         this.setRemainNum(this.getRemainNum() - 1);
+    }
+
+    /**
+     * 是否已经有用户领取过
+     *
+     * @return true 是 false 否
+     */
+    public boolean hasUserRecord() {
+        return couponRepository.countRecords(this.getId()) > 0;
     }
 }

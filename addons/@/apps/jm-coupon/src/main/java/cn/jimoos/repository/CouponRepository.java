@@ -74,4 +74,14 @@ public class CouponRepository {
             couponRecordMapper.batchInsert(couponEntity.getCouponRecordInputs());
         }
     }
+
+    /**
+     * 查询优惠券${couponId}的领取记录统计
+     *
+     * @param couponId 优惠券 ID
+     * @return
+     */
+    public Long countRecords(Long couponId) {
+        return couponRecordMapper.countByCouponId(couponId);
+    }
 }

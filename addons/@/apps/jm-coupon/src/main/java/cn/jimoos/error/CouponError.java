@@ -9,6 +9,7 @@ import cn.jimoos.common.error.IErrorCode;
  */
 public enum CouponError implements IErrorCode {
     COUPON_NOT_EXIST("coupon.coupon_not_exist", "优惠券不存在"),
+    COUPON_HAS_RECORDS("coupon.coupon_has_records", "优惠券已有人领取,只允许上下架，不允许删除/更新操作"),
     CODE_NOT_VALID("coupon.code_not_valid", "兑换码不存在"),
     COUPON_ERROR("coupon.coupon_error", "优惠券错误"),
     COUPON_RECORD_EXPIRED("coupon.coupon_record_expired", "优惠券过期了"),

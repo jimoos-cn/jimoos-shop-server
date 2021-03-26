@@ -1,21 +1,19 @@
-package cn.jimoos.model;
+package cn.jimoos.form.be;
 
+import cn.jimoos.utils.form.AbstractAdminForm4L;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 /**
- * 优惠券表
+ * 创建表单
  *
  * @author :keepcleargas
- * @date :2021-03-26 22:20.
+ * @date :2021-03-26 22:02.
  */
 @Data
-@NoArgsConstructor
-public class Coupon {
+public class CouponForm extends AbstractAdminForm4L {
     private Long id;
-
     /**
      * 减的金额
      */
@@ -79,22 +77,5 @@ public class Coupon {
     /**
      * 1 在线 0 下架
      */
-    private Boolean status;
-
-    private Long merchantId;
-
-    /**
-     * 创建时间
-     */
-    private Long createAt;
-
-    /**
-     * 更新时间
-     */
-    private Long updateAt;
-
-    /**
-     * 0 删除 1未删除
-     */
-    private Integer deleted;
+    private Byte status;
 }

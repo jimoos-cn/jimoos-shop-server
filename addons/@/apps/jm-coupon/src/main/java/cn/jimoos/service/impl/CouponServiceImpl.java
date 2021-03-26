@@ -1,11 +1,18 @@
 package cn.jimoos.service.impl;
 
 import cn.jimoos.common.exception.BussException;
+import cn.jimoos.dao.CouponMapper;
 import cn.jimoos.entity.CouponEntity;
 import cn.jimoos.error.CouponError;
+import cn.jimoos.form.be.CouponDeleteForm;
+import cn.jimoos.form.be.CouponForm;
+import cn.jimoos.form.be.CouponQueryForm;
+import cn.jimoos.form.be.CouponStatusForm;
+import cn.jimoos.model.Coupon;
 import cn.jimoos.model.CouponRecord;
 import cn.jimoos.repository.CouponRepository;
 import cn.jimoos.service.CouponService;
+import cn.jimoos.utils.http.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +28,8 @@ import javax.annotation.Resource;
 public class CouponServiceImpl implements CouponService {
     @Resource
     CouponRepository couponRepository;
+    @Resource
+    CouponMapper couponMapper;
 
     @Override
     public void takeOneCoupon(Long couponId, Long userId) throws BussException {
@@ -74,5 +83,60 @@ public class CouponServiceImpl implements CouponService {
             couponRecord.setUpdateAt(System.currentTimeMillis());
             couponRepository.saveRecord(couponRecord);
         }
+    }
+
+    @Override
+    public Coupon addCoupon(CouponForm couponForm) {
+        //todo add coupon
+        return null;
+    }
+
+    @Override
+    public Coupon updateCoupon(CouponForm couponForm) throws BussException {
+        CouponEntity couponEntity = couponRepository.findById(couponForm.getId());
+
+        if (couponEntity == null) {
+            throw new BussException(CouponError.COUPON_NOT_EXIST);
+        }
+
+        if (couponEntity.hasUserRecord()) {
+            throw new BussException(CouponError.COUPON_HAS_RECORDS);
+        }
+        //todo update coupon
+        return null;
+    }
+
+    @Override
+    public int deleteCoupon(CouponDeleteForm couponDeleteForm) throws BussException {
+        CouponEntity couponEntity = couponRepository.findById(couponDeleteForm.getCouponId());
+
+        if (couponEntity == null) {
+            throw new BussException(CouponError.COUPON_NOT_EXIST);
+        }
+        if (couponEntity.hasUserRecord()) {
+            throw new BussException(CouponError.COUPON_HAS_RECORDS);
+        }
+        return couponMapper.setDeletedTrue(couponDeleteForm.getCouponId());
+    }
+
+    @Override
+    public void upOrDownCoupon(CouponStatusForm couponStatusForm) throws BussException {
+        CouponEntity couponEntity = couponRepository.findById(couponStatusForm.getCouponId());
+        if (couponEntity == null) {
+            throw new BussException(CouponError.COUPON_NOT_EXIST);
+        }
+
+        couponEntity.setStatus(couponStatusForm.getStatus());
+        couponRepository.saveRecords(couponEntity);
+    }
+
+    @Override
+    public Page<Coupon> query(CouponQueryForm queryForm) {
+        Long count = couponMapper.queryTableCount(queryForm.toQueryMap());
+
+        if (count > 0) {
+            return Page.create(count, couponMapper.queryTable(queryForm.toQueryMap()));
+        }
+        return Page.empty();
     }
 }

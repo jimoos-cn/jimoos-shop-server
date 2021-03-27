@@ -1,7 +1,7 @@
 package cn.jimoos.factory;
 
 import cn.jimoos.entity.CouponEntity;
-import cn.jimoos.form.be.CouponForm;
+import cn.jimoos.form.be.BeCouponForm;
 import cn.jimoos.repository.CouponRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ public class CouponFactory {
     @Resource
     CouponRepository couponRepository;
 
-    public CouponEntity create(CouponForm couponForm) {
+    public CouponEntity create(BeCouponForm couponForm) {
         CouponEntity couponEntity = new CouponEntity(couponRepository);
         BeanUtils.copyProperties(couponForm, couponEntity);
         couponEntity.setUpdateAt(System.currentTimeMillis());

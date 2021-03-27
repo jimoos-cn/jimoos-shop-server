@@ -3,6 +3,7 @@ package cn.jimoos.form.be;
 import cn.jimoos.utils.form.AbstractAdminPageForm4L;
 import com.google.common.collect.Maps;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Map;
 
@@ -11,7 +12,8 @@ import java.util.Map;
  * @date :2021-03-26 22:04.
  */
 @Data
-public class CouponQueryForm extends AbstractAdminPageForm4L {
+@EqualsAndHashCode(callSuper = true)
+public class BeCouponQueryForm extends AbstractAdminPageForm4L {
     /**
      * 兑换码
      */

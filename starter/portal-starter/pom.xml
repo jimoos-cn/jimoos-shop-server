@@ -38,6 +38,11 @@
             <artifactId>jm-user</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-coupon</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>cn.jimoos</groupId>

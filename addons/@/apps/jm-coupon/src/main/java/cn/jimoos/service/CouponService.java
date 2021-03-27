@@ -2,12 +2,10 @@ package cn.jimoos.service;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.UserCouponQueryForm;
-import cn.jimoos.form.be.CouponDeleteForm;
-import cn.jimoos.form.be.CouponForm;
-import cn.jimoos.form.be.CouponQueryForm;
-import cn.jimoos.form.be.CouponStatusForm;
+import cn.jimoos.form.be.*;
 import cn.jimoos.model.Coupon;
 import cn.jimoos.utils.http.Page;
+import cn.jimoos.vo.CouponRecordVO;
 import cn.jimoos.vo.UserCouponVO;
 
 import java.util.List;
@@ -58,6 +56,7 @@ public interface CouponService {
      *
      * @param userCouponQueryForm 查询表单
      * @return List<UserCouponVO>
+     * @throws BussException ErrorCodeDefine.RECORD_NOT_EXISTS
      */
     List<UserCouponVO> queryUserCoupon(UserCouponQueryForm userCouponQueryForm) throws BussException;
 
@@ -67,7 +66,7 @@ public interface CouponService {
      * @param couponForm Coupon Form
      * @return Coupon
      */
-    Coupon addCoupon(CouponForm couponForm);
+    Coupon addCoupon(BeCouponForm couponForm);
 
     /**
      * 更新优惠券
@@ -76,7 +75,7 @@ public interface CouponService {
      * @return Coupon
      * @throws BussException CouponError.COUPON_NOT_EXIST | CouponError.COUPON_HAS_RECORDS
      */
-    Coupon updateCoupon(CouponForm couponForm) throws BussException;
+    Coupon updateCoupon(BeCouponForm couponForm) throws BussException;
 
     /**
      * 删除优惠券
@@ -85,7 +84,7 @@ public interface CouponService {
      * @return affectNum >0 执行成功
      * @throws BussException CouponError.COUPON_NOT_EXIST | CouponError.COUPON_HAS_RECORDS
      */
-    int deleteCoupon(CouponDeleteForm couponDeleteForm) throws BussException;
+    int deleteCoupon(BeCouponDeleteForm couponDeleteForm) throws BussException;
 
     /**
      * 上下架 优惠券
@@ -93,7 +92,7 @@ public interface CouponService {
      * @param couponStatusForm 状态表单
      * @throws BussException CouponError.COUPON_NOT_EXIST
      */
-    void upOrDownCoupon(CouponStatusForm couponStatusForm) throws BussException;
+    void upOrDownCoupon(BeCouponStatusForm couponStatusForm) throws BussException;
 
     /**
      * 查询优惠券列表
@@ -101,5 +100,13 @@ public interface CouponService {
      * @param queryForm 查询表单
      * @return Page<Coupon>
      */
-    Page<Coupon> query(CouponQueryForm queryForm);
+    Page<Coupon> query(BeCouponQueryForm queryForm);
+
+    /**
+     * 查询优惠券领取记录
+     *
+     * @param recordQueryForm record query form
+     * @return Page<CouponRecordVO>
+     */
+    Page<CouponRecordVO> couponRecords(BeCouponRecordQueryForm recordQueryForm);
 }

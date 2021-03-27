@@ -49,10 +49,14 @@
             <artifactId>spring-web</artifactId>
         </dependency>
 
-        <!--连接池-->
         <dependency>
             <groupId>cn.jimoos</groupId>
             <artifactId>jm-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-spi-registry</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!--连接池-->

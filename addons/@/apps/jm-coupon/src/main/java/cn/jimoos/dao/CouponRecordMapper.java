@@ -34,9 +34,17 @@ public interface CouponRecordMapper {
     CouponRecord findOneByCouponIdAndUserId(@Param("couponId") Long couponId, @Param("userId") Long userId);
 
     /**
+     * 查询 用户 CouponRecord 列表
+     *
+     * @param qm ,支持 ${userId} 的 倒序分页查询
+     * @return List<CouponRecord>
+     */
+    List<CouponRecord> queryUserRecords(Map<String, Object> qm);
+
+    /**
      * 查询 CouponRecord 列表
      *
-     * @param qm ,支持 ${startTime} - ${endTime} 的 ${name} 的 倒序分页查询
+     * @param qm ,支持 ${startTime} - ${endTime} 的 ${status} 的 倒序分页查询
      * @return List<CouponRecord>
      */
     List<CouponRecord> queryTable(Map<String, Object> qm);
@@ -44,7 +52,7 @@ public interface CouponRecordMapper {
     /**
      * 查询 CouponRecord 总数
      *
-     * @param qm ,支持 ${startTime} - ${endTime} 的 ${name} 的 倒序分页查询
+     * @param qm ,支持 ${startTime} - ${endTime} 的 ${status} 的 倒序分页查询
      * @return long total
      */
     long queryTableCount(Map<String, Object> qm);

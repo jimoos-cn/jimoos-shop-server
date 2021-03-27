@@ -57,6 +57,11 @@
             <artifactId>jm-banner</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-coupon</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!--连接池-->
         <dependency>

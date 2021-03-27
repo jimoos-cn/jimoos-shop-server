@@ -2,7 +2,7 @@ package cn.jimoos.entity;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.error.CouponError;
-import cn.jimoos.form.be.CouponForm;
+import cn.jimoos.form.be.BeCouponForm;
 import cn.jimoos.model.Coupon;
 import cn.jimoos.model.CouponRecord;
 import cn.jimoos.repository.CouponRepository;
@@ -100,7 +100,7 @@ public class CouponEntity extends Coupon {
      *
      * @param couponForm 优惠券表单
      */
-    public void update(CouponForm couponForm) {
+    public void update(BeCouponForm couponForm) {
         BeanUtils.copyProperties(couponForm, this);
         this.setUpdateAt(System.currentTimeMillis());
     }

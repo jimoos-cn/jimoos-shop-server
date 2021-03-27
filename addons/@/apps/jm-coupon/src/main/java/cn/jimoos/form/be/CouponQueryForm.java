@@ -41,7 +41,7 @@ public class CouponQueryForm extends AbstractAdminPageForm4L {
         qm.put("code", code);
         qm.put("name", name);
         qm.put("status", status);
-        qm.put("startTime", status);
+        qm.put("startTime", startTime);
         qm.put("endTime", endTime);
 
         return qm;

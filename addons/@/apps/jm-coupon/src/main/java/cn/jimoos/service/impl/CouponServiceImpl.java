@@ -1,10 +1,13 @@
 package cn.jimoos.service.impl;
 
+import cn.jimoos.common.error.ErrorCodeDefine;
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dao.CouponMapper;
+import cn.jimoos.dao.CouponRecordMapper;
 import cn.jimoos.entity.CouponEntity;
 import cn.jimoos.error.CouponError;
 import cn.jimoos.factory.CouponFactory;
+import cn.jimoos.form.UserCouponQueryForm;
 import cn.jimoos.form.be.CouponDeleteForm;
 import cn.jimoos.form.be.CouponForm;
 import cn.jimoos.form.be.CouponQueryForm;
@@ -14,10 +17,17 @@ import cn.jimoos.model.CouponRecord;
 import cn.jimoos.repository.CouponRepository;
 import cn.jimoos.service.CouponService;
 import cn.jimoos.utils.http.Page;
+import cn.jimoos.vo.UserCouponVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 优惠券
@@ -33,6 +43,8 @@ public class CouponServiceImpl implements CouponService {
     CouponMapper couponMapper;
     @Resource
     CouponFactory couponFactory;
+    @Resource
+    CouponRecordMapper couponRecordMapper;
 
     @Override
     public void takeOneCoupon(Long couponId, Long userId) throws BussException {
@@ -86,6 +98,32 @@ public class CouponServiceImpl implements CouponService {
             couponRecord.setStatus(false);
             couponRecord.setUpdateAt(System.currentTimeMillis());
             couponRepository.saveRecord(couponRecord);
+        }
+    }
+
+    @Override
+    public List<UserCouponVO> queryUserCoupon(UserCouponQueryForm userCouponQueryForm) throws BussException {
+        if (userCouponQueryForm.getUserId() <= 0) {
+            throw new BussException(ErrorCodeDefine.RECORD_NOT_EXISTS);
+        }
+
+        List<CouponRecord> couponRecords = couponRecordMapper.queryTable(userCouponQueryForm.toQueryMap());
+        if (CollectionUtils.isEmpty(couponRecords)) {
+            return new ArrayList<>();
+        } else {
+            List<Long> ids = couponRecords.stream().map(CouponRecord::getCouponId).collect(Collectors.toList());
+
+            List<Coupon> coupons = couponMapper.findByIdIn(ids);
+            Map<Long, Coupon> idToCouponMap = coupons.stream().collect(Collectors.toMap(coupon -> coupon.getId(), coupon -> coupon));
+
+            return couponRecords.stream().map(
+                    couponRecord -> {
+                        UserCouponVO userCouponVO = new UserCouponVO();
+                        BeanUtils.copyProperties(couponRecord, userCouponVO);
+                        userCouponVO.setCoupon(idToCouponMap.get(couponRecord.getCouponId()));
+                        return userCouponVO;
+                    }
+            ).collect(Collectors.toList());
         }
     }
 

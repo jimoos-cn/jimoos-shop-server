@@ -4,6 +4,7 @@ import cn.jimoos.model.Coupon;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,14 @@ public interface CouponMapper {
     int updateByPrimaryKey(Coupon record);
 
     int batchInsert(@Param("list") List<Coupon> list);
+
+    /**
+     * 批量查询 优惠券
+     *
+     * @param idCollection
+     * @return
+     */
+    List<Coupon> findByIdIn(@Param("idCollection") Collection<Long> idCollection);
 
     /**
      * coupon id 软删除

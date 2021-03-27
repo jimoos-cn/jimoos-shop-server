@@ -1,12 +1,16 @@
 package cn.jimoos.service;
 
 import cn.jimoos.common.exception.BussException;
+import cn.jimoos.form.UserCouponQueryForm;
 import cn.jimoos.form.be.CouponDeleteForm;
 import cn.jimoos.form.be.CouponForm;
 import cn.jimoos.form.be.CouponQueryForm;
 import cn.jimoos.form.be.CouponStatusForm;
 import cn.jimoos.model.Coupon;
 import cn.jimoos.utils.http.Page;
+import cn.jimoos.vo.UserCouponVO;
+
+import java.util.List;
 
 /**
  * 优惠券服务
@@ -48,6 +52,14 @@ public interface CouponService {
      * @throws BussException CouponError.COUPON_RECORD_NOT_EXIST
      */
     void unOccupy(Long couponRecordId) throws BussException;
+
+    /**
+     * 查询用户的 优惠券
+     *
+     * @param userCouponQueryForm 查询表单
+     * @return List<UserCouponVO>
+     */
+    List<UserCouponVO> queryUserCoupon(UserCouponQueryForm userCouponQueryForm) throws BussException;
 
     /**
      * 添加优惠券

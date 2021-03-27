@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author :keepcleargas
@@ -31,6 +32,22 @@ public interface CouponRecordMapper {
      * @return CouponRecord
      */
     CouponRecord findOneByCouponIdAndUserId(@Param("couponId") Long couponId, @Param("userId") Long userId);
+
+    /**
+     * 查询 CouponRecord 列表
+     *
+     * @param qm ,支持 ${startTime} - ${endTime} 的 ${name} 的 倒序分页查询
+     * @return List<CouponRecord>
+     */
+    List<CouponRecord> queryTable(Map<String, Object> qm);
+
+    /**
+     * 查询 CouponRecord 总数
+     *
+     * @param qm ,支持 ${startTime} - ${endTime} 的 ${name} 的 倒序分页查询
+     * @return long total
+     */
+    long queryTableCount(Map<String, Object> qm);
 
     /**
      * 统计 couponID 领取数目

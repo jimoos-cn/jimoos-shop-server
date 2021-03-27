@@ -4,6 +4,7 @@ import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dao.CouponMapper;
 import cn.jimoos.entity.CouponEntity;
 import cn.jimoos.error.CouponError;
+import cn.jimoos.factory.CouponFactory;
 import cn.jimoos.form.be.CouponDeleteForm;
 import cn.jimoos.form.be.CouponForm;
 import cn.jimoos.form.be.CouponQueryForm;
@@ -30,6 +31,8 @@ public class CouponServiceImpl implements CouponService {
     CouponRepository couponRepository;
     @Resource
     CouponMapper couponMapper;
+    @Resource
+    CouponFactory couponFactory;
 
     @Override
     public void takeOneCoupon(Long couponId, Long userId) throws BussException {
@@ -63,7 +66,8 @@ public class CouponServiceImpl implements CouponService {
 
         if (couponRecord == null) {
             throw new BussException(CouponError.COUPON_RECORD_NOT_EXIST);
-        } else if (couponRecord.getStatus()) {
+        } else if (Boolean.TRUE.equals(couponRecord.getStatus())) {
+            //优惠券已使用
             throw new BussException(CouponError.COUPON_RECORD_USED);
         } else {
             couponRecord.setStatus(true);
@@ -87,8 +91,10 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public Coupon addCoupon(CouponForm couponForm) {
-        //todo add coupon
-        return null;
+        CouponEntity couponEntity = couponFactory.create(couponForm);
+
+        couponRepository.save(couponEntity);
+        return couponEntity;
     }
 
     @Override
@@ -102,8 +108,11 @@ public class CouponServiceImpl implements CouponService {
         if (couponEntity.hasUserRecord()) {
             throw new BussException(CouponError.COUPON_HAS_RECORDS);
         }
-        //todo update coupon
-        return null;
+        //更新对象信息
+        couponEntity.update(couponForm);
+        //保存对象
+        couponRepository.save(couponEntity);
+        return couponEntity;
     }
 
     @Override
@@ -132,7 +141,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public Page<Coupon> query(CouponQueryForm queryForm) {
-        Long count = couponMapper.queryTableCount(queryForm.toQueryMap());
+        long count = couponMapper.queryTableCount(queryForm.toQueryMap());
 
         if (count > 0) {
             return Page.create(count, couponMapper.queryTable(queryForm.toQueryMap()));

@@ -40,6 +40,19 @@ public class CouponRepository {
         }
     }
 
+    /**
+     * 保存 CouponEntity信息
+     *
+     * @param couponEntity Coupon Entity
+     */
+    public void save(CouponEntity couponEntity) {
+        if (couponEntity.getId() != null && couponEntity.getId() > 0) {
+            couponMapper.updateByPrimaryKey(couponEntity);
+        } else {
+            couponMapper.insert(couponEntity);
+        }
+    }
+    
     public void saveRecord(CouponRecord couponRecord) {
         couponRecordMapper.updateByPrimaryKey(couponRecord);
     }

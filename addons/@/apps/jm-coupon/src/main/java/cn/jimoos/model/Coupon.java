@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * 优惠券表
  *
  * @author :keepcleargas
- * @date :2021-03-26 22:20.
+ * @date :2021-03-27 07:41.
  */
 @Data
 @NoArgsConstructor
@@ -96,5 +96,5 @@ public class Coupon {
     /**
      * 0 删除 1未删除
      */
-    private Integer deleted;
+    private Boolean deleted;
 }

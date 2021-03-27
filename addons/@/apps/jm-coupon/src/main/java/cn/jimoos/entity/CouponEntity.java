@@ -2,10 +2,12 @@ package cn.jimoos.entity;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.error.CouponError;
+import cn.jimoos.form.be.CouponForm;
 import cn.jimoos.model.Coupon;
 import cn.jimoos.model.CouponRecord;
 import cn.jimoos.repository.CouponRepository;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -91,5 +93,15 @@ public class CouponEntity extends Coupon {
      */
     public boolean hasUserRecord() {
         return couponRepository.countRecords(this.getId()) > 0;
+    }
+
+    /**
+     * 更新优惠券 字段
+     *
+     * @param couponForm 优惠券表单
+     */
+    public void update(CouponForm couponForm) {
+        BeanUtils.copyProperties(couponForm, this);
+        this.setUpdateAt(System.currentTimeMillis());
     }
 }

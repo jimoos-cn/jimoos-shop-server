@@ -9,9 +9,8 @@ import java.util.Map;
 
 /**
  * @author :keepcleargas
- * @date :2021-03-26 22:20.
+ * @date :2021-03-27 07:41.
  */
-
 @Mapper
 public interface CouponMapper {
     int deleteByPrimaryKey(Long id);
@@ -22,6 +21,8 @@ public interface CouponMapper {
 
     int updateByPrimaryKey(Coupon record);
 
+    int batchInsert(@Param("list") List<Coupon> list);
+
     /**
      * coupon id 软删除
      *
@@ -30,14 +31,11 @@ public interface CouponMapper {
      */
     int setDeletedTrue(@Param("id") Long id);
 
-
-    int batchInsert(@Param("list") List<Coupon> list);
-
     /**
      * 查询最新的一次 code 兑换优惠券
      *
-     * @param code
-     * @return
+     * @param code 兑换码
+     * @return 优惠券
      */
     Coupon findFirstByCode(@Param("code") String code);
 
@@ -47,7 +45,7 @@ public interface CouponMapper {
      * @param qm ,支持 ${startTime} - ${endTime} 的 ${name} 的 倒序分页查询
      * @return List<Coupon>
      */
-    List<Coupon> queryTable(Map qm);
+    List<Coupon> queryTable(Map<String, Object> qm);
 
     /**
      * 查询 Coupon 总数
@@ -55,5 +53,5 @@ public interface CouponMapper {
      * @param qm ,支持 ${startTime} - ${endTime} 的 ${name} 的 倒序分页查询
      * @return long total
      */
-    long queryTableCount(Map qm);
+    long queryTableCount(Map<String, Object> qm);
 }

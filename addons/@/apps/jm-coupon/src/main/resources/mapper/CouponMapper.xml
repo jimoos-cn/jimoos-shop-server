@@ -21,7 +21,7 @@
         <result column="merchant_id" jdbcType="BIGINT" property="merchantId"/>
         <result column="create_at" jdbcType="BIGINT" property="createAt"/>
         <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
-        <result column="deleted" jdbcType="INTEGER" property="deleted"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
@@ -55,7 +55,7 @@
                 #{startTime,jdbcType=BIGINT}, #{endTime,jdbcType=BIGINT}, #{validTime,jdbcType=INTEGER},
                 #{totalNum,jdbcType=INTEGER}, #{remainNum,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER},
                 #{status,jdbcType=BOOLEAN}, #{merchantId,jdbcType=BIGINT}, #{createAt,jdbcType=BIGINT},
-                #{updateAt,jdbcType=BIGINT}, #{deleted,jdbcType=INTEGER})
+                #{updateAt,jdbcType=BIGINT}, #{deleted,jdbcType=BOOLEAN})
     </insert>
     <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.Coupon">
         <!--@mbg.generated-->
@@ -76,7 +76,7 @@
             merchant_id          = #{merchantId,jdbcType=BIGINT},
             create_at            = #{createAt,jdbcType=BIGINT},
             update_at            = #{updateAt,jdbcType=BIGINT},
-            deleted              = #{deleted,jdbcType=INTEGER}
+            deleted              = #{deleted,jdbcType=BOOLEAN}
         where id = #{id,jdbcType=BIGINT}
     </update>
     <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
@@ -93,7 +93,7 @@
              #{item.startTime,jdbcType=BIGINT}, #{item.endTime,jdbcType=BIGINT}, #{item.validTime,jdbcType=INTEGER},
              #{item.totalNum,jdbcType=INTEGER}, #{item.remainNum,jdbcType=INTEGER}, #{item.sort,jdbcType=INTEGER},
              #{item.status,jdbcType=BOOLEAN}, #{item.merchantId,jdbcType=BIGINT}, #{item.createAt,jdbcType=BIGINT},
-             #{item.updateAt,jdbcType=BIGINT}, #{item.deleted,jdbcType=INTEGER})
+             #{item.updateAt,jdbcType=BIGINT}, #{item.deleted,jdbcType=BOOLEAN})
         </foreach>
     </insert>
 
@@ -103,6 +103,7 @@
         <include refid="Base_Column_List"/>
         from t_coupon
         where code = #{code,jdbcType=VARCHAR}
+          AND deleted = false
         order by create_at desc
         limit 1
     </select>

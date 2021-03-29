@@ -16,6 +16,7 @@ import me.chanjar.weixin.common.bean.result.WxMediaUploadResult;
 import me.chanjar.weixin.common.error.WxErrorException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -38,6 +39,7 @@ public class WxMaConfiguration {
     BaseSettingsService baseSettingsService;
 
     @Bean
+    @DependsOn("liquibase")
     public WxMaProperties getWxMaProperties() {
         WxMaProperties wxMaProperties = baseSettingsService.getObjectByKeyword(WxMaProperties.KEY, WxMaProperties.class);
         return wxMaProperties == null ? new WxMaProperties() : wxMaProperties;

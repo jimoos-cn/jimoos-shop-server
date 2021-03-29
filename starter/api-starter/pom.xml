@@ -44,6 +44,11 @@
 
         <dependency>
             <groupId>cn.jimoos</groupId>
+            <artifactId>jm-ping</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
             <artifactId>huawei-obs</artifactId>
             <version>${project.version}</version>
         </dependency>

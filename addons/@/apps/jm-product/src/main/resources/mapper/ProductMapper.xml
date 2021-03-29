@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.ProductMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.Product">
+        <!--@mbg.generated-->
+        <!--@Table t_product-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="category_id" jdbcType="BIGINT" property="categoryId"/>
+        <result column="text" jdbcType="LONGVARCHAR" property="text"/>
+        <result column="cover" jdbcType="VARCHAR" property="cover"/>
+        <result column="video_url" jdbcType="LONGVARCHAR" property="videoUrl"/>
+        <result column="banner_urls" jdbcType="LONGVARCHAR" property="bannerUrls"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="fake_sales" jdbcType="INTEGER" property="fakeSales"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="merchant_id" jdbcType="BIGINT" property="merchantId"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, `name`, category_id, `text`, cover, video_url, banner_urls, sort, fake_sales,
+        `status`, `type`, merchant_id, create_at, update_at, deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_product
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete
+        from t_product
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.Product" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_product (`name`, category_id, `text`,
+                               cover, video_url, banner_urls,
+                               sort, fake_sales, `status`,
+                               `type`, merchant_id, create_at,
+                               update_at, deleted)
+        values (#{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=BIGINT}, #{text,jdbcType=LONGVARCHAR},
+                #{cover,jdbcType=VARCHAR}, #{videoUrl,jdbcType=LONGVARCHAR}, #{bannerUrls,jdbcType=LONGVARCHAR},
+                #{sort,jdbcType=INTEGER}, #{fakeSales,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
+                #{type,jdbcType=TINYINT}, #{merchantId,jdbcType=BIGINT}, #{createAt,jdbcType=BIGINT},
+                #{updateAt,jdbcType=BIGINT}, #{deleted,jdbcType=BOOLEAN})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.Product">
+        <!--@mbg.generated-->
+        update t_product
+        set `name`      = #{name,jdbcType=VARCHAR},
+            category_id = #{categoryId,jdbcType=BIGINT},
+            `text`      = #{text,jdbcType=LONGVARCHAR},
+            cover       = #{cover,jdbcType=VARCHAR},
+            video_url   = #{videoUrl,jdbcType=LONGVARCHAR},
+            banner_urls = #{bannerUrls,jdbcType=LONGVARCHAR},
+            sort        = #{sort,jdbcType=INTEGER},
+            fake_sales  = #{fakeSales,jdbcType=INTEGER},
+            `status`    = #{status,jdbcType=TINYINT},
+            `type`      = #{type,jdbcType=TINYINT},
+            merchant_id = #{merchantId,jdbcType=BIGINT},
+            create_at   = #{createAt,jdbcType=BIGINT},
+            update_at   = #{updateAt,jdbcType=BIGINT},
+            deleted     = #{deleted,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_product
+                (`name`, category_id, `text`, cover, video_url, banner_urls, sort, fake_sales, `status`,
+                 `type`, merchant_id, create_at, update_at, deleted)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name,jdbcType=VARCHAR}, #{item.categoryId,jdbcType=BIGINT}, #{item.text,jdbcType=LONGVARCHAR},
+             #{item.cover,jdbcType=VARCHAR}, #{item.videoUrl,jdbcType=LONGVARCHAR},
+             #{item.bannerUrls,jdbcType=LONGVARCHAR},
+             #{item.sort,jdbcType=INTEGER}, #{item.fakeSales,jdbcType=INTEGER}, #{item.status,jdbcType=TINYINT},
+             #{item.type,jdbcType=TINYINT}, #{item.merchantId,jdbcType=BIGINT}, #{item.createAt,jdbcType=BIGINT},
+             #{item.updateAt,jdbcType=BIGINT}, #{item.deleted,jdbcType=BOOLEAN})
+        </foreach>
+    </insert>
+
+    <!--auto generated by MybatisCodeHelper on 2021-03-29-->
+    <select id="countByCategoryId" resultType="java.lang.Long">
+        select count(1)
+        from t_product
+        where deleted = false
+          AND category_id = #{categoryId,jdbcType=BIGINT}
+    </select>
+</mapper>

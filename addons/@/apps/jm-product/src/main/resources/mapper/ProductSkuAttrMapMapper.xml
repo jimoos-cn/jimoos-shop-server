@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.ProductSkuAttrMapMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.ProductSkuAttrMap">
+        <!--@mbg.generated-->
+        <!--@Table t_product_sku_attr_map-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="attr_id" jdbcType="BIGINT" property="attrId"/>
+        <result column="attr_name" jdbcType="VARCHAR" property="attrName"/>
+        <result column="attr_value_id" jdbcType="BIGINT" property="attrValueId"/>
+        <result column="attr_value_name" jdbcType="VARCHAR" property="attrValueName"/>
+        <result column="sku_id" jdbcType="BIGINT" property="skuId"/>
+        <result column="product_id" jdbcType="BIGINT" property="productId"/>
+        <result column="merchant_id" jdbcType="BIGINT" property="merchantId"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, attr_id, attr_name, attr_value_id, attr_value_name, sku_id, product_id, merchant_id,
+        create_at, update_at, deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_product_sku_attr_map
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete
+        from t_product_sku_attr_map
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.ProductSkuAttrMap"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_product_sku_attr_map (attr_id, attr_name, attr_value_id,
+                                            attr_value_name, sku_id, product_id,
+                                            merchant_id, create_at, update_at,
+                                            deleted)
+        values (#{attrId,jdbcType=BIGINT}, #{attrName,jdbcType=VARCHAR}, #{attrValueId,jdbcType=BIGINT},
+                #{attrValueName,jdbcType=VARCHAR}, #{skuId,jdbcType=BIGINT}, #{productId,jdbcType=BIGINT},
+                #{merchantId,jdbcType=BIGINT}, #{createAt,jdbcType=BIGINT}, #{updateAt,jdbcType=BIGINT},
+                #{deleted,jdbcType=BOOLEAN})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.ProductSkuAttrMap">
+        <!--@mbg.generated-->
+        update t_product_sku_attr_map
+        set attr_id         = #{attrId,jdbcType=BIGINT},
+            attr_name       = #{attrName,jdbcType=VARCHAR},
+            attr_value_id   = #{attrValueId,jdbcType=BIGINT},
+            attr_value_name = #{attrValueName,jdbcType=VARCHAR},
+            sku_id          = #{skuId,jdbcType=BIGINT},
+            product_id      = #{productId,jdbcType=BIGINT},
+            merchant_id     = #{merchantId,jdbcType=BIGINT},
+            create_at       = #{createAt,jdbcType=BIGINT},
+            update_at       = #{updateAt,jdbcType=BIGINT},
+            deleted         = #{deleted,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_product_sku_attr_map
+                (attr_id, attr_name, attr_value_id, attr_value_name, sku_id, product_id, merchant_id,
+                 create_at, update_at, deleted)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.attrId,jdbcType=BIGINT}, #{item.attrName,jdbcType=VARCHAR}, #{item.attrValueId,jdbcType=BIGINT},
+             #{item.attrValueName,jdbcType=VARCHAR}, #{item.skuId,jdbcType=BIGINT}, #{item.productId,jdbcType=BIGINT},
+             #{item.merchantId,jdbcType=BIGINT}, #{item.createAt,jdbcType=BIGINT}, #{item.updateAt,jdbcType=BIGINT},
+             #{item.deleted,jdbcType=BOOLEAN})
+        </foreach>
+    </insert>
+</mapper>

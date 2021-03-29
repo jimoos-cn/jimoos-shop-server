@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-product
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: 商品管理
+  Type: app
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.RProductTagMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.RProductTag">
+        <!--@mbg.generated-->
+        <!--@Table r_product_tag-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="product_id" jdbcType="BIGINT" property="productId"/>
+        <result column="tag_id" jdbcType="BIGINT" property="tagId"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, product_id, tag_id, create_at
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from r_product_tag
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete
+        from r_product_tag
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.RProductTag"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into r_product_tag (product_id, tag_id, create_at)
+        values (#{productId,jdbcType=BIGINT}, #{tagId,jdbcType=BIGINT}, #{createAt,jdbcType=BIGINT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.RProductTag">
+        <!--@mbg.generated-->
+        update r_product_tag
+        set product_id = #{productId,jdbcType=BIGINT},
+            tag_id     = #{tagId,jdbcType=BIGINT},
+            create_at  = #{createAt,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into r_product_tag
+                (product_id, tag_id, create_at)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.productId,jdbcType=BIGINT}, #{item.tagId,jdbcType=BIGINT}, #{item.createAt,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+</mapper>

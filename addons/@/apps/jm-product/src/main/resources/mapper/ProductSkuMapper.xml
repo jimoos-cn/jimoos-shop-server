@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.ProductSkuMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.ProductSku">
+        <!--@mbg.generated-->
+        <!--@Table t_product_sku-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="attr_value_ids" jdbcType="VARCHAR" property="attrValueIds"/>
+        <result column="cover" jdbcType="VARCHAR" property="cover"/>
+        <result column="price" jdbcType="DECIMAL" property="price"/>
+        <result column="show_price" jdbcType="DECIMAL" property="showPrice"/>
+        <result column="product_id" jdbcType="BIGINT" property="productId"/>
+        <result column="merchant_id" jdbcType="BIGINT" property="merchantId"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, attr_value_ids, cover, price, show_price, product_id, merchant_id, create_at,
+        update_at, deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_product_sku
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete
+        from t_product_sku
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.ProductSku"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_product_sku (attr_value_ids, cover, price,
+                                   show_price, product_id, merchant_id,
+                                   create_at, update_at, deleted)
+        values (#{attrValueIds,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
+                #{showPrice,jdbcType=DECIMAL}, #{productId,jdbcType=BIGINT}, #{merchantId,jdbcType=BIGINT},
+                #{createAt,jdbcType=BIGINT}, #{updateAt,jdbcType=BIGINT}, #{deleted,jdbcType=BOOLEAN})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.ProductSku">
+        <!--@mbg.generated-->
+        update t_product_sku
+        set attr_value_ids = #{attrValueIds,jdbcType=VARCHAR},
+            cover          = #{cover,jdbcType=VARCHAR},
+            price          = #{price,jdbcType=DECIMAL},
+            show_price     = #{showPrice,jdbcType=DECIMAL},
+            product_id     = #{productId,jdbcType=BIGINT},
+            merchant_id    = #{merchantId,jdbcType=BIGINT},
+            create_at      = #{createAt,jdbcType=BIGINT},
+            update_at      = #{updateAt,jdbcType=BIGINT},
+            deleted        = #{deleted,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_product_sku
+                (attr_value_ids, cover, price, show_price, product_id, merchant_id, create_at, update_at,
+                 deleted)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.attrValueIds,jdbcType=VARCHAR}, #{item.cover,jdbcType=VARCHAR}, #{item.price,jdbcType=DECIMAL},
+             #{item.showPrice,jdbcType=DECIMAL}, #{item.productId,jdbcType=BIGINT}, #{item.merchantId,jdbcType=BIGINT},
+             #{item.createAt,jdbcType=BIGINT}, #{item.updateAt,jdbcType=BIGINT}, #{item.deleted,jdbcType=BOOLEAN})
+        </foreach>
+    </insert>
+</mapper>

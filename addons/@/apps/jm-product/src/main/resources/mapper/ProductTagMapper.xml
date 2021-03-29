@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.ProductTagMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.ProductTag">
+        <!--@mbg.generated-->
+        <!--@Table t_product_tag-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="color" jdbcType="VARCHAR" property="color"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, `name`, `type`, color, create_at, update_at, deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_product_tag
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete
+        from t_product_tag
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.ProductTag"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_product_tag (`name`, `type`, color,
+                                   create_at, update_at, deleted)
+        values (#{name,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{color,jdbcType=VARCHAR},
+                #{createAt,jdbcType=BIGINT}, #{updateAt,jdbcType=BIGINT}, #{deleted,jdbcType=BOOLEAN})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.ProductTag">
+        <!--@mbg.generated-->
+        update t_product_tag
+        set `name`    = #{name,jdbcType=VARCHAR},
+            `type`    = #{type,jdbcType=TINYINT},
+            color     = #{color,jdbcType=VARCHAR},
+            create_at = #{createAt,jdbcType=BIGINT},
+            update_at = #{updateAt,jdbcType=BIGINT},
+            deleted   = #{deleted,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_product_tag
+                (`name`, `type`, color, create_at, update_at, deleted)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name,jdbcType=VARCHAR}, #{item.type,jdbcType=TINYINT}, #{item.color,jdbcType=VARCHAR},
+             #{item.createAt,jdbcType=BIGINT}, #{item.updateAt,jdbcType=BIGINT}, #{item.deleted,jdbcType=BOOLEAN})
+        </foreach>
+    </insert>
+</mapper>

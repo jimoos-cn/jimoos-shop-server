@@ -21,4 +21,12 @@ public interface RProductTagMapper {
     int updateByPrimaryKey(RProductTag record);
 
     int batchInsert(@Param("list") List<RProductTag> list);
+
+    /**
+     * 统计 标签下的商品数量
+     *
+     * @param tagId tag id
+     * @return product total num under tagId
+     */
+    Long countByTagId(@Param("tagId") Long tagId);
 }

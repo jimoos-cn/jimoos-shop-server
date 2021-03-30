@@ -1,9 +1,11 @@
 package cn.jimoos.repository;
 
+import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dao.ProductAttrMapper;
 import cn.jimoos.dao.ProductAttrValueMapper;
 import cn.jimoos.dao.ProductSkuAttrMapMapper;
 import cn.jimoos.entity.ProductAttrEntity;
+import cn.jimoos.error.ProductError;
 import cn.jimoos.model.ProductAttr;
 import cn.jimoos.model.ProductAttrValue;
 import org.springframework.beans.BeanUtils;
@@ -12,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Nullable;
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +45,16 @@ public class ProductAttrRepository {
             return null;
         }
         return wrapper(productAttr, false);
+    }
+
+    @NotNull
+    public ProductAttrEntity byIdThrow(Long id) throws BussException {
+        ProductAttrEntity productAttrEntity = byId(id);
+
+        if (productAttrEntity == null) {
+            throw new BussException(ProductError.PRODUCT_SKU_ATTR_NOT_EXIST);
+        }
+        return productAttrEntity;
     }
 
     /**
@@ -76,13 +89,25 @@ public class ProductAttrRepository {
     }
 
     /**
-     * 删掉销售属性的同时删除销售属性值
+     * 删掉销售属性的,同时删除销售属性值
      *
      * @param attrId id
+     * @return affectNum
      */
-    public void delete(Long attrId) {
-        productAttrMapper.updateDeletedById(Boolean.TRUE, attrId);
+    public int delete(Long attrId) {
+        int affectNum = productAttrMapper.updateDeletedById(Boolean.TRUE, attrId);
         productAttrValueMapper.updateDeletedByAttrId(Boolean.TRUE, attrId);
+        return affectNum;
+    }
+
+    /**
+     * 删除属性值
+     *
+     * @param attrValueId attr value id
+     * @return affectNum
+     */
+    public int deleteAttrValue(Long attrValueId) {
+        return productAttrValueMapper.updateDeletedById(Boolean.TRUE, attrValueId);
     }
 
     public void save(ProductAttrEntity productAttrEntity) {
@@ -98,6 +123,38 @@ public class ProductAttrRepository {
             productAttrValueMapper.updateDeletedByAttrId(Boolean.TRUE, productAttrEntity.getId());
             productAttrValueMapper.batchInsert(productAttrEntity.getAttrValues());
         }
+    }
+
+    /**
+     * 保存 attr values
+     *
+     * @param productAttrEntity productAttrEntity
+     */
+    public void saveAttrValues(ProductAttrEntity productAttrEntity) {
+        if (productAttrEntity != null) {
+            productAttrValueMapper.updateDeletedByAttrId(Boolean.TRUE, productAttrEntity.getId());
+            productAttrValueMapper.batchInsert(productAttrEntity.getAttrValues());
+        }
+    }
+
+    /**
+     * 查询 属性值对象
+     *
+     * @param valueId value id
+     * @return ProductAttrValue
+     */
+    public ProductAttrValue findAttrValueByValueId(Long valueId) {
+        return productAttrValueMapper.selectByPrimaryKey(valueId);
+    }
+
+    /**
+     * 更新 属性值对象
+     *
+     * @param attrValue 属性值对象
+     * @return affectNum
+     */
+    public int updateAttrValue(ProductAttrValue attrValue) {
+        return productAttrValueMapper.updateByPrimaryKey(attrValue);
     }
 
     /**

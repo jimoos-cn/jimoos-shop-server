@@ -1,5 +1,6 @@
 package cn.jimoos.service;
 
+import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.attr.*;
 import cn.jimoos.model.ProductAttr;
 import cn.jimoos.model.ProductAttrValue;
@@ -29,7 +30,7 @@ public interface ProductAttrService {
      * @param productAttrForm Product Attr Form
      * @return ProductAttrVO
      */
-    ProductAttrVO updateAttr(BeProductAttrForm productAttrForm);
+    ProductAttrVO updateAttr(BeProductAttrForm productAttrForm) throws BussException;
 
     /**
      * 删除销售属性
@@ -37,7 +38,7 @@ public interface ProductAttrService {
      * @param form Product Attr Delete Form
      * @return affectNum
      */
-    int delete(BeProductAttrDeleteForm form);
+    int delete(BeProductAttrDeleteForm form) throws BussException;
 
     /**
      * 查询 销售属性
@@ -53,7 +54,7 @@ public interface ProductAttrService {
      * @param attrId Attr Id
      * @return List<ProductAttrValue> 值的列表
      */
-    List<ProductAttrValue> attrValues(Long attrId);
+    List<ProductAttrValue> attrValues(Long attrId) throws BussException;
 
     /**
      * 更新 销售属性值
@@ -69,7 +70,7 @@ public interface ProductAttrService {
      * @param attrValuesForm attr values form
      * @return List<ProductAttrValue>
      */
-    List<ProductAttrValue> saveAttrValues(BeAttrValuesForm attrValuesForm);
+    List<ProductAttrValue> saveAttrValues(BeAttrValuesForm attrValuesForm) throws BussException;
 
     /**
      * 删除 销售属性值
@@ -77,5 +78,5 @@ public interface ProductAttrService {
      * @param attrValueDeleteForm attr Value Delete Form
      * @return affectNum
      */
-    int deleteAttrValue(BeAttrValueDeleteForm attrValueDeleteForm);
+    int deleteAttrValue(BeAttrValueDeleteForm attrValueDeleteForm) throws BussException;
 }

@@ -78,6 +78,15 @@ public class ProductAttrEntity extends ProductAttr {
         if (this.getId() == null) {
             return false;
         }
-        return getProductAttrRepository().hasAnyBindByAttrId(this.getId());
+        return productAttrRepository.hasAnyBindByAttrId(this.getId());
+    }
+
+    /**
+     * value 是否被绑定
+     * @param valueId value id
+     * @return if bind true,else false
+     */
+    public boolean ifBindValue(Long valueId) {
+        return productAttrRepository.hasAnyBindByAttrValueId(valueId);
     }
 }

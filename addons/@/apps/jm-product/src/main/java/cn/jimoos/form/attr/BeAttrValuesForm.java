@@ -14,5 +14,5 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class BeAttrValuesForm extends AbstractAdminForm4L {
     private Long attrId;
-    private List<BeAttrValuesForm> valueForms;
+    private List<BeAttrValueForm> valueForms;
 }

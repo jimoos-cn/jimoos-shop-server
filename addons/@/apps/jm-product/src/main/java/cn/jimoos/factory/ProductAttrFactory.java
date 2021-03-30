@@ -30,6 +30,8 @@ public class ProductAttrFactory {
         productAttrEntity.setCreateAt(now);
         productAttrEntity.setUpdateAt(now);
         productAttrEntity.setDeleted(false);
+
+        productAttrEntity.addAttrValues(productAttrForm.getAttrValues());
         return productAttrEntity;
     }
 }

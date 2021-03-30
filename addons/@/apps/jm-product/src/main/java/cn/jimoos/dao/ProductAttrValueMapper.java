@@ -12,8 +12,6 @@ import java.util.List;
  */
 @Mapper
 public interface ProductAttrValueMapper {
-    int deleteByPrimaryKey(Long id);
-
     int insert(ProductAttrValue record);
 
     ProductAttrValue selectByPrimaryKey(Long id);
@@ -38,4 +36,13 @@ public interface ProductAttrValueMapper {
      * @return affectNum
      */
     int updateDeletedByAttrId(@Param("updatedDeleted") Boolean updatedDeleted, @Param("attrId") Long attrId);
+
+    /**
+     * 删除 销售属性值
+     *
+     * @param updatedDeleted 删除状态
+     * @param id             value id
+     * @return affectNum
+     */
+    int updateDeletedById(@Param("updatedDeleted") Boolean updatedDeleted, @Param("id") Long id);
 }

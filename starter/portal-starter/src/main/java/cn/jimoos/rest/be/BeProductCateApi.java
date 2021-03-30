@@ -18,7 +18,7 @@ import java.util.List;
  * @date :2021-03-30 11:57.
  */
 @RestController
-@RequestMapping("/bAdmin/v1/productCategories")
+@RequestMapping("/bAdmin/v1/product/categories")
 public class BeProductCateApi {
     @Resource
     ProductCateService productCateService;
@@ -76,9 +76,7 @@ public class BeProductCateApi {
      * @throws BussException ProductError.CATEGORY_NOT_FOUND | ProductError.CATEGORY_USED
      */
     @PostMapping(value = "/{categoryId}/delete", produces = "application/json; charset=utf-8")
-    public void deleteCoupon(@ModelAttribute BeProductCateDeleteForm deleteForm) throws BussException {
+    public void deleteCategory(@ModelAttribute BeProductCateDeleteForm deleteForm) throws BussException {
         productCateService.delete(deleteForm);
     }
-
-
 }

@@ -21,4 +21,20 @@ public interface ProductSkuAttrMapMapper {
     int updateByPrimaryKey(ProductSkuAttrMap record);
 
     int batchInsert(@Param("list") List<ProductSkuAttrMap> list);
+
+    /**
+     * 查询 最近任何一个 使用到 attrId 的 商品
+     *
+     * @param attrId attr id
+     * @return ProductSkuAttrMap
+     */
+    ProductSkuAttrMap findAnyOneByAttrId(@Param("attrId") Long attrId);
+
+    /**
+     * 查询 最近任何一个 使用到 attrValueId 的商品
+     *
+     * @param attrValueId attr value id
+     * @return ProductSkuAttrMap
+     */
+    ProductSkuAttrMap findAnyOneByAttrValueId(@Param("attrValueId") Long attrValueId);
 }

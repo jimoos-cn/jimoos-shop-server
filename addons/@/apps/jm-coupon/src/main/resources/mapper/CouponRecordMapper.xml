@@ -90,7 +90,7 @@
             </when>
         </choose>
         <if test="userId != null">
-            AND user_id &gt; #{userId}
+            AND user_id = #{userId}
         </if>
         order by create_at desc
         limit #{offset},#{limit}

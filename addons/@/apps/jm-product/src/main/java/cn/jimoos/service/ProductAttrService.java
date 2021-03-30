@@ -25,10 +25,20 @@ public interface ProductAttrService {
     ProductAttrVO addAttr(BeProductAttrForm productAttrForm);
 
     /**
+     * 获取 销售属性名称
+     *
+     * @param id attr id
+     * @return ProductAttrVO
+     * @throws BussException ProductError.ATTR_NOT_FOUND
+     */
+    ProductAttrVO getOne(Long id) throws BussException;
+
+    /**
      * 更新 销售属性名称
      *
      * @param productAttrForm Product Attr Form
      * @return ProductAttrVO
+     * @throws BussException ProductError.ATTR_NOT_FOUND
      */
     ProductAttrVO updateAttr(BeProductAttrForm productAttrForm) throws BussException;
 
@@ -37,6 +47,7 @@ public interface ProductAttrService {
      *
      * @param form Product Attr Delete Form
      * @return affectNum
+     * @throws BussException ProductError.ATTR_USED | ProductError.ATTR_NOT_FOUND
      */
     int delete(BeProductAttrDeleteForm form) throws BussException;
 
@@ -53,6 +64,7 @@ public interface ProductAttrService {
      *
      * @param attrId Attr Id
      * @return List<ProductAttrValue> 值的列表
+     * @throws BussException ProductError.ATTR_NOT_FOUND
      */
     List<ProductAttrValue> attrValues(Long attrId) throws BussException;
 
@@ -62,13 +74,14 @@ public interface ProductAttrService {
      * @param form Attr Value Form
      * @return AffectNum
      */
-    ProductAttrValue updateAttrValue(BeAttrValueForm form);
+    ProductAttrValue updateAttrValue(BeAttrValueForm form) throws BussException;
 
     /**
      * 批量更新 销售属性值
      *
      * @param attrValuesForm attr values form
      * @return List<ProductAttrValue>
+     * @throws BussException ProductError.ATTR_NOT_FOUND
      */
     List<ProductAttrValue> saveAttrValues(BeAttrValuesForm attrValuesForm) throws BussException;
 
@@ -77,6 +90,7 @@ public interface ProductAttrService {
      *
      * @param attrValueDeleteForm attr Value Delete Form
      * @return affectNum
+     * @throws BussException ProductError.ATTR_NOT_FOUND | ATTR_VALUE_USED
      */
     int deleteAttrValue(BeAttrValueDeleteForm attrValueDeleteForm) throws BussException;
 }

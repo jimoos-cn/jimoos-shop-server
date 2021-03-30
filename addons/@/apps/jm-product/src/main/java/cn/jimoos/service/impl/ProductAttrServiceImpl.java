@@ -42,6 +42,15 @@ public class ProductAttrServiceImpl implements ProductAttrService {
     }
 
     @Override
+    public ProductAttrVO getOne(Long id) throws BussException {
+        ProductAttrEntity productAttrEntity = productAttrRepository.byIdThrow(id);
+
+        ProductAttrVO productAttrVO = new ProductAttrVO();
+        BeanUtils.copyProperties(productAttrEntity, productAttrVO);
+        return productAttrVO;
+    }
+
+    @Override
     public ProductAttrVO updateAttr(BeProductAttrForm productAttrForm) throws BussException {
         ProductAttrEntity productAttrEntity = productAttrRepository.byIdThrow(productAttrForm.getId());
 
@@ -81,8 +90,12 @@ public class ProductAttrServiceImpl implements ProductAttrService {
     }
 
     @Override
-    public ProductAttrValue updateAttrValue(BeAttrValueForm form) {
+    public ProductAttrValue updateAttrValue(BeAttrValueForm form) throws BussException {
         ProductAttrValue productAttrValue = productAttrRepository.findAttrValueByValueId(form.getId());
+
+        if (productAttrValue == null) {
+            throw new BussException(ProductError.ATTR_VALUE_NOT_FOUND);
+        }
         BeanUtils.copyProperties(form, productAttrValue);
         productAttrValue.setUpdateAt(System.currentTimeMillis());
         productAttrRepository.updateAttrValue(productAttrValue);

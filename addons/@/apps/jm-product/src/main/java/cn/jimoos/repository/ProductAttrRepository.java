@@ -52,7 +52,7 @@ public class ProductAttrRepository {
         ProductAttrEntity productAttrEntity = byId(id);
 
         if (productAttrEntity == null) {
-            throw new BussException(ProductError.PRODUCT_SKU_ATTR_NOT_EXIST);
+            throw new BussException(ProductError.ATTR_NOT_FOUND);
         }
         return productAttrEntity;
     }

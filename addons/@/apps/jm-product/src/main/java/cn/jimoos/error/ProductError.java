@@ -8,9 +8,6 @@ import cn.jimoos.common.error.IErrorCode;
  * @date :2021-03-29 19:52.
  */
 public enum ProductError implements IErrorCode {
-    PRODUCT_TAG_NOT_EXIST("product.tag_not_exist", "产品标签不存在！"),
-    PRODUCT_CATEGORY_NOT_EXIST("product.category_not_exist", "商品分类不存在！"),
-    PRODUCT_SKU_ATTR_NOT_EXIST("product.attr_value_not_exist", "销售属性不存在！"),
     PRODUCT_NOT_EXIST("product.not_exist", "商品不存在"),
     PRODUCT_RECOMMEND("product.recommend", "该商品已经是精品"),
     PRODUCT_NOT_RECOMMEND("product.not_recommend", "该商品不是精品"),
@@ -25,7 +22,8 @@ public enum ProductError implements IErrorCode {
     PRODUCT_NOT_LIST("product.not_list", "商品未上架"),
     TAG_NOT_FOUND("product.tag_not_found", "标签不存在"),
     CATEGORY_NOT_FOUND("product.category_not_found", "分类不存在"),
-    ATTR_NOT_FOUND("product.attr_not_found", "属性不存在");
+    ATTR_NOT_FOUND("product.attr_not_found", "属性不存在"),
+    ATTR_VALUE_NOT_FOUND("product.attr_value_not_found", "属性值不存在");
     private final String code;
     private final String desc;
 

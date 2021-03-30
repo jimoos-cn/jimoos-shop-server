@@ -8,6 +8,7 @@ import lombok.Data;
  */
 @Data
 public class BeAttrValueForm {
+    private Long attrId;
     private Long id;
     /**
      * 销售属性值

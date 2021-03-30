@@ -1,6 +1,8 @@
 package cn.jimoos.form.category;
 
+import cn.jimoos.utils.form.AbstractAdminForm4L;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 
@@ -9,7 +11,8 @@ import javax.validation.constraints.NotNull;
  * @date 2021-03-29 19:52.
  */
 @Data
-public class BeProductCateCreateForm {
+@EqualsAndHashCode(callSuper = true)
+public class BeProductCateCreateForm extends AbstractAdminForm4L {
 
     /**
      * 父id

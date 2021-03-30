@@ -1,6 +1,8 @@
 package cn.jimoos.form.tag;
 
+import cn.jimoos.utils.form.AbstractAdminForm4L;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
 
@@ -9,7 +11,8 @@ import javax.validation.constraints.NotNull;
  * @date 2021-03-29 20:52.
  */
 @Data
-public class BeProductTagUpdateForm {
+@EqualsAndHashCode(callSuper = true)
+public class BeProductTagUpdateForm extends AbstractAdminForm4L {
     private Long id;
     /**
      * 标签名称

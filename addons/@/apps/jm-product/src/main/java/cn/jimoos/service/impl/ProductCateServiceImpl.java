@@ -50,7 +50,7 @@ public class ProductCateServiceImpl implements ProductCateService {
 
     @Override
     public Page<ProductCategory> query(BeProductCateSearchForm form) {
-        Long count = productCategoryMapper.queryTableCount(form.toQueryMap());
+        long count = productCategoryMapper.queryTableCount(form.toQueryMap());
 
         if (count > 0) {
             return Page.create(count, productCategoryMapper.queryTable(form.toQueryMap()));

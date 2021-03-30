@@ -41,7 +41,7 @@ public class ProductCategoryEntity extends ProductCategory {
     /**
      * 是否被绑定
      */
-    public Boolean ifBind() {
+    public boolean ifBind() {
         if (this.getId() == null) {
             return false;
         }

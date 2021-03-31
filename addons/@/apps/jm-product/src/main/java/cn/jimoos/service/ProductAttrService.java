@@ -73,6 +73,7 @@ public interface ProductAttrService {
      *
      * @param form Attr Value Form
      * @return AffectNum
+     * @throws BussException ProductError.ATTR_NOT_FOUND
      */
     ProductAttrValue updateAttrValue(BeAttrValueForm form) throws BussException;
 

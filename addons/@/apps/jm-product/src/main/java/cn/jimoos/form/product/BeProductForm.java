@@ -84,7 +84,7 @@ public class BeProductForm extends AbstractAdminForm4L {
 
     @Data
     public static class SkuInput {
-        private Long skuId;
+        private Long id;
         /**
          * 销售属性键值对
          */

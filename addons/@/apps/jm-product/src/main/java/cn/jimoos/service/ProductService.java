@@ -1,5 +1,6 @@
 package cn.jimoos.service;
 
+import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.product.*;
 import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.ProductSkuVO;
@@ -34,7 +35,7 @@ public interface ProductService {
      * @param beProductSkusForm skus form
      * @return List<ProductSkuVO>
      */
-    List<ProductSkuVO> saveSkus(BeProductSkusForm beProductSkusForm);
+    List<ProductSkuVO> saveSkus(BeProductSkusForm beProductSkusForm) throws BussException;
 
     /**
      * 获取 商品详情

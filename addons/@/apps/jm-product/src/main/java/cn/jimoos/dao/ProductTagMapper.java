@@ -32,7 +32,6 @@ public interface ProductTagMapper {
      */
     List<ProductTag> findByIdIn(@Param("idCollection") Collection<Long> idCollection);
 
-
     /**
      * 更新 删除状态
      *

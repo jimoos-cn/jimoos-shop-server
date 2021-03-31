@@ -12,7 +12,6 @@ import java.util.List;
  */
 @Mapper
 public interface ProductSkuMapper {
-    int deleteByPrimaryKey(Long id);
 
     int insert(ProductSku record);
 
@@ -21,4 +20,16 @@ public interface ProductSkuMapper {
     int updateByPrimaryKey(ProductSku record);
 
     int batchInsert(@Param("list") List<ProductSku> list);
+
+    List<ProductSku> findByProductId(@Param("productId") Long productId);
+
+    /**
+     * 更新商品的 SKU 删除状态
+     *
+     * @param updatedDeleted 删除状态
+     * @param productId      product Id
+     * @return affectNum
+     */
+    int updateDeletedByProductId(@Param("updatedDeleted") Boolean updatedDeleted, @Param("productId") Long productId);
+
 }

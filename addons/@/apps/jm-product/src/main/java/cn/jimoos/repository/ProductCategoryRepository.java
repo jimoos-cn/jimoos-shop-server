@@ -40,6 +40,12 @@ public class ProductCategoryRepository {
         return productCategoryMapper.updateDeletedById(Boolean.TRUE, id);
     }
 
+    /**
+     *
+     * @param id product category id
+     * @return ProductCategoryEntity
+     * @throws BussException
+     */
     public ProductCategoryEntity byId(Long id) throws BussException {
         ProductCategory productCategory = productCategoryMapper.selectByPrimaryKey(id);
         if (productCategory == null) {

@@ -21,7 +21,7 @@ public class ProductVO extends Product {
      */
     private List<ProductSku> productSkus;
 
-    private ProductCategory productCategory;
+    private ProductCategory category;
 
-    private List<ProductTag> productTags;
+    private List<ProductTag> tags;
 }

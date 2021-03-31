@@ -29,4 +29,20 @@ public interface RProductTagMapper {
      * @return product total num under tagId
      */
     Long countByTagId(@Param("tagId") Long tagId);
+
+    /**
+     * 移除 商品标签关联
+     *
+     * @param productId product Id
+     * @return affectNum
+     */
+    int deleteByProductId(@Param("productId") Long productId);
+
+    /**
+     * 根据商品 ID 查询标签
+     *
+     * @param productId product Id
+     * @return List<RProductTag>
+     */
+    List<RProductTag> findByProductId(@Param("productId") Long productId);
 }

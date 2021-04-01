@@ -121,7 +121,7 @@ public class ProductAttrRepository {
         } else {
             productAttrMapper.updateByPrimaryKey(productAttrEntity);
             productAttrValueMapper.updateDeletedByAttrId(Boolean.TRUE, productAttrEntity.getId());
-            productAttrValueMapper.batchInsert(productAttrEntity.getAttrValues());
+            productAttrValueMapper.batchInsert(productAttrEntity.getAttrValueInputs());
         }
     }
 
@@ -133,7 +133,7 @@ public class ProductAttrRepository {
     public void saveAttrValues(ProductAttrEntity productAttrEntity) {
         if (productAttrEntity != null) {
             productAttrValueMapper.updateDeletedByAttrId(Boolean.TRUE, productAttrEntity.getId());
-            productAttrValueMapper.batchInsert(productAttrEntity.getAttrValues());
+            productAttrValueMapper.batchInsert(productAttrEntity.getAttrValueInputs());
         }
     }
 

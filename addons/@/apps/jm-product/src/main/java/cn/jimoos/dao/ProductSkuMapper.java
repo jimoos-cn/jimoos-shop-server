@@ -24,6 +24,15 @@ public interface ProductSkuMapper {
     List<ProductSku> findByProductId(@Param("productId") Long productId);
 
     /**
+     * 查找 任何一个 SKU
+     *
+     * @param productId product Id
+     * @return ProductSku
+     */
+    ProductSku findAnyOneByProductId(@Param("productId") Long productId);
+
+
+    /**
      * 更新商品的 SKU 删除状态
      *
      * @param updatedDeleted 删除状态

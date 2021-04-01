@@ -4,6 +4,7 @@ import cn.jimoos.model.RProductTag;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -45,4 +46,12 @@ public interface RProductTagMapper {
      * @return List<RProductTag>
      */
     List<RProductTag> findByProductId(@Param("productId") Long productId);
+
+    /**
+     * 根据商品 ID列表 查询标签
+     *
+     * @param productIdCollection product id collection
+     * @return List<RProductTag>
+     */
+    List<RProductTag> findByProductIdIn(@Param("productIdCollection") Collection<Long> productIdCollection);
 }

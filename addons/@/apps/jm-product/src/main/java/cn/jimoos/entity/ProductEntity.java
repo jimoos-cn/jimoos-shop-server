@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -85,7 +86,22 @@ public class ProductEntity extends Product {
      * @return List<ProductSkuVO>
      */
     public List<ProductSkuVO> getProductSkuVos() {
-        return new ArrayList<>();
+        List<ProductSku> productSkus = getProductSkus();
+        if (CollectionUtils.isEmpty(productSkus)) {
+            return new ArrayList<>();
+        }
+
+        List<Long> skuIds = productSkus.stream().map(ProductSku::getId).collect(Collectors.toList());
+        List<ProductSkuAttrMap> skuAttrMaps = productRepository.findAttrMapsBySkuIds(skuIds);
+        Map<Long, List<ProductSkuAttrMap>>
+                skuIdToListMap = skuAttrMaps.stream().collect(Collectors.groupingBy(ProductSkuAttrMap::getSkuId));
+
+        return productSkus.stream().map(productSku -> {
+            ProductSkuVO productSkuVO = new ProductSkuVO();
+            BeanUtils.copyProperties(productSku, productSkuVO);
+            productSkuVO.setAttrs(skuIdToListMap.get(productSku.getId()));
+            return productSkuVO;
+        }).collect(Collectors.toList());
     }
 
     /**
@@ -95,10 +111,53 @@ public class ProductEntity extends Product {
      */
     public void addSkus(List<BeProductForm.SkuInput> skuInputs) {
         productSkuInputs.addAll(skuInputs.stream().map(skuInput -> {
-            SkuEntity productSku = new SkuEntity(this,skuInput);
+            SkuEntity productSku = new SkuEntity(this, skuInput);
             productSku.addAttrMaps(skuInput.getAttrs());
             return productSku;
         }).collect(Collectors.toList()));
+    }
+
+    /**
+     * 设置商品状态
+     *
+     * @param status
+     */
+    public void setProductStatus(Byte status) {
+
+    }
+
+    /**
+     * 软删除
+     */
+    public void softDelete() {
+        this.setDeleted(true);
+        this.setUpdateAt(System.currentTimeMillis());
+    }
+
+    /**
+     * 上架
+     */
+    public void up() {
+        this.setStatus(Status.LISTED.val());
+        this.setUpdateAt(System.currentTimeMillis());
+    }
+
+    /**
+     * 下架
+     */
+    public void down(String reason) {
+        this.setStatus(Status.NOT_LISTED.val());
+        this.setUpdateAt(System.currentTimeMillis());
+        //todo 理由
+    }
+
+    /**
+     * 是否有 SKU
+     *
+     * @return true 有 SKU ,false 没有 SKU
+     */
+    public boolean hasAnySkus() {
+        return productRepository.hasAnySkus(this.getId());
     }
 
     @Data
@@ -107,7 +166,7 @@ public class ProductEntity extends Product {
     public static class SkuEntity extends ProductSku {
         private List<ProductSkuAttrMap> skuAttrMaps = new ArrayList<>();
 
-        public SkuEntity(ProductEntity productEntity,BeProductForm.SkuInput skuInput) {
+        public SkuEntity(ProductEntity productEntity, BeProductForm.SkuInput skuInput) {
             long now = System.currentTimeMillis();
             SkuEntity productSku = new SkuEntity();
             productSku.setAttrValueIds("");
@@ -153,12 +212,8 @@ public class ProductEntity extends Product {
             List<Long> attrValueIds = getSkuAttrMaps().stream().map(ProductSkuAttrMap::getAttrValueId).collect(Collectors.toList());
             return StringUtils.collectionToCommaDelimitedString(attrValueIds);
         }
-
-        public ProductSkuVO toVO() {
-            //todo Vo
-            return new ProductSkuVO();
-        }
     }
+
 
     public enum Status {
         /**

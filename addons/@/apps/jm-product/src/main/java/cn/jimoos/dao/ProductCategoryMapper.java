@@ -4,6 +4,7 @@ import cn.jimoos.model.ProductCategory;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,8 @@ public interface ProductCategoryMapper {
 
     int batchInsert(@Param("list") List<ProductCategory> list);
 
+    List<ProductCategory> findByIdIn(@Param("idCollection") Collection<Long> idCollection);
+
     /**
      * 更新删除状态
      *
@@ -30,9 +33,13 @@ public interface ProductCategoryMapper {
      */
     int updateDeletedById(@Param("updatedDeleted") Boolean updatedDeleted, @Param("id") Long id);
 
-    List<ProductCategory> findByPid(@Param("pid")Long pid);
-
-
+    /**
+     * 查询 子分类
+     *
+     * @param pid pid
+     * @return List<ProductCategory>
+     */
+    List<ProductCategory> findByPid(@Param("pid") Long pid);
 
     /**
      * 查询 ProductCategory 列表

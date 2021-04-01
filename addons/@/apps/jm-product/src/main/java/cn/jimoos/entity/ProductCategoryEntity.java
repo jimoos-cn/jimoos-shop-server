@@ -10,8 +10,8 @@ import lombok.EqualsAndHashCode;
 import javax.annotation.Resource;
 
 /**
- * @author wangyuhao
- * @date 2020/12/17 17:53
+ * @author keepcleargas
+ * @date 2021/03/29 17:53
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

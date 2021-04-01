@@ -12,6 +12,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class BeProductStatusForm extends AbstractAdminForm4L {
     private Long productId;
-    private Byte status;
     private String reason;
 }

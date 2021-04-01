@@ -93,4 +93,57 @@
         where deleted = false
           AND category_id = #{categoryId,jdbcType=BIGINT}
     </select>
+
+    <select id="queryTable" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_product
+                where deleted = false
+        <if test="startTime != null">
+            AND create_at &gt; #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND create_at &lt; #{endTime}
+        </if>
+        <if test="name != null">
+            <bind name="bind" value="'%' + name + '%'"/>
+            AND name like #{bind}
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="categoryId != null">
+            AND category_id = #{categoryId}
+        </if>
+        <if test="type != null">
+            AND type = #{type}
+        </if>
+        order by create_at desc
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="queryTableCount" resultType="long">
+        select count(id)
+        from t_product
+                where deleted = false
+        <if test="startTime != null">
+            AND create_at &gt; #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND create_at &lt; #{endTime}
+        </if>
+        <if test="name != null">
+            <bind name="bind" value="'%' + name + '%'"/>
+            AND name like #{bind}
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        <if test="categoryId != null">
+            AND category_id = #{categoryId}
+        </if>
+        <if test="type != null">
+            AND type = #{type}
+        </if>
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package cn.jimoos.dao;
 
+import cn.jimoos.dto.ProductTagDto;
 import cn.jimoos.model.ProductTag;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,6 +32,14 @@ public interface ProductTagMapper {
      * @return List<ProductTag>
      */
     List<ProductTag> findByIdIn(@Param("idCollection") Collection<Long> idCollection);
+
+    /**
+     * 通过 商品 ID 列表查询标签
+     *
+     * @param productIds product ids
+     * @return List<ProductTagDto>
+     */
+    List<ProductTagDto> findByProductIdIn(@Param("idCollection") Collection<Long> productIds);
 
     /**
      * 更新 删除状态

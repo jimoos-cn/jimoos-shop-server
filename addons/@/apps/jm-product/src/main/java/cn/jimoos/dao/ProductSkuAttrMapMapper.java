@@ -4,6 +4,7 @@ import cn.jimoos.model.ProductSkuAttrMap;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,6 +22,16 @@ public interface ProductSkuAttrMapMapper {
     int updateByPrimaryKey(ProductSkuAttrMap record);
 
     int batchInsert(@Param("list") List<ProductSkuAttrMap> list);
+
+    List<ProductSkuAttrMap> findBySkuId(@Param("skuId") Long skuId);
+
+    /**
+     * find by skuId in
+     *
+     * @param skuIdCollection skuIds
+     * @return List<ProductSkuAttrMap>
+     */
+    List<ProductSkuAttrMap> findBySkuIdIn(@Param("skuIdCollection") Collection<Long> skuIdCollection);
 
     /**
      * 查询 最近任何一个 使用到 attrId 的 商品

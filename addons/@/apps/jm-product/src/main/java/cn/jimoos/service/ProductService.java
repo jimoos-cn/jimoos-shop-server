@@ -34,6 +34,7 @@ public interface ProductService {
      *
      * @param beProductSkusForm skus form
      * @return List<ProductSkuVO>
+     * @throws BussException ProductError.PRODUCT_NOT_EXIST
      */
     List<ProductSkuVO> saveSkus(BeProductSkusForm beProductSkusForm) throws BussException;
 
@@ -42,8 +43,9 @@ public interface ProductService {
      *
      * @param productId product Id
      * @return ProductVO
+     * @throws BussException ProductError.PRODUCT_NOT_EXIST
      */
-    ProductVO getOne(Long productId);
+    ProductVO getOne(Long productId) throws BussException;
 
     /**
      * 查询商品列表
@@ -58,22 +60,32 @@ public interface ProductService {
      *
      * @param productId product Id
      * @return List<ProductSkuVO>
+     * @throws BussException ProductError.PRODUCT_NOT_EXIST
      */
-    List<ProductSkuVO> skus(Long productId);
+    List<ProductSkuVO> skus(Long productId) throws BussException;
 
     /**
-     * 更新商品 上下架状态
+     * 上架
      *
      * @param statusForm status
-     * @return affectNum
+     * @throws BussException ProductError.PRODUCT_NOT_EXIST
      */
-    int updateProductStatus(BeProductStatusForm statusForm);
+    void up(BeProductStatusForm statusForm) throws BussException;
+
+    /**
+     * 下架
+     *
+     * @param statusForm status
+     * @throws BussException ProductError.PRODUCT_NOT_EXIST
+     */
+    void down(BeProductStatusForm statusForm) throws BussException;
 
     /**
      * 删除 商品
      *
      * @param beProductDeleteForm productId
      * @return affectNum
+     * @throws BussException ProductError.PRODUCT_NOT_EXIST
      */
-    int delete(BeProductDeleteForm beProductDeleteForm);
+    void delete(BeProductDeleteForm beProductDeleteForm) throws BussException;
 }

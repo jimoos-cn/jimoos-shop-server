@@ -11,6 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -131,6 +132,16 @@ public class ProductRepository {
     }
 
     /**
+     * 删除商品
+     *
+     * @param productEntity
+     */
+    public void delete(ProductEntity productEntity) {
+        productMapper.updateByPrimaryKey(productEntity);
+        productSkuMapper.updateDeletedByProductId(Boolean.TRUE, productEntity.getId());
+    }
+
+    /**
      * find tags by product Id
      *
      * @param productId product Id
@@ -182,5 +193,38 @@ public class ProductRepository {
             productSku.setUpdateAt(System.currentTimeMillis());
             productSkuMapper.updateByPrimaryKey(productSku);
         }
+    }
+
+    /**
+     * 根据 skuId 获取 列表
+     *
+     * @param skuId sku Id
+     * @return List<ProductSkuAttrMap>
+     */
+    public List<ProductSkuAttrMap> findAttrMapBySkuId(Long skuId) {
+        return productSkuAttrMapMapper.findBySkuId(skuId);
+    }
+
+    /**
+     * 根据 skuId 获取 列表
+     *
+     * @param skuIds sku Id collection
+     * @return List<ProductSkuAttrMap>
+     */
+    public List<ProductSkuAttrMap> findAttrMapsBySkuIds(Collection<Long> skuIds) {
+        if (CollectionUtils.isEmpty(skuIds)) {
+            return new ArrayList<>();
+        }
+        return productSkuAttrMapMapper.findBySkuIdIn(skuIds);
+    }
+
+    /**
+     * 至少存在一个 sku
+     *
+     * @param productId product Id
+     * @return true 有 SKU  false 无 SKU
+     */
+    public boolean hasAnySkus(Long productId) {
+        return productSkuMapper.findAnyOneByProductId(productId) != null;
     }
 }

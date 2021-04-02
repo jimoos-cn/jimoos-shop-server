@@ -28,5 +28,6 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: jimoos/jimoos-shop-api
+        dockerfile: docker/Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}

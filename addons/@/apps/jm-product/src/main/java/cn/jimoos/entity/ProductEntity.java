@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ public class ProductEntity extends Product {
     private ProductRepository productRepository;
     private List<RProductTag> rProductTagInputs = new ArrayList<>();
     private List<SkuEntity> productSkuInputs = new ArrayList<>();
+    private UserProductCollection userProductCollectionInput;
 
     public ProductEntity(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -115,15 +117,6 @@ public class ProductEntity extends Product {
             productSku.addAttrMaps(skuInput.getAttrs());
             return productSku;
         }).collect(Collectors.toList()));
-    }
-
-    /**
-     * 设置商品状态
-     *
-     * @param status
-     */
-    public void setProductStatus(Byte status) {
-
     }
 
     /**
@@ -255,9 +248,22 @@ public class ProductEntity extends Product {
         }
     }
 
+    /**
+     * 单个返回的使用，批量 禁止使用
+     *
+     * @return ProductVO
+     */
     public ProductVO toVO() {
         ProductVO productVO = new ProductVO();
         BeanUtils.copyProperties(this, productVO);
+        ProductSku productSku = productRepository.findMinPriceSku(this.getId());
+        if (productSku == null) {
+            productVO.setPrice(BigDecimal.ZERO);
+            productVO.setShowPrice(BigDecimal.ZERO);
+        } else {
+            productVO.setPrice(productSku.getPrice());
+            productVO.setShowPrice(productSku.getShowPrice());
+        }
         return productVO;
     }
 }

@@ -227,4 +227,14 @@ public class ProductRepository {
     public boolean hasAnySkus(Long productId) {
         return productSkuMapper.findAnyOneByProductId(productId) != null;
     }
+
+    /**
+     * 查询 商品的  最低价 sku
+     *
+     * @param productId product Id
+     * @return ProductSku
+     */
+    public ProductSku findMinPriceSku(Long productId) {
+        return productSkuMapper.findMinPriceByProductId(productId);
+    }
 }

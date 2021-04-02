@@ -46,4 +46,20 @@ public interface ProductMapper {
      * @return long total
      */
     long queryTableCount(Map<String, Object> qm);
+    
+    /**
+     * 查询 Product 列表
+     *
+     * @param qm ,支持  ${name} 的 倒序分页查询
+     * @return List<Product>
+     */
+    List<Product> search(Map<String, Object> qm);
+
+    /**
+     * 查询 Product 总数
+     *
+     * @param qm ,支持 ${name} 的 倒序分页查询
+     * @return long total
+     */
+    long searchCount(Map<String, Object> qm);
 }

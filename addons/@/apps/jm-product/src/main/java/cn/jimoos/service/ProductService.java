@@ -48,12 +48,20 @@ public interface ProductService {
     ProductVO getOne(Long productId) throws BussException;
 
     /**
-     * 查询商品列表
+     * 查询商品列表, 用于后台 table 管理查询
      *
      * @param queryForm query form
      * @return Page<ProductVO>
      */
-    Page<ProductVO> query(BeProductQueryForm queryForm);
+    Page<ProductVO> qTable(BeProductQueryForm queryForm);
+
+    /**
+     * 客户端 查询商品列表
+     *
+     * @param searchForm search form
+     * @return List<ProductVO>
+     */
+    List<ProductVO> search(ProductSearchForm searchForm);
 
     /**
      * 获取 SKU 列表
@@ -84,7 +92,6 @@ public interface ProductService {
      * 删除 商品
      *
      * @param beProductDeleteForm productId
-     * @return affectNum
      * @throws BussException ProductError.PRODUCT_NOT_EXIST
      */
     void delete(BeProductDeleteForm beProductDeleteForm) throws BussException;

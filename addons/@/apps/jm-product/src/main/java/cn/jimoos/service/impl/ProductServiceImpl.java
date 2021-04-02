@@ -3,8 +3,8 @@ package cn.jimoos.service.impl;
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dao.ProductCategoryMapper;
 import cn.jimoos.dao.ProductMapper;
+import cn.jimoos.dao.ProductSkuMapper;
 import cn.jimoos.dao.ProductTagMapper;
-import cn.jimoos.dao.RProductTagMapper;
 import cn.jimoos.dto.ProductTagDto;
 import cn.jimoos.entity.ProductEntity;
 import cn.jimoos.error.ProductError;
@@ -12,6 +12,7 @@ import cn.jimoos.factory.ProductFactory;
 import cn.jimoos.form.product.*;
 import cn.jimoos.model.Product;
 import cn.jimoos.model.ProductCategory;
+import cn.jimoos.model.ProductSku;
 import cn.jimoos.model.ProductTag;
 import cn.jimoos.repository.ProductRepository;
 import cn.jimoos.service.ProductService;
@@ -28,6 +29,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -45,9 +47,9 @@ public class ProductServiceImpl implements ProductService {
     @Resource
     ProductCategoryMapper productCategoryMapper;
     @Resource
-    RProductTagMapper rProductTagMapper;
-    @Resource
     ProductTagMapper productTagMapper;
+    @Resource
+    ProductSkuMapper productSkuMapper;
 
     @SneakyThrows
     @Override
@@ -108,32 +110,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductVO> query(BeProductQueryForm form) {
+    public Page<ProductVO> qTable(BeProductQueryForm form) {
         long count = productMapper.queryTableCount(form.toQueryMap());
 
         if (count > 0) {
             List<Product> products = productMapper.queryTable(form.toQueryMap());
-
-            List<Long> productIds = products.stream().map(Product::getId).collect(Collectors.toList());
-            List<Long> categoryIds = products.stream().map(Product::getCategoryId).collect(Collectors.toList());
-
-            List<ProductCategory> productCategories = productCategoryMapper.findByIdIn(categoryIds);
-            Map<Long, ProductCategory> idToProductCategoryMap = productCategories.stream().collect(Collectors.toMap(productCategory -> productCategory.getId(), productCategory -> productCategory));
-
-            List<ProductTagDto> productTagDtos = productTagMapper.findByProductIdIn(productIds);
-            Map<Long, List<ProductTagDto>> idToTagListMap
-                    = productTagDtos.stream().collect(Collectors.groupingBy(ProductTagDto::getProductId));
-
-
-            return Page.create(count, products.stream().map(product -> {
-                ProductVO productVO = new ProductVO();
-                BeanUtils.copyProperties(product, productVO);
-                productVO.setCategory(idToProductCategoryMap.get(product.getCategoryId()));
-                productVO.setTags(idToTagListMap.get(product.getId()).stream().map(ProductTag.class::cast).collect(Collectors.toList()));
-                return productVO;
-            }).collect(Collectors.toList()));
+            return Page.create(count, formProductList(products));
         }
         return Page.empty();
+    }
+
+    @Override
+    public List<ProductVO> search(ProductSearchForm searchForm) {
+        List<Product> products = productMapper.search(searchForm.toQueryMap());
+
+        if (CollectionUtils.isEmpty(products)) {
+            return new ArrayList<>();
+        }
+
+        return formProductList(products);
     }
 
     @Override
@@ -179,5 +174,34 @@ public class ProductServiceImpl implements ProductService {
 
         productSkuVO.setAttrs(productRepository.findAttrMapBySkuId(skuEntity.getId()));
         return productSkuVO;
+    }
+
+    private List<ProductVO> formProductList(List<Product> products) {
+        List<Long> productIds = products.stream().map(Product::getId).collect(Collectors.toList());
+        List<Long> categoryIds = products.stream().map(Product::getCategoryId).collect(Collectors.toList());
+
+        List<ProductCategory> productCategories = productCategoryMapper.findByIdIn(categoryIds);
+        Map<Long, ProductCategory> idToProductCategoryMap = productCategories.stream().collect(Collectors.toMap(ProductCategory::getId, Function.identity()));
+
+        List<ProductTagDto> productTagDtos = productTagMapper.findByProductIdIn(productIds);
+        Map<Long, List<ProductTagDto>> idToTagListMap
+                = productTagDtos.stream().collect(Collectors.groupingBy(ProductTagDto::getProductId));
+
+        List<ProductSku> minPriceSkus = productSkuMapper.findMinPricesByProductIds(productIds);
+
+        Map<Long, ProductSku> idToProductSkuMap = minPriceSkus.stream().collect(Collectors.toMap(ProductSku::getProductId, Function.identity()));
+
+        return products.stream().map(product -> {
+            ProductVO productVO = new ProductVO();
+            BeanUtils.copyProperties(product, productVO);
+            productVO.setCategory(idToProductCategoryMap.get(product.getCategoryId()));
+            productVO.setTags(idToTagListMap.get(product.getId()).stream().map(ProductTag.class::cast).collect(Collectors.toList()));
+            ProductSku productSku = idToProductSkuMap.get(product.getId());
+            if (productSku != null) {
+                productVO.setPrice(productSku.getPrice());
+                productVO.setShowPrice(productSku.getShowPrice());
+            }
+            return productVO;
+        }).collect(Collectors.toList());
     }
 }

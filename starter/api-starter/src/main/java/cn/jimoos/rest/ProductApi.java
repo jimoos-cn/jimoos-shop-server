@@ -1,6 +1,7 @@
 package cn.jimoos.rest;
 
 import cn.jimoos.common.exception.BussException;
+import cn.jimoos.entity.ProductEntity;
 import cn.jimoos.form.product.ProductSearchForm;
 import cn.jimoos.model.UserProductCollection;
 import cn.jimoos.service.ProductCollectService;
@@ -40,6 +41,9 @@ public class ProductApi {
                                 @PathVariable("productId") Long productId) throws BussException {
         ProductVO productVO = productService.getOne(productId);
 
+        if(productVO.getStatus() != ProductEntity.Status.LISTED.val()){
+
+        }
         if (userId > 0) {
             productVO.setCollect(productCollectService.findByUserIdAndProductId(userId, productId) != null);
         }

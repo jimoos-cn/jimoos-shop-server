@@ -5,6 +5,7 @@ import cn.jimoos.model.*;
 import cn.jimoos.repository.ProductRepository;
 import cn.jimoos.vo.ProductSkuVO;
 import cn.jimoos.vo.ProductVO;
+import com.alibaba.druid.sql.visitor.functions.Now;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -151,6 +152,26 @@ public class ProductEntity extends Product {
      */
     public boolean hasAnySkus() {
         return productRepository.hasAnySkus(this.getId());
+    }
+
+    /**
+     * 更新商品信息
+     *
+     * @param form product form
+     */
+    public void updateInfo(BeProductForm form) {
+        Long now = System.currentTimeMillis();
+        this.setName(form.getName());
+        this.setText(form.getText());
+        this.setCover(form.getCover());
+        this.setVideoUrl(form.getVideoUrl());
+        this.setBannerUrls(form.getBannerUrls());
+        this.setSort(form.getSort());
+        this.setFakeSales(form.getFakeSales());
+        this.setMerchantId(form.getMerchantId());
+        this.setCategoryId(form.getCategoryId());
+        this.setStatus(form.getStatus());
+        this.setUpdateAt(now);
     }
 
     @Data

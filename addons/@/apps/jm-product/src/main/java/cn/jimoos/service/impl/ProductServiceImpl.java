@@ -72,13 +72,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductVO saveProductInfo(BeProductForm beProductForm) {
-        ProductEntity productEntity = productFactory.create(beProductForm);
-        //绑定tags
-        productEntity.attachTags(beProductForm.getTagIds());
-        //新建信息
-        productRepository.save(productEntity);
-        return productEntity.toVO();
+    public ProductVO saveProductInfo(BeProductForm beProductForm) throws BussException {
+        if (beProductForm.getId() == null) {
+            ProductEntity productEntity = productFactory.create(beProductForm);
+            //绑定tags
+            productEntity.attachTags(beProductForm.getTagIds());
+            //新建信息
+            productRepository.save(productEntity);
+
+            return productEntity.toVO();
+        } else {
+            ProductEntity productEntity = productRepository.byId(beProductForm.getId());
+
+            productEntity.updateInfo(beProductForm);
+            //绑定tags
+            productEntity.attachTags(beProductForm.getTagIds());
+            //新建信息
+            productRepository.save(productEntity);
+            return productEntity.toVO();
+        }
     }
 
     @Override

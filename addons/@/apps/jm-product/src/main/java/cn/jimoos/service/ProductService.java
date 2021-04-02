@@ -26,8 +26,9 @@ public interface ProductService {
      *
      * @param beProductForm product form 不包含 SKU
      * @return ProductVo
+     * @throws BussException ProductError.PRODUCT_NOT_EXIST
      */
-    ProductVO saveProductInfo(BeProductForm beProductForm);
+    ProductVO saveProductInfo(BeProductForm beProductForm) throws BussException;
 
     /**
      * 新建 或 批量更新 SKU

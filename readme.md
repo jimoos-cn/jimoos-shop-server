@@ -12,7 +12,6 @@
 
 ## 数据库导入
 
-
 ## 开发文档入口
 
 文档地址: https://jimoos-cn.github.io/jimoos-shop-server/
@@ -23,7 +22,7 @@
 [X] 华为云OBS接入    
 [X] 用户注册    
 [X] Banner管理    
-[-] 商品管理    
+[X] 商品管理    
 [ ] 购物车     
 [ ] 下单      
 [X] 优惠券     
@@ -40,5 +39,6 @@
 
 - api-starter 客户端接口入口
 - portal-starter 后台管理接口入口
+- migration 数据库迁移管理
 - `addons/@`下 为项目内插件
 - `addons/depends`为外部插件，外部插件禁止修改。

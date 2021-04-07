@@ -12,6 +12,8 @@
 
 ## 数据库导入
 
+```mvn -Dtest=MigrationDone test -DfailIfNoTests=false```
+
 ## 开发文档入口
 
 文档地址: https://jimoos-cn.github.io/jimoos-shop-server/

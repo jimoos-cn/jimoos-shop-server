@@ -1,13 +1,15 @@
 package cn.jimoos.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * @author keepcleargas
- * @version 1.0 Created in 2021/4/7 11:35
+ * @author :keepcleargas
+ * @date :2021-04-07 18:19.
  */
 
 @Data
+@NoArgsConstructor
 public class OrderCart {
     private Long id;
 
@@ -16,7 +18,7 @@ public class OrderCart {
      */
     private Long productId;
 
-    private Long uid;
+    private Long userId;
 
     /**
      * SKU ID（可选）

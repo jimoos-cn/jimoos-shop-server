@@ -1,43 +1,35 @@
 package cn.jimoos.dao;
 
 import cn.jimoos.model.OrderCart;
+import java.util.Collection;import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Collection;
-import java.util.List;
-
 /**
- * The interface Order cart mapper.
- *
- * @author keepcleargas
- * @version 1.0 Created in 2021/4/7 11:35
+ * @author :keepcleargas
+ * @date :2021-04-07 18:19.
  */
+
 @Mapper
 public interface OrderCartMapper {
-    /**
-     * delete by primary key
-     *
-     * @param id primaryKey
-     * @return deleteCount int
-     */
     int deleteByPrimaryKey(Long id);
 
-    /**
-     * insert record to table
-     *
-     * @param record the record
-     * @return insert count
-     */
     int insert(OrderCart record);
 
-    /**
-     * update record
-     *
-     * @param record the updated record
-     * @return update count
-     */
+    OrderCart selectByPrimaryKey(Long id);
+
     int updateByPrimaryKey(OrderCart record);
+
+    int batchInsert(@Param("list") List<OrderCart> list);
+
+    /**
+     * 按 ID列表批量删除
+     *
+     * @param userId user Id
+     * @param idCollection id 列表
+     * @return affectNum
+     */
+    int deleteByUserIdAndIdIn(@Param("userId")Long userId,@Param("idCollection")Collection<Long> idCollection);
 
     /**
      * Find one by sku id order cart.
@@ -55,7 +47,6 @@ public interface OrderCartMapper {
      * @return the order cart
      */
     OrderCart findOneBySkuIdAndUid(@Param("skuId") Long skuId, @Param("uid") Long uid);
-
 
     /**
      * Find by id in list.

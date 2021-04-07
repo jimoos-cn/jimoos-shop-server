@@ -2,6 +2,7 @@ package cn.jimoos.entity;
 
 import cn.jimoos.form.cart.OrderCartForm;
 import cn.jimoos.model.OrderCart;
+import cn.jimoos.repository.OrderCartRepository;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,8 +13,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class OrderCartEntity extends OrderCart {
-
+    private OrderCartRepository orderCartRepository;
     private Boolean deleted;
+
+    public OrderCartEntity(OrderCartRepository orderCartRepository) {
+        this.orderCartRepository = orderCartRepository;
+    }
 
     public void update(OrderCartForm form) {
         Boolean checked = form.getChecked();

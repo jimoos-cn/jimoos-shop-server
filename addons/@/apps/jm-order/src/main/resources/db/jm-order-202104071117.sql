@@ -41,7 +41,7 @@ CREATE TABLE `t_order_cart`
 (
     `id`         bigint(20) unsigned NOT NULL AUTO_INCREMENT,
     `product_id` bigint(20)          NOT NULL COMMENT 'uid',
-    `uid`        bigint(20)          NOT NULL,
+    `user_id`    bigint(20)          NOT NULL,
     `sku_id`     bigint(20)                   DEFAULT NULL COMMENT 'SKU ID（可选）',
     `num`        int(11)             NOT NULL DEFAULT '1' COMMENT '商品数量',
     `checked`    tinyint(1)          NOT NULL DEFAULT '0' COMMENT '是否选中',

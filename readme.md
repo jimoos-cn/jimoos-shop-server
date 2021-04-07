@@ -12,7 +12,9 @@
 
 ## 数据库导入
 
-```mvn -Dtest=MigrationDone test -DfailIfNoTests=false```
+执行数据迁移命令行
+
+`mvn -Dtest=MigrationDone test -DfailIfNoTests=false`
 
 ## 开发文档入口
 

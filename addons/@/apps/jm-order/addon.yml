@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-order
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: 订单模块
+  Type: app
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

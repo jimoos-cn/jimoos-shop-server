@@ -27,6 +27,7 @@
         <module>depends/base/jm-utils</module>
         <module>@/apps/jm-banner</module>
         <module>@/apps/jm-coupon</module>
+        <module>@/apps/jm-order</module>
         <module>@/apps/jm-product</module>
         <module>@/apps/jm-user</module>
         <module>@/base/jm-event</module>

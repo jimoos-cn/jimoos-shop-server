@@ -122,12 +122,51 @@
                tps.deleted
                 from t_product_sku tps
                 join (select product_id, min(price) price
-                      from t_product_sku group by product_id where product_id in
-
+                      from t_product_sku where product_id in
         <foreach item="item" index="index" collection="productIdCollection"
                  open="(" separator="," close=")">
             #{item,jdbcType=BIGINT}
         </foreach>
-        ) b on tps.product_id = b.product_id and tps.price = b.price
+        group by product_id
+                ) b on tps.product_id = b.product_id and tps.price = b.price
+    </select>
+
+
+    <select id="findDTOByIds" resultType="cn.jimoos.dto.ProductSkuForOrderDTO">
+        select ps.product_id     as productId,
+               ps.id             as skuId,
+               tp.name           as productName,
+               ps.cover          as skuCover,
+               ps.price          as price,
+               tp.type           as type,
+               ps.attr_value_ids as attrValueIds,
+               tp.cover          as productCover
+        from t_product_sku ps
+                     left join t_product tp on ps.product_id = tp.id
+                where tp.status = 2
+                  and tp.deleted = false
+                  and ps.deleted = false
+                  and ps.id in
+        <foreach item="item" index="index" collection="skuIds"
+                 open="(" separator="," close=")">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+    </select>
+
+    <select id="findDTOById" resultType="cn.jimoos.dto.ProductSkuForOrderDTO">
+        select ps.product_id     as productId,
+               ps.id             as skuId,
+               tp.name           as productName,
+               ps.cover          as skuCover,
+               ps.price          as price,
+               tp.type           as type,
+               ps.attr_value_ids as attrValueIds,
+               tp.cover          as productCover
+        from t_product_sku ps
+                     left join t_product tp on ps.product_id = tp.id
+        where tp.status = 2
+          and tp.deleted = false
+          and ps.deleted = false
+          and ps.id = #{skuId,jdbcType=BIGINT}
     </select>
 </mapper>

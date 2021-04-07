@@ -1,5 +1,6 @@
 package cn.jimoos.dao;
 
+import cn.jimoos.dto.ProductSkuForOrderDTO;
 import cn.jimoos.model.ProductSku;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -62,4 +63,21 @@ public interface ProductSkuMapper {
      * @return ProductSku
      */
     ProductSku findMinPriceByProductId(Long productId);
+
+    /**
+     * 根据skuId 查询 商品
+     *
+     * @param skuIds the sku ids
+     * @return the list
+     */
+    List<ProductSkuForOrderDTO> findDTOByIds(@Param("skuIds") List<Long> skuIds);
+
+
+    /**
+     * Find dto by id product sku for order dto.
+     *
+     * @param skuId the sku id
+     * @return the product sku for order dto
+     */
+    ProductSkuForOrderDTO findDTOById(@Param("skuId") Long skuId);
 }

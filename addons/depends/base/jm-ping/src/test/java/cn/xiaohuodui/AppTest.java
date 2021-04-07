@@ -1,4 +1,4 @@
-package cn.jimoos;
+package cn.xiaohuodui;
 
 import static org.junit.Assert.assertTrue;
 

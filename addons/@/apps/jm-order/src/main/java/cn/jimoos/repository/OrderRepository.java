@@ -1,17 +1,10 @@
 package cn.jimoos.repository;
 
 import cn.jimoos.common.exception.BussException;
-import cn.jimoos.dao.OrderItemDiscountMapper;
-import cn.jimoos.dao.OrderItemFeeMapper;
-import cn.jimoos.dao.OrderItemMapper;
-import cn.jimoos.dao.OrderMapper;
+import cn.jimoos.dao.*;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.error.OrderError;
-import cn.jimoos.form.shipment.ShipmentCreateForm;
-import cn.jimoos.model.Order;
-import cn.jimoos.model.OrderItem;
-import cn.jimoos.model.OrderItemDiscount;
-import cn.jimoos.model.OrderItemFee;
+import cn.jimoos.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
@@ -54,6 +47,11 @@ public class OrderRepository {
      */
     @Resource
     OrderItemFeeMapper orderItemFeeMapper;
+    /**
+     * The shipment mapper.
+     */
+    @Resource
+    ShipmentMapper shipmentMapper;
 
     /**
      * Save status.
@@ -99,7 +97,7 @@ public class OrderRepository {
      *
      * @param orderEntity orderEntity
      */
-    private void saveOrderEntity(OrderEntity orderEntity) {
+    public void saveOrderEntity(OrderEntity orderEntity) {
         orderMapper.insert(orderEntity);
         String orderNum = genOrderNum(orderEntity.getId(), 0);
         orderEntity.setOrderNum(orderNum);
@@ -112,13 +110,7 @@ public class OrderRepository {
         orderItems = orderItems.stream().peek(orderItem -> orderItem.setOrderId(orderEntity.getId())).collect(Collectors.toList());
 
         orderItemMapper.batchInsert(orderItems);
-
-        //插入地址信息
-        ShipmentCreateForm shipmentCreateForm = orderEntity.getShipmentCreateForm();
-        if (shipmentCreateForm != null) {
-            shipmentCreateForm.setOutTradeNo(orderNum);
-//            shipmentProvider.create(shipmentCreateForm);
-        }
+        //todo 配送信息 不为空 则添加配送信息
     }
 
     /**
@@ -225,6 +217,17 @@ public class OrderRepository {
         }
     }
 
+    /**
+     * 获取 根据订单 获取配送信息
+     *
+     * @param type       配送类别
+     * @param outTradeNo 外部交易编号
+     * @return Shipment
+     */
+    public Shipment getShipment(int type, String outTradeNo) {
+        return shipmentMapper.findOneByTypeAndOutTradeNo(type, outTradeNo);
+    }
+
     private String genOrderNum(long orderId, int channel) {
         Random r = new Random();
         //产生2个0-9的随机数
@@ -234,5 +237,4 @@ public class OrderRepository {
         String sequ = new DecimalFormat("0000000").format(orderId);
         return date + channel + r1 + r2 + sequ;
     }
-
 }

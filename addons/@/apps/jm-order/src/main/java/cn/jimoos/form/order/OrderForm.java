@@ -1,6 +1,8 @@
 package cn.jimoos.form.order;
 
 
+import cn.jimoos.order.dic.DiscountType;
+import cn.jimoos.order.dic.FeeType;
 import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
@@ -18,7 +20,7 @@ import java.util.Map;
  * 订单表单
  *
  * @author :keepcleargas
- * @date :2020-05-17 15:44.
+ * @date :2021-04-08 15:53.
  */
 @Data
 public class OrderForm {
@@ -48,6 +50,14 @@ public class OrderForm {
     private List<OrderItemForm> orderItems;
 
     /**
+     * 优惠配置
+     */
+    private List<ItemDiscount> itemDiscounts;
+    /**
+     * 费用配置
+     */
+    private List<ItemFee> itemFees;
+    /**
      * 额外信息 Map
      */
     private Map<String, Object> extraMap = new HashMap<>();
@@ -73,5 +83,51 @@ public class OrderForm {
             orderItems = new ArrayList<>();
         }
         orderItems.add(orderItemForm);
+    }
+
+    @Data
+    public static class ItemDiscount {
+        private DiscountType discountType;
+        private Long discountId = 0L;
+        /**
+         * 折扣
+         */
+        private BigDecimal discountPrice;
+        private String desc;
+        /**
+         * 商品 ID 必填
+         */
+        private Long productId;
+        /**
+         * Sku ID 可选
+         */
+        private Long skuId;
+
+        /**
+         * 额外信息 Map
+         */
+        private Map<String, Object> extraMap = new HashMap<>();
+    }
+
+    @Data
+    public static class ItemFee {
+        private FeeType feeType;
+        private Long feeId = 0L;
+        private BigDecimal fee;
+        private String desc;
+        /**
+         * 商品 ID 必填
+         */
+        private Long productId;
+        /**
+         * Sku ID 可选
+         */
+        private Long skuId;
+
+        /**
+         * 额外信息 Map
+         */
+        private Map<String, Object> extraMap = new HashMap<>();
+
     }
 }

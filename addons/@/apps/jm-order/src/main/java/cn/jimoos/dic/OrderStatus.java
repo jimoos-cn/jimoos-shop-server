@@ -5,6 +5,9 @@ package cn.jimoos.dic;
  * @date :2021-04-07 14:04.
  */
 public class OrderStatus {
+    private OrderStatus() {
+    }
+
     /**
      * 新订单
      */

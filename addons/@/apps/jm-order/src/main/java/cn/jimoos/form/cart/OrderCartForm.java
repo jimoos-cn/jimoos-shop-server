@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author keepcleargas
- * @version 1.0 Created in 2020/12/28 20:20
+ * @version 1.0 Created in 2021-04-08 15:53.
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

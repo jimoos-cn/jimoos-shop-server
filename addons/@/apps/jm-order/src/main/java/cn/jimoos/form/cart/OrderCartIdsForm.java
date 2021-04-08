@@ -11,7 +11,7 @@ import java.util.List;
  * @version 1.0 Created in 2020/12/28 21:08
  */
 @Data
-public class OrderCartIdForm extends AbstractUserForm4L {
+public class OrderCartIdsForm extends AbstractUserForm4L {
     /**
      * cartIds
      */

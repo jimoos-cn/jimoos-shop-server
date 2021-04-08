@@ -1,7 +1,7 @@
 package cn.jimoos.service;
 
 import cn.jimoos.form.cart.OrderCartForm;
-import cn.jimoos.form.cart.OrderCartIdForm;
+import cn.jimoos.form.cart.OrderCartIdsForm;
 import cn.jimoos.model.OrderCart;
 import cn.jimoos.utils.form.AbstractUserPageForm4L;
 
@@ -27,21 +27,21 @@ public interface OrderCartService {
      *
      * @param orderCartIdForm 购物车 ItemId列表
      */
-    void remove(OrderCartIdForm orderCartIdForm);
+    void remove(OrderCartIdsForm orderCartIdForm);
 
     /**
      * 选中标识
      *
      * @param orderCartIdForm 购物车 ItemId列表
      */
-    void checked(OrderCartIdForm orderCartIdForm);
+    void checked(OrderCartIdsForm orderCartIdForm);
 
     /**
      * 取消标识
      *
      * @param orderCartIdForm 购物车 ItemId列表
      */
-    void uncheck(OrderCartIdForm orderCartIdForm);
+    void uncheck(OrderCartIdsForm orderCartIdForm);
 
     /**
      * 获取用户购物车

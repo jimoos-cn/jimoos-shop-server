@@ -5,6 +5,7 @@ import cn.jimoos.model.OrderCart;
 import cn.jimoos.repository.OrderCartRepository;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * @author keepcleargas
@@ -12,6 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
 public class OrderCartEntity extends OrderCart {
     private OrderCartRepository orderCartRepository;
     private Boolean deleted;

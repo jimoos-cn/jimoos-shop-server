@@ -1,0 +1,24 @@
+{
+  "projectName": "jimoos-shop-server",
+  "projectOwner": "jimoos",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 50,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "keepcleargas",
+      "name": "keepcleargas",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1215177?v=4",
+      "profile": "https://github.com/keepcleargas",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}

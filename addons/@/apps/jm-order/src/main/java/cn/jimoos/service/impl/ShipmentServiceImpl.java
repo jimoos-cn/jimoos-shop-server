@@ -1,7 +1,7 @@
-package cn.jimoos.component.impl;
+package cn.jimoos.service.impl;
 
 import cn.jimoos.common.exception.BussException;
-import cn.jimoos.component.ShipmentComponent;
+import cn.jimoos.service.ShipmentService;
 import cn.jimoos.entity.ShipmentEntity;
 import cn.jimoos.error.OrderError;
 import cn.jimoos.factory.ShipmentFactory;
@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * @date :2021-04-08 15:10.
  */
 @Component
-public class ShipmentComponentImpl implements ShipmentComponent {
+public class ShipmentServiceImpl implements ShipmentService {
     @Resource
     ShipmentFactory shipmentFactory;
     @Resource

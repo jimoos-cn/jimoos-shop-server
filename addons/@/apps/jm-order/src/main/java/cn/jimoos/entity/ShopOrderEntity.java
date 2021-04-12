@@ -48,6 +48,7 @@ public class ShopOrderEntity extends OrderEntity {
      */
     public void deliver() {
         this.setStatus(OrderStatus.DELIVERY);
+        this.setUpdateAt(System.currentTimeMillis());
     }
 
     public ShipmentDeliverForm toShipmentDeliverForm(OrderDeliverForm form) {
@@ -59,5 +60,6 @@ public class ShopOrderEntity extends OrderEntity {
      */
     public void confirm() {
         this.setStatus(OrderStatus.RECEIVE);
+        this.setUpdateAt(System.currentTimeMillis());
     }
 }

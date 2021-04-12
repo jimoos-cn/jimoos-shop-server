@@ -1,7 +1,6 @@
 package cn.jimoos.service.impl;
 
 import cn.jimoos.common.exception.BussException;
-import cn.jimoos.component.ShipmentComponent;
 import cn.jimoos.context.DiscountContext;
 import cn.jimoos.context.FeeContext;
 import cn.jimoos.dao.OrderRemindDeliveryMapper;
@@ -10,12 +9,9 @@ import cn.jimoos.entity.ShopOrderEntity;
 import cn.jimoos.error.OrderError;
 import cn.jimoos.factory.OrderFactory;
 import cn.jimoos.form.order.*;
-import cn.jimoos.form.shipment.ShipmentConfirmForm;
-import cn.jimoos.form.shipment.ShipmentDeliverForm;
 import cn.jimoos.model.OrderItemDiscount;
 import cn.jimoos.model.OrderItemFee;
 import cn.jimoos.model.OrderRemindDelivery;
-import cn.jimoos.model.Shipment;
 import cn.jimoos.repository.OrderRepository;
 import cn.jimoos.user.model.UserAddress;
 import cn.jimoos.utils.validate.ValidateUtils;
@@ -35,7 +31,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class OrderServiceImpl {
+public class OrderServiceImpl implements cn.jimoos.service.OrderService {
     /**
      * The Order factory.
      */
@@ -52,20 +48,8 @@ public class OrderServiceImpl {
      */
     @Resource
     OrderRemindDeliveryMapper orderRemindDeliveryMapper;
-    /**
-     * 配送组件
-     */
-    @Resource
-    ShipmentComponent shipmentComponent;
 
-    /**
-     * 添加商城 订单
-     *
-     * @param orderForm   orderForm
-     * @param userAddress userAddress
-     * @return order vo
-     * @throws BussException the buss exception
-     */
+    @Override
     public OrderVO addShopOrder(OrderForm orderForm, UserAddress userAddress) throws BussException {
         ValidateUtils.validate(orderForm);
         if (userAddress == null) {
@@ -94,30 +78,19 @@ public class OrderServiceImpl {
         return OrderVO.fromEntity(orderEntity);
     }
 
-    /**
-     * 发货
-     *
-     * @param orderDeliverForm OrderDeliverForm
-     * @throws BussException the buss exception
-     */
-    public void deliver(OrderDeliverForm orderDeliverForm) throws BussException {
+    @Override
+    public OrderEntity deliver(OrderDeliverForm orderDeliverForm) throws BussException {
         ShopOrderEntity orderEntity = ShopOrderEntity.clone(orderRepository.findById(orderDeliverForm.getOrderId()));
         if (orderEntity != null) {
             orderEntity.deliver();
-            ShipmentDeliverForm shipmentDeliverForm = orderEntity.toShipmentDeliverForm(orderDeliverForm);
-            shipmentComponent.deliver(shipmentDeliverForm);
             orderRepository.saveStatus(orderEntity);
-            Shipment shipmentDTO = shipmentComponent.by(0, orderEntity.getOrderNum());
         }
+        return orderEntity;
     }
 
-    /**
-     * 用户确认收货
-     *
-     * @param confirmForm the confirm form
-     * @throws BussException the buss exception
-     */
-    public void confirmOrder(ConfirmForm confirmForm) throws BussException {
+
+    @Override
+    public OrderEntity confirmOrder(ConfirmForm confirmForm) throws BussException {
         ShopOrderEntity orderEntity = ShopOrderEntity.clone(orderRepository.findByUidAndId(confirmForm.getUserId(), confirmForm.getOrderId()));
 
         if (!orderEntity.isDelivery()) {
@@ -126,21 +99,15 @@ public class OrderServiceImpl {
         orderEntity.confirm();
 
         orderRepository.saveStatus(orderEntity);
-
-        shipmentComponent.confirm(new ShipmentConfirmForm(0, orderEntity.getOrderNum()));
+        return orderEntity;
     }
 
 
-    /**
-     * 提醒发货
-     *
-     * @param remindDeliveryForm the remind delivery form
-     * @throws BussException the buss exception
-     */
-    public void remindDelivery(RemindDeliveryForm remindDeliveryForm) throws BussException {
+    @Override
+    public void remindDelivery(RemindDeliveryForm remindDeliveryForm) {
+        //todo 48小时外 + 48小时内 禁止重复提交 remind
         Long orderId = remindDeliveryForm.getOrderId();
         Long userId = remindDeliveryForm.getUserId();
-        OrderEntity orderEntity = orderRepository.findById(orderId);
         OrderRemindDelivery orderRemindDelivery = new OrderRemindDelivery();
         orderRemindDelivery.setOrderId(orderId);
         orderRemindDelivery.setUid(userId);
@@ -151,13 +118,7 @@ public class OrderServiceImpl {
         orderRemindDeliveryMapper.insert(orderRemindDelivery);
     }
 
-    /**
-     * 取消订单
-     *
-     * @param cancelForm the cancel form
-     * @return order vo
-     * @throws BussException the buss exception
-     */
+    @Override
     public OrderVO cancelOrder(CancelForm cancelForm) throws BussException {
         if (cancelForm.getOrderId() == null) {
             throw new BussException(OrderError.ORDER_NOT_FOUND);
@@ -181,12 +142,8 @@ public class OrderServiceImpl {
         return orderVo;
     }
 
-    /**
-     * 封装了 取消订单
-     *
-     * @param cancelForm the cancel form
-     * @return order vo
-     */
+
+    @Override
     public OrderVO cancelOrderWrapperException(CancelForm cancelForm) {
         try {
             return cancelOrder(cancelForm);

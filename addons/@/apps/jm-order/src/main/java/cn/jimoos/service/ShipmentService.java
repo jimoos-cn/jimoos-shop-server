@@ -1,4 +1,4 @@
-package cn.jimoos.component;
+package cn.jimoos.service;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.shipment.ShipmentConfirmForm;
@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
  * @author :keepcleargas
  * @date :2021-04-08 15:09.
  */
-public interface ShipmentComponent {
+public interface ShipmentService {
     /**
      * 新建.
      *

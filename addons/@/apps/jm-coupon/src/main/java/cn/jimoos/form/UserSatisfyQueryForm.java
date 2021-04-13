@@ -5,30 +5,28 @@ import com.google.common.collect.Maps;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
- * 用户优惠券查询
- *
  * @author :keepcleargas
- * @date :2021-03-27 18:57.
+ * @date :2021-04-13 15:08.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserCouponQueryForm extends AbstractUserPageForm4L {
+public class UserSatisfyQueryForm extends AbstractUserPageForm4L {
     /**
-     * 优惠券状态  -1 所有  0 有效  1 已使用 | 过期了
+     * 满减条件
      */
-    private Integer status = -1;
-
+    private BigDecimal beyond;
 
     public Map<String, Object> toQueryMap() {
         Map<String, Object> qm = Maps.newHashMapWithExpectedSize(5);
         qm.put("userId", getUserId());
         qm.put("offset", offset);
         qm.put("limit", limit);
-        qm.put("status", status);
         qm.put("now", System.currentTimeMillis());
+        qm.put("beyond", beyond);
         return qm;
     }
 }

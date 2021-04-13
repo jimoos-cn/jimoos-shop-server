@@ -16,4 +16,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class CartForm extends AbstractUserForm4L {
     private List<CartItemForm> cartItems;
+    /**
+     * 优惠券 ID
+     */
+    private Long discountRecordId;
 }

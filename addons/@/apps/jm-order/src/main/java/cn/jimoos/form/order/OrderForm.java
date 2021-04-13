@@ -3,7 +3,9 @@ package cn.jimoos.form.order;
 
 import cn.jimoos.order.dic.DiscountType;
 import cn.jimoos.order.dic.FeeType;
+import cn.jimoos.product.model.ProductItem;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.util.CollectionUtils;
 
 import javax.validation.Valid;
@@ -86,6 +88,7 @@ public class OrderForm {
     }
 
     @Data
+    @NoArgsConstructor
     public static class ItemDiscount {
         private DiscountType discountType;
         private Long discountId = 0L;
@@ -107,6 +110,15 @@ public class OrderForm {
          * 额外信息 Map
          */
         private Map<String, Object> extraMap = new HashMap<>();
+
+        public ItemDiscount(ProductItem productItem, DiscountType type, long discountId, BigDecimal margin) {
+            this.productId = productItem.getProductId();
+            this.skuId = productItem.getSkuId();
+            this.discountType = type;
+            this.desc = type.getDes();
+            this.discountId = discountId;
+            this.discountPrice = margin;
+        }
     }
 
     @Data

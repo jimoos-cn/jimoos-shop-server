@@ -8,6 +8,7 @@ import cn.jimoos.entity.CouponEntity;
 import cn.jimoos.error.CouponError;
 import cn.jimoos.factory.CouponFactory;
 import cn.jimoos.form.UserCouponQueryForm;
+import cn.jimoos.form.UserSatisfyQueryForm;
 import cn.jimoos.form.be.*;
 import cn.jimoos.model.Coupon;
 import cn.jimoos.model.CouponRecord;
@@ -24,6 +25,8 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -117,7 +120,7 @@ public class CouponServiceImpl implements CouponService {
             List<Long> ids = couponRecords.stream().map(CouponRecord::getCouponId).collect(Collectors.toList());
 
             List<Coupon> coupons = couponMapper.findByIdIn(ids);
-            Map<Long, Coupon> idToCouponMap = coupons.stream().collect(Collectors.toMap(coupon -> coupon.getId(), coupon -> coupon));
+            Map<Long, Coupon> idToCouponMap = coupons.stream().collect(Collectors.toMap(Coupon::getId, coupon -> coupon));
 
             return couponRecords.stream().map(
                     couponRecord -> {
@@ -128,6 +131,67 @@ public class CouponServiceImpl implements CouponService {
                     }
             ).collect(Collectors.toList());
         }
+    }
+
+    @Override
+    public List<UserCouponVO> querySatisfyCoupon(UserSatisfyQueryForm userSatisfyQueryForm) throws BussException {
+        if (userSatisfyQueryForm.getUserId() <= 0) {
+            throw new BussException(ErrorCodeDefine.RECORD_NOT_EXISTS);
+        }
+
+        List<CouponRecord> couponRecords = couponRecordMapper.querySatisfyRecords(userSatisfyQueryForm.toQueryMap());
+        if (CollectionUtils.isEmpty(couponRecords)) {
+            return new ArrayList<>();
+        } else {
+            List<Long> ids = couponRecords.stream().map(CouponRecord::getCouponId).collect(Collectors.toList());
+
+            List<Coupon> coupons = couponMapper.findByIdIn(ids);
+            Map<Long, Coupon> idToCouponMap = coupons.stream().collect(Collectors.toMap(Coupon::getId, Function.identity()));
+
+            return couponRecords.stream().map(
+                    couponRecord -> {
+                        UserCouponVO userCouponVO = new UserCouponVO();
+                        BeanUtils.copyProperties(couponRecord, userCouponVO);
+                        userCouponVO.setCoupon(idToCouponMap.get(couponRecord.getCouponId()));
+                        return userCouponVO;
+                    }
+            ).collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public UserCouponVO findBestOneCoupon(Long userId, @NotNull BigDecimal totalRealPay) {
+        CouponRecord couponRecord = couponRecordMapper.findBestOneCouponRecord(userId, totalRealPay);
+        if (couponRecord == null) {
+            return null;
+        }
+
+        UserCouponVO userCouponVO = new UserCouponVO();
+        BeanUtils.copyProperties(couponRecord, userCouponVO);
+        userCouponVO.setCoupon(couponMapper.selectByPrimaryKey(couponRecord.getCouponId()));
+        return userCouponVO;
+    }
+
+    @Override
+    public UserCouponVO findValidCoupon(Long couponRecordId) throws BussException {
+        CouponRecord couponRecord = couponRecordMapper.selectByPrimaryKey(couponRecordId);
+
+        if (couponRecord == null) {
+            throw new BussException(CouponError.COUPON_RECORD_NOT_EXIST);
+        }
+
+        if (Boolean.TRUE.equals(couponRecord.getStatus())) {
+            throw new BussException(CouponError.COUPON_RECORD_USED);
+        }
+
+        if (couponRecord.getExpired() <= System.currentTimeMillis()) {
+            throw new BussException(CouponError.COUPON_RECORD_EXPIRED);
+        }
+
+        UserCouponVO userCouponVO = new UserCouponVO();
+        BeanUtils.copyProperties(couponRecord, userCouponVO);
+        userCouponVO.setCoupon(couponMapper.selectByPrimaryKey(couponRecord.getCouponId()));
+        return userCouponVO;
     }
 
     @Override

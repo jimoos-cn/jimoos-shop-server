@@ -74,6 +74,25 @@ public class AbstractOrderPre implements IOrderPre {
         }
     }
 
+    /**
+     * 按商品 SkuId的维度 返回实际支付
+     *
+     * @param skuId sku Id
+     * @return BigDecimal
+     */
+    public BigDecimal computeRealPayBySkuId(Long skuId) {
+        if (CollectionUtils.isEmpty(orderItems)) {
+            return BigDecimal.valueOf(0);
+        } else {
+            BigDecimal totalPrice = orderItems.stream().filter(orderItem -> orderItem.getSkuId().equals(skuId)).map(orderItem -> orderItem.getProductPrice().multiply(BigDecimal.valueOf(orderItem.getNumber()))).reduce(BigDecimal.ZERO, BigDecimal::add);
+            BigDecimal totalDiscount = BigDecimal.ZERO;
+            if (!CollectionUtils.isEmpty(discountItems)) {
+                totalDiscount = discountItems.stream().filter(orderItem -> orderItem.getSkuId().equals(skuId)).map(OrderForm.ItemDiscount::getDiscountPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+            }
+            return totalPrice.subtract(totalDiscount);
+        }
+    }
+
     @Override
     public BigDecimal getRealPay() {
         BigDecimal totalPrice = getTotalPrice();

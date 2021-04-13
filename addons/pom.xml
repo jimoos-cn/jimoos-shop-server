@@ -29,6 +29,7 @@
         <module>@/apps/jm-coupon</module>
         <module>@/apps/jm-order</module>
         <module>@/apps/jm-product</module>
+        <module>@/apps/jm-shop-buss</module>
         <module>@/apps/jm-user</module>
         <module>@/base/jm-event</module>
         <module>@/spi/jm-event-registry</module>

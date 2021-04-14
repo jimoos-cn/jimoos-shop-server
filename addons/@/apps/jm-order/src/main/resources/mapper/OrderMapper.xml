@@ -26,7 +26,8 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        id, order_num, subject, order_type, item_amount, total_price, total_fee, total_product_price,total_discount, real_pay, user_id,
+        id, order_num, subject, order_type, item_amount, total_price, total_fee, total_product_price,total_discount,
+        real_pay, user_id,
         `comment`, `status`, refund, rate,extra,create_at, update_at, deleted
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -40,13 +41,15 @@
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.Order"
             useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into t_order (order_num, subject, order_type, item_amount, total_price, total_fee, total_product_price, total_discount,
+        insert into t_order (order_num, subject, order_type, item_amount, total_price, total_fee, total_product_price,
+                             total_discount,
                              real_pay, user_id, `comment`, `status`, refund, rate, extra, create_at, update_at, deleted)
         values (#{orderNum,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR},
                 #{itemAmount,jdbcType=INTEGER}, #{totalPrice,jdbcType=DECIMAL}, #{totalFee,jdbcType=DECIMAL},
                 #{totalProductPrice,jdbcType=DECIMAL}, #{totalDiscount,jdbcType=DECIMAL}, #{realPay,jdbcType=DECIMAL},
                 #{userId,jdbcType=BIGINT}, #{comment,jdbcType=VARCHAR},
-                #{status,jdbcType=TINYINT}, #{refund,jdbcType=BOOLEAN}, #{rate,jdbcType=BOOLEAN}, #{extra,jdbcType=VARCHAR},
+                #{status,jdbcType=TINYINT}, #{refund,jdbcType=BOOLEAN}, #{rate,jdbcType=BOOLEAN},
+                #{extra,jdbcType=VARCHAR},
                 #{createAt,jdbcType=BIGINT}, #{updateAt,jdbcType=BIGINT}, #{deleted,jdbcType=BOOLEAN})
     </insert>
     <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.Order">
@@ -112,5 +115,20 @@
         where `status` = #{status,jdbcType=TINYINT}
           and create_at + #{cancelDuration,jdbcType=BIGINT} <![CDATA[<]]> #{now,jdbcType=BIGINT}
         order by create_at
+    </select>
+
+    <select id="queryUserOrders" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_order
+                where deleted = false
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        order by create_at desc
+        limit #{offset},#{limit}
     </select>
 </mapper>

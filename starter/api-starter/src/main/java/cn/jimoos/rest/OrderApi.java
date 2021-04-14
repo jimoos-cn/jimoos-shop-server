@@ -1,16 +1,14 @@
 package cn.jimoos.rest;
 
 import cn.jimoos.common.exception.BussException;
-import cn.jimoos.form.order.CancelForm;
-import cn.jimoos.form.order.ConfirmForm;
-import cn.jimoos.form.order.OrderForm;
-import cn.jimoos.form.order.RemindDeliveryForm;
+import cn.jimoos.form.order.*;
 import cn.jimoos.service.OrderComposeService;
 import cn.jimoos.service.OrderService;
 import cn.jimoos.vo.OrderVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 订单
@@ -32,11 +30,33 @@ public class OrderApi {
      * @param orderForm order form
      */
     @PostMapping(value = "/product", produces = "application/json; charset=utf-8")
-    public OrderVO addShopOrder(@RequestBody OrderForm orderForm) throws BussException {
+    public OrderVO addProductOrder(@RequestBody OrderForm orderForm) throws BussException {
         return orderComposeService.addProductOrder(orderForm);
     }
 
+    /**
+     * 获取用户订单 列表
+     *
+     * @param orderQueryForm order query form
+     * @return OrderVo
+     */
+    @GetMapping(value = "/query", produces = "application/json; charset=utf-8")
+    public List<OrderVO> getOrderDetail(@ModelAttribute UserOrderQueryForm orderQueryForm) throws BussException {
+        return orderService.userOrders(orderQueryForm);
+    }
 
+    /**
+     * 获取用户订单详情
+     *
+     * @param orderId order id
+     * @param userId  user id
+     * @return OrderVo
+     */
+    @GetMapping(value = "/{orderId}", produces = "application/json; charset=utf-8")
+    public OrderVO getOrderDetail(@PathVariable("orderId") Long orderId, @RequestParam("userId") Long userId) throws BussException {
+        return orderService.getOne(userId, orderId);
+    }
+    
     /**
      * 确认收货
      *

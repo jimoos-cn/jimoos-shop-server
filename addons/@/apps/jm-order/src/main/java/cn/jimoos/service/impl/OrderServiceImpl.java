@@ -3,25 +3,31 @@ package cn.jimoos.service.impl;
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.context.DiscountContext;
 import cn.jimoos.context.FeeContext;
-import cn.jimoos.dao.OrderRemindDeliveryMapper;
+import cn.jimoos.dao.*;
+import cn.jimoos.dic.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.entity.ShopOrderEntity;
 import cn.jimoos.error.OrderError;
 import cn.jimoos.factory.OrderFactory;
 import cn.jimoos.form.order.*;
-import cn.jimoos.model.OrderItemDiscount;
-import cn.jimoos.model.OrderItemFee;
-import cn.jimoos.model.OrderRemindDelivery;
+import cn.jimoos.model.*;
 import cn.jimoos.repository.OrderRepository;
+import cn.jimoos.service.OrderService;
 import cn.jimoos.user.model.UserAddress;
 import cn.jimoos.utils.validate.ValidateUtils;
 import cn.jimoos.vo.OrderVO;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * The type Order service.
@@ -31,7 +37,7 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class OrderServiceImpl implements cn.jimoos.service.OrderService {
+public class OrderServiceImpl implements OrderService {
     /**
      * The Order factory.
      */
@@ -48,9 +54,22 @@ public class OrderServiceImpl implements cn.jimoos.service.OrderService {
      */
     @Resource
     OrderRemindDeliveryMapper orderRemindDeliveryMapper;
+    /**
+     * Order Dao Mapper For Read
+     */
+    @Resource
+    OrderMapper orderMapper;
+    @Resource
+    OrderItemMapper orderItemMapper;
+    @Resource
+    OrderItemDiscountMapper orderItemDiscountMapper;
+    @Resource
+    OrderItemFeeMapper orderItemFeeMapper;
+    @Resource
+    ShipmentMapper shipmentMapper;
 
     @Override
-    public OrderVO addShopOrder(OrderForm orderForm, UserAddress userAddress) throws BussException {
+    public OrderVO addProductOrder(OrderForm orderForm, UserAddress userAddress) throws BussException {
         ValidateUtils.validate(orderForm);
         if (userAddress == null) {
             throw new BussException(OrderError.ADDRESS_NOT_FOUND);
@@ -76,6 +95,63 @@ public class OrderServiceImpl implements cn.jimoos.service.OrderService {
         orderEntity.getShipment();
 
         return OrderVO.fromEntity(orderEntity);
+    }
+
+    @Override
+    public OrderVO getOne(Long userId, Long orderId) throws BussException {
+        OrderEntity orderEntity = orderRepository.findById(orderId);
+
+        if (!orderEntity.getUserId().equals(userId)) {
+            //用户信息传参不正确 则 返回 null
+            return null;
+        }
+        ShopOrderEntity shopOrderEntity = ShopOrderEntity.clone(orderEntity);
+
+        return OrderVO.fromEntity(shopOrderEntity);
+    }
+
+    @Override
+    public List<OrderVO> userOrders(UserOrderQueryForm form) {
+        if (form.getUserId() <= 0) {
+            return new ArrayList<>();
+        }
+        Map<String, Object> queryMap = Maps.newHashMapWithExpectedSize(4);
+        queryMap.put("offset", form.getOffset());
+        queryMap.put("limit", form.getLimit());
+        queryMap.put("status", form.getStatus());
+        queryMap.put("userId", form.getUserId());
+
+        List<Order> orders = orderMapper.queryUserOrders(queryMap);
+
+        if (CollectionUtils.isEmpty(orders)) {
+            return new ArrayList<>();
+        }
+
+        List<Long> orderIds = orders.stream().map(Order::getId).collect(Collectors.toList());
+        List<String> orderNums = orders.stream().map(Order::getOrderNum).collect(Collectors.toList());
+
+        List<OrderItem> orderItems = orderItemMapper.findByOrderIdIn(orderIds);
+        List<OrderItemDiscount> orderItemDiscounts = orderItemDiscountMapper.findByOrderIdIn(orderIds);
+        List<OrderItemFee> orderItemFees = orderItemFeeMapper.findByOrderIdIn(orderIds);
+        List<Shipment> shipments = shipmentMapper.findByTypeAndOutTradeNoIn(ShipmentType.DEFAULT, orderNums);
+
+        Map<Long, List<OrderItem>> id2ItemListMap =
+                orderItems.stream().collect(Collectors.groupingBy(OrderItem::getOrderId));
+        Map<Long, List<OrderItemDiscount>> id2ItemDiscountListMap =
+                orderItemDiscounts.stream().collect(Collectors.groupingBy(OrderItemDiscount::getOrderId));
+        Map<Long, List<OrderItemFee>> id2ItemFeeListMap =
+                orderItemFees.stream().collect(Collectors.groupingBy(OrderItemFee::getOrderId));
+        Map<String, Shipment> outTradeNo2ShipmentMap = shipments.stream().collect(Collectors.toMap(Shipment::getOutTradeNo, Function.identity()));
+
+        return orders.stream().map(order -> {
+            OrderVO orderVO = new OrderVO();
+            BeanUtils.copyProperties(order, orderVO);
+            orderVO.setOrderItems(id2ItemListMap.get(order.getId()));
+            orderVO.setOrderDiscounts(id2ItemDiscountListMap.get(order.getId()));
+            orderVO.setOrderItemFees(id2ItemFeeListMap.get(order.getId()));
+            orderVO.setShipment(outTradeNo2ShipmentMap.get(order.getOrderNum()));
+            return orderVO;
+        }).collect(Collectors.toList());
     }
 
     @Override

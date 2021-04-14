@@ -6,6 +6,8 @@ import cn.jimoos.form.order.*;
 import cn.jimoos.user.model.UserAddress;
 import cn.jimoos.vo.OrderVO;
 
+import java.util.List;
+
 /**
  * @author :keepcleargas
  * @date :2021-04-12 15:06.
@@ -19,7 +21,25 @@ public interface OrderService {
      * @return order vo
      * @throws BussException the buss exception
      */
-    OrderVO addShopOrder(OrderForm orderForm, UserAddress userAddress) throws BussException;
+    OrderVO addProductOrder(OrderForm orderForm, UserAddress userAddress) throws BussException;
+
+    /**
+     * 获取订单详情
+     *
+     * @param userId  user Id
+     * @param orderId order Id
+     * @return OrderVO
+     * @throws BussException OrderError.ORDER_NOT_FOUND
+     */
+    OrderVO getOne(Long userId, Long orderId) throws BussException;
+
+    /**
+     * 查询用户的订单列表
+     *
+     * @param form 表单
+     * @return List<OrderVO>
+     */
+    List<OrderVO> userOrders(UserOrderQueryForm form);
 
     /**
      * 发货

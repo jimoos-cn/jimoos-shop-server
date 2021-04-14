@@ -123,6 +123,15 @@ public class OrderEntity extends Order {
         return orderRepository.getOrderItemDiscountsByOrderId(this.getId());
     }
 
+    /**
+     * 获取 费用列表
+     *
+     * @return order item fee
+     */
+    public List<OrderItemFee> getOrderItemFees() {
+        return orderRepository.getOrderItemFeeByOrderId(this.getId());
+    }
+
 
     /**
      * 判断是否 新订单 待支付

@@ -1,78 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.jimoos.dao.OrderItemFeeMapper">
-  <resultMap id="BaseResultMap" type="cn.jimoos.model.OrderItemFee">
-    <!--@mbg.generated-->
-    <!--@Table t_order_item_fee-->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="fee_id" jdbcType="BIGINT" property="feeId" />
-    <result column="fee" jdbcType="DECIMAL" property="fee" />
-    <result column="need_return" jdbcType="BOOLEAN" property="needReturn" />
-    <result column="return_type" jdbcType="VARCHAR" property="returnType" />
-    <result column="return_status" jdbcType="BOOLEAN" property="returnStatus" />
-    <result column="return_at" jdbcType="BIGINT" property="returnAt" />
-    <result column="order_id" jdbcType="BIGINT" property="orderId" />
-    <result column="order_item_id" jdbcType="BIGINT" property="orderItemId" />
-    <result column="extras" jdbcType="VARCHAR" property="extras" />
-    <result column="create_at" jdbcType="BIGINT" property="createAt" />
-    <result column="updated" jdbcType="BIGINT" property="updated" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    id, `type`, fee_id, fee, need_return, return_type, return_status, return_at, order_id,
-    order_item_id, extras, create_at, updated
-  </sql>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.OrderItemFee" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into t_order_item_fee (`type`, fee_id, fee,
-      need_return, return_type, return_status,
-      return_at, order_id, order_item_id,
-      extras, create_at, updated
-      )
-    values (#{type,jdbcType=VARCHAR}, #{feeId,jdbcType=BIGINT}, #{fee,jdbcType=DECIMAL},
-      #{needReturn,jdbcType=BOOLEAN}, #{returnType,jdbcType=VARCHAR}, #{returnStatus,jdbcType=BOOLEAN},
-      #{returnAt,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{orderItemId,jdbcType=BIGINT},
-      #{extras,jdbcType=VARCHAR}, #{createAt,jdbcType=BIGINT}, #{updated,jdbcType=BIGINT}
-      )
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.OrderItemFee">
-    <!--@mbg.generated-->
-    update t_order_item_fee
-    set `type` = #{type,jdbcType=VARCHAR},
-      fee_id = #{feeId,jdbcType=BIGINT},
-      fee = #{fee,jdbcType=DECIMAL},
-      need_return = #{needReturn,jdbcType=BOOLEAN},
-      return_type = #{returnType,jdbcType=VARCHAR},
-      return_status = #{returnStatus,jdbcType=BOOLEAN},
-      return_at = #{returnAt,jdbcType=BIGINT},
-      order_id = #{orderId,jdbcType=BIGINT},
-      order_item_id = #{orderItemId,jdbcType=BIGINT},
-      extras = #{extras,jdbcType=VARCHAR},
-      create_at = #{createAt,jdbcType=BIGINT},
-      updated = #{updated,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into t_order_item_fee
-    (`type`, fee_id, fee, need_return, return_type, return_status, return_at, order_id,
-      order_item_id, extras, create_at, updated)
-    values
-    <foreach collection="list" item="item" separator=",">
-      (#{item.type,jdbcType=VARCHAR}, #{item.feeId,jdbcType=BIGINT}, #{item.fee,jdbcType=DECIMAL},
-        #{item.needReturn,jdbcType=BOOLEAN}, #{item.returnType,jdbcType=VARCHAR}, #{item.returnStatus,jdbcType=BOOLEAN},
-        #{item.returnAt,jdbcType=BIGINT}, #{item.orderId,jdbcType=BIGINT}, #{item.orderItemId,jdbcType=BIGINT},
-        #{item.extras,jdbcType=VARCHAR}, #{item.createAt,jdbcType=BIGINT}, #{item.updated,jdbcType=BIGINT}
-        )
-    </foreach>
-  </insert>
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.OrderItemFee">
+        <!--@mbg.generated-->
+        <!--@Table t_order_item_fee-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="fee_id" jdbcType="BIGINT" property="feeId"/>
+        <result column="fee" jdbcType="DECIMAL" property="fee"/>
+        <result column="need_return" jdbcType="BOOLEAN" property="needReturn"/>
+        <result column="return_type" jdbcType="VARCHAR" property="returnType"/>
+        <result column="return_status" jdbcType="BOOLEAN" property="returnStatus"/>
+        <result column="return_at" jdbcType="BIGINT" property="returnAt"/>
+        <result column="order_id" jdbcType="BIGINT" property="orderId"/>
+        <result column="order_item_id" jdbcType="BIGINT" property="orderItemId"/>
+        <result column="extras" jdbcType="VARCHAR" property="extras"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="updated" jdbcType="BIGINT" property="updated"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, `type`, fee_id, fee, need_return, return_type, return_status, return_at, order_id,
+        order_item_id, extras, create_at, updated
+    </sql>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.OrderItemFee"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_order_item_fee (`type`, fee_id, fee,
+                                      need_return, return_type, return_status,
+                                      return_at, order_id, order_item_id,
+                                      extras, create_at, updated)
+        values (#{type,jdbcType=VARCHAR}, #{feeId,jdbcType=BIGINT}, #{fee,jdbcType=DECIMAL},
+                #{needReturn,jdbcType=BOOLEAN}, #{returnType,jdbcType=VARCHAR}, #{returnStatus,jdbcType=BOOLEAN},
+                #{returnAt,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{orderItemId,jdbcType=BIGINT},
+                #{extras,jdbcType=VARCHAR}, #{createAt,jdbcType=BIGINT}, #{updated,jdbcType=BIGINT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.OrderItemFee">
+        <!--@mbg.generated-->
+        update t_order_item_fee
+        set `type`        = #{type,jdbcType=VARCHAR},
+            fee_id        = #{feeId,jdbcType=BIGINT},
+            fee           = #{fee,jdbcType=DECIMAL},
+            need_return   = #{needReturn,jdbcType=BOOLEAN},
+            return_type   = #{returnType,jdbcType=VARCHAR},
+            return_status = #{returnStatus,jdbcType=BOOLEAN},
+            return_at     = #{returnAt,jdbcType=BIGINT},
+            order_id      = #{orderId,jdbcType=BIGINT},
+            order_item_id = #{orderItemId,jdbcType=BIGINT},
+            extras        = #{extras,jdbcType=VARCHAR},
+            create_at     = #{createAt,jdbcType=BIGINT},
+            updated       = #{updated,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_order_item_fee
+                (`type`, fee_id, fee, need_return, return_type, return_status, return_at, order_id,
+                 order_item_id, extras, create_at, updated)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.type,jdbcType=VARCHAR}, #{item.feeId,jdbcType=BIGINT}, #{item.fee,jdbcType=DECIMAL},
+             #{item.needReturn,jdbcType=BOOLEAN}, #{item.returnType,jdbcType=VARCHAR},
+             #{item.returnStatus,jdbcType=BOOLEAN},
+             #{item.returnAt,jdbcType=BIGINT}, #{item.orderId,jdbcType=BIGINT}, #{item.orderItemId,jdbcType=BIGINT},
+             #{item.extras,jdbcType=VARCHAR}, #{item.createAt,jdbcType=BIGINT}, #{item.updated,jdbcType=BIGINT})
+        </foreach>
+    </insert>
 
-<!--auto generated by MybatisCodeHelper on 2021-01-26-->
-  <select id="findByOrderId" resultMap="BaseResultMap">
+    <!--auto generated by MybatisCodeHelper on 2021-01-26-->
+    <select id="findByOrderId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_order_item_fee
-        where order_id=#{orderId,jdbcType=BIGINT} order by create_at desc
+        where order_id = #{orderId,jdbcType=BIGINT}
+        order by create_at desc
+    </select>
+
+    <!--auto generated by MybatisCodeHelper on 2021-04-14-->
+    <select id="findByOrderIdIn" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_order_item_fee
+                where order_id in
+        <foreach item="item" index="index" collection="orderIdCollection"
+                 open="(" separator="," close=")">
+            #{item,jdbcType=BIGINT}
+        </foreach>
     </select>
 </mapper>

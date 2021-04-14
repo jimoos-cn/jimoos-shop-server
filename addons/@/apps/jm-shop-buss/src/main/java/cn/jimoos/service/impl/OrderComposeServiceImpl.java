@@ -58,7 +58,7 @@ public class OrderComposeServiceImpl implements OrderComposeService {
         if (userAddress == null) {
             throw new BussException(OrderError.ADDRESS_NOT_FOUND);
         }
-        OrderVO orderVO = orderService.addShopOrder(orderForm, userAddress);
+        OrderVO orderVO = orderService.addProductOrder(orderForm, userAddress);
 
         //配送信息添加
         ShipmentCreateForm shipmentCreateForm = new ShipmentCreateForm(userAddress, ShipmentType.DEFAULT, orderVO.getOrderNum());

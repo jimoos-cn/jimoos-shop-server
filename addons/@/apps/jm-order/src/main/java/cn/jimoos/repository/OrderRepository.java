@@ -110,7 +110,6 @@ public class OrderRepository {
         orderItems = orderItems.stream().peek(orderItem -> orderItem.setOrderId(orderEntity.getId())).collect(Collectors.toList());
 
         orderItemMapper.batchInsert(orderItems);
-        //todo 配送信息 不为空 则添加配送信息
     }
 
     /**
@@ -215,6 +214,16 @@ public class OrderRepository {
         if (!CollectionUtils.isEmpty(orderItemFees)) {
             orderItemFeeMapper.batchInsert(orderItemFees);
         }
+    }
+
+    /**
+     * 根据订单 id 获取 该订单下的费用
+     *
+     * @param orderId order id
+     * @return List<OrderItemFee>
+     */
+    public List<OrderItemFee> getOrderItemFeeByOrderId(Long orderId) {
+        return orderItemFeeMapper.findByOrderId(orderId);
     }
 
     /**

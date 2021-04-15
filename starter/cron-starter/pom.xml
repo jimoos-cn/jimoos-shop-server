@@ -3,23 +3,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>jm-addons-parent</artifactId>
+        <artifactId>jm-starter-parent</artifactId>
         <groupId>cn.jimoos</groupId>
         <version>0.0.1</version>
-        <relativePath>../../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jm-order</artifactId>
-    <version>0.0.1</version>
+    <artifactId>jm-cron</artifactId>
 
-    <name>jm-order</name>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+    <name>jm-cron-starter</name>
 
     <dependencies>
         <dependency>
@@ -29,6 +21,23 @@
             <type>pom</type>
             <version>2.1.13.RELEASE</version>
             <scope>import</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-settings</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-order</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -47,23 +56,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>cn.jimoos</groupId>
-            <artifactId>jm-utils</artifactId>
+            <artifactId>jm-ping</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-spi-registry</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-settings</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
         <!--连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -123,4 +120,23 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>true</executable>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

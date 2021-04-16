@@ -140,4 +140,55 @@
           AND status = #{status}
         order by create_at desc
     </select>
+
+    <select id="queryTable" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_order
+                where deleted = false
+        <if test="startTime != null">
+            AND create_at &gt; #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND create_at &lt; #{endTime}
+        </if>
+        <if test="orderType != null">
+            AND order_type = #{orderType}
+        </if>
+        <if test="orderNum != null">
+            AND order_num = #{orderNum}
+        </if>
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="status != null and status != -1">
+            AND status = #{status}
+        </if>
+        order by create_at desc
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="queryTableCount" resultType="long">
+        select count(id)
+        from t_order
+                where deleted = false
+        <if test="startTime != null">
+            AND create_at &gt; #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND create_at &lt; #{endTime}
+        </if>
+        <if test="orderType != null">
+            AND order_type = #{orderType}
+        </if>
+        <if test="orderNum != null">
+            AND order_num = #{orderNum}
+        </if>
+        <if test="userId != null">
+            AND user_id = #{userId}
+        </if>
+        <if test="status != null and status != -1">
+            AND status = #{status}
+        </if>
+    </select>
 </mapper>

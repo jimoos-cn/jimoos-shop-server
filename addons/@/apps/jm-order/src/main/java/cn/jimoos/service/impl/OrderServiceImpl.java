@@ -10,10 +10,14 @@ import cn.jimoos.entity.ShopOrderEntity;
 import cn.jimoos.error.OrderError;
 import cn.jimoos.factory.OrderFactory;
 import cn.jimoos.form.order.*;
+import cn.jimoos.form.order.be.BeOrderQueryForm;
 import cn.jimoos.model.*;
 import cn.jimoos.repository.OrderRepository;
 import cn.jimoos.service.OrderService;
 import cn.jimoos.user.model.UserAddress;
+import cn.jimoos.user.provider.UserProvider;
+import cn.jimoos.user.vo.UserVO;
+import cn.jimoos.utils.http.Page;
 import cn.jimoos.utils.validate.ValidateUtils;
 import cn.jimoos.vo.OrderVO;
 import com.google.common.collect.Maps;
@@ -21,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -48,6 +53,9 @@ public class OrderServiceImpl implements OrderService {
      */
     @Resource
     OrderRepository orderRepository;
+
+    @Resource
+    UserProvider userProvider;
 
     /**
      * The Order remind delivery mapper.
@@ -127,31 +135,7 @@ public class OrderServiceImpl implements OrderService {
             return new ArrayList<>();
         }
 
-        List<Long> orderIds = orders.stream().map(Order::getId).collect(Collectors.toList());
-        List<String> orderNums = orders.stream().map(Order::getOrderNum).collect(Collectors.toList());
-
-        List<OrderItem> orderItems = orderItemMapper.findByOrderIdIn(orderIds);
-        List<OrderItemDiscount> orderItemDiscounts = orderItemDiscountMapper.findByOrderIdIn(orderIds);
-        List<OrderItemFee> orderItemFees = orderItemFeeMapper.findByOrderIdIn(orderIds);
-        List<Shipment> shipments = shipmentMapper.findByTypeAndOutTradeNoIn(ShipmentType.DEFAULT, orderNums);
-
-        Map<Long, List<OrderItem>> id2ItemListMap =
-                orderItems.stream().collect(Collectors.groupingBy(OrderItem::getOrderId));
-        Map<Long, List<OrderItemDiscount>> id2ItemDiscountListMap =
-                orderItemDiscounts.stream().collect(Collectors.groupingBy(OrderItemDiscount::getOrderId));
-        Map<Long, List<OrderItemFee>> id2ItemFeeListMap =
-                orderItemFees.stream().collect(Collectors.groupingBy(OrderItemFee::getOrderId));
-        Map<String, Shipment> outTradeNo2ShipmentMap = shipments.stream().collect(Collectors.toMap(Shipment::getOutTradeNo, Function.identity()));
-
-        return orders.stream().map(order -> {
-            OrderVO orderVO = new OrderVO();
-            BeanUtils.copyProperties(order, orderVO);
-            orderVO.setOrderItems(id2ItemListMap.get(order.getId()));
-            orderVO.setOrderDiscounts(id2ItemDiscountListMap.get(order.getId()));
-            orderVO.setOrderItemFees(id2ItemFeeListMap.get(order.getId()));
-            orderVO.setShipment(outTradeNo2ShipmentMap.get(order.getOrderNum()));
-            return orderVO;
-        }).collect(Collectors.toList());
+       return fromOrders(orders);
     }
 
     @Override
@@ -227,7 +211,7 @@ public class OrderServiceImpl implements OrderService {
             }
             OrderEntity orderEntity = orderRepository.findById(cancelForm.getOrderId());
 
-            if(orderEntity!=null){
+            if (orderEntity != null) {
                 orderEntity.cancel();
 
                 orderRepository.saveCancel(orderEntity);
@@ -239,5 +223,61 @@ public class OrderServiceImpl implements OrderService {
             log.error("取消订单 发生异常{}", cancelForm.getOrderId());
         }
         return null;
+    }
+
+
+    @Override
+    public Page<OrderVO> qTable(BeOrderQueryForm form) {
+        Map<String, Object> queryMap = form.toQueryMap();
+
+        if (!StringUtils.isEmpty(form.getPhone())) {
+            UserVO userVO = userProvider.byPhone(form.getPhone());
+
+            if (userVO == null) {
+                return Page.empty();
+            }
+            queryMap.put("userId", userVO.getId());
+        }
+        long count = orderMapper.queryTableCount(form.toQueryMap());
+
+        if (count > 0) {
+            List<Order> orders = orderMapper.queryTable(form.toQueryMap());
+
+            return Page.create(count,fromOrders(orders));
+        }
+        return Page.empty();
+    }
+
+    /**
+     * 从 List<Order> => List<OrderVO>
+     * @param orders 原订单列表
+     * @return 返回订单详情
+     */
+    private List<OrderVO> fromOrders(List<Order> orders){
+        List<Long> orderIds = orders.stream().map(Order::getId).collect(Collectors.toList());
+        List<String> orderNums = orders.stream().map(Order::getOrderNum).collect(Collectors.toList());
+
+        List<OrderItem> orderItems = orderItemMapper.findByOrderIdIn(orderIds);
+        List<OrderItemDiscount> orderItemDiscounts = orderItemDiscountMapper.findByOrderIdIn(orderIds);
+        List<OrderItemFee> orderItemFees = orderItemFeeMapper.findByOrderIdIn(orderIds);
+        List<Shipment> shipments = shipmentMapper.findByTypeAndOutTradeNoIn(ShipmentType.DEFAULT, orderNums);
+
+        Map<Long, List<OrderItem>> id2ItemListMap =
+                orderItems.stream().collect(Collectors.groupingBy(OrderItem::getOrderId));
+        Map<Long, List<OrderItemDiscount>> id2ItemDiscountListMap =
+                orderItemDiscounts.stream().collect(Collectors.groupingBy(OrderItemDiscount::getOrderId));
+        Map<Long, List<OrderItemFee>> id2ItemFeeListMap =
+                orderItemFees.stream().collect(Collectors.groupingBy(OrderItemFee::getOrderId));
+        Map<String, Shipment> outTradeNo2ShipmentMap = shipments.stream().collect(Collectors.toMap(Shipment::getOutTradeNo, Function.identity()));
+
+        return orders.stream().map(order -> {
+            OrderVO orderVO = new OrderVO();
+            BeanUtils.copyProperties(order, orderVO);
+            orderVO.setOrderItems(id2ItemListMap.get(order.getId()));
+            orderVO.setOrderDiscounts(id2ItemDiscountListMap.get(order.getId()));
+            orderVO.setOrderItemFees(id2ItemFeeListMap.get(order.getId()));
+            orderVO.setShipment(outTradeNo2ShipmentMap.get(order.getOrderNum()));
+            return orderVO;
+        }).collect(Collectors.toList());
     }
 }

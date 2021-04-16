@@ -4,13 +4,13 @@ import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dic.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.form.order.OrderDeliverForm;
+import cn.jimoos.form.order.be.BeOrderQueryForm;
 import cn.jimoos.form.shipment.ShipmentDeliverForm;
 import cn.jimoos.service.OrderService;
 import cn.jimoos.service.ShipmentService;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.jimoos.utils.http.Page;
+import cn.jimoos.vo.OrderVO;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -27,6 +27,11 @@ public class BeOrderApi {
     OrderService orderService;
     @Resource
     ShipmentService shipmentService;
+
+    @GetMapping(value = "query", produces = "application/json; charset=utf-8")
+    public Page<OrderVO> queryTable(@ModelAttribute BeOrderQueryForm beOrderQueryForm) {
+        return orderService.qTable(beOrderQueryForm);
+    }
 
     /**
      * 商家发货

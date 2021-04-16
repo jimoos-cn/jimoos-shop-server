@@ -3,7 +3,9 @@ package cn.jimoos.service;
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.form.order.*;
+import cn.jimoos.form.order.be.BeOrderQueryForm;
 import cn.jimoos.user.model.UserAddress;
+import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.OrderVO;
 
 import java.util.List;
@@ -83,4 +85,12 @@ public interface OrderService {
      * @return order vo
      */
     OrderVO cancelOrderWrapperException(CancelForm cancelForm);
+
+    /**
+     * 查询订单列表
+     *
+     * @param beOrderQueryForm back-end order query form
+     * @return Page<OrderVO>
+     */
+    Page<OrderVO> qTable(BeOrderQueryForm beOrderQueryForm);
 }

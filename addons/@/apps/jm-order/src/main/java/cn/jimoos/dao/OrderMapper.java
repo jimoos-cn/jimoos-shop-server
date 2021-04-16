@@ -49,4 +49,21 @@ public interface OrderMapper {
      * @return 订单
      */
     List<Order> selectUnpaidOrders(@Param("expired") Long expired, @Param("status") int status);
+
+
+    /**
+     * 查询 Order 列表
+     *
+     * @param qm ,支持 ${startTime} - ${endTime} 的 ${status} |${orderType} | ${userId} 的 倒序分页查询
+     * @return List<Order>
+     */
+    List<Order> queryTable(Map<String, Object> qm);
+
+    /**
+     * 查询 Order 总数
+     *
+     * @param qm ,支持 ${startTime} - ${endTime} 的 ${status} |${orderType} | ${userId} 的 倒序分页查询
+     * @return long total
+     */
+    long queryTableCount(Map<String, Object> qm);
 }

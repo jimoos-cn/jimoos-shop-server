@@ -222,7 +222,19 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderVO cancelOrderWrapperException(CancelForm cancelForm) {
         try {
-            return cancelOrder(cancelForm);
+            if (cancelForm.getOrderId() == null) {
+                throw new BussException(OrderError.ORDER_NOT_FOUND);
+            }
+            OrderEntity orderEntity = orderRepository.findById(cancelForm.getOrderId());
+
+            if(orderEntity!=null){
+                orderEntity.cancel();
+
+                orderRepository.saveCancel(orderEntity);
+                OrderVO orderVo = new OrderVO();
+                BeanUtils.copyProperties(orderEntity, orderVo);
+                return orderVo;
+            }
         } catch (BussException e) {
             log.error("取消订单 发生异常{}", cancelForm.getOrderId());
         }

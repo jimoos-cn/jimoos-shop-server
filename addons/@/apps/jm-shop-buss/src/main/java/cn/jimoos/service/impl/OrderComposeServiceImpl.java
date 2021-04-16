@@ -104,4 +104,26 @@ public class OrderComposeServiceImpl implements OrderComposeService {
             }
         }
     }
+
+    @Override
+    public void cancelOrderExceptionWrapper(CancelForm cancelForm) {
+        OrderVO orderVO = orderService.cancelOrderWrapperException(cancelForm);
+
+        List<OrderItemDiscount> itemDiscounts = orderVO.getOrderDiscounts();
+        List<Long> couponRecordIds = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(itemDiscounts)) {
+            for (OrderItemDiscount orderItemDiscount : itemDiscounts) {
+                if (DiscountType.COUPON.equals(orderItemDiscount.getType())
+                        && !couponRecordIds.contains(orderItemDiscount.getDiscountId())) {
+                    //如果有优惠券使用 则被占用
+                    try {
+                        couponService.unOccupy(orderItemDiscount.getDiscountId());
+                    } catch (BussException e) {
+                        e.printStackTrace();
+                    }
+                    couponRecordIds.add(orderItemDiscount.getDiscountId());
+                }
+            }
+        }
+    }
 }

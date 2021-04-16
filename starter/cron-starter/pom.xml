@@ -36,7 +36,17 @@
 
         <dependency>
             <groupId>cn.jimoos</groupId>
+            <artifactId>jm-user</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
             <artifactId>jm-order</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-shop-buss</artifactId>
             <version>${project.version}</version>
         </dependency>
 

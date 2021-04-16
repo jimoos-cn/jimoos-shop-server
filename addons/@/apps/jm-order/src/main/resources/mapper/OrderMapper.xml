@@ -131,4 +131,13 @@
         order by create_at desc
         limit #{offset},#{limit}
     </select>
+    <select id="selectUnpaidOrders" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_order
+        where deleted = false
+          AND create_at &lt; #{expired}
+          AND status = #{status}
+        order by create_at desc
+    </select>
 </mapper>

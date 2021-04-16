@@ -38,4 +38,12 @@ public interface OrderComposeService {
      * @throws BussException OrderError
      */
     void cancelOrder(CancelForm cancelForm) throws BussException;
+
+    /**
+     * 取消订单 不抛出异常
+     *
+     * @param cancelForm 取消表单
+     * @throws BussException OrderError
+     */
+    void cancelOrderExceptionWrapper(CancelForm cancelForm);
 }

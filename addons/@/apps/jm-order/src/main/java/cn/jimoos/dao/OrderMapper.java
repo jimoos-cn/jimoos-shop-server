@@ -40,4 +40,13 @@ public interface OrderMapper {
      * @return List<Order>
      */
     List<Order> queryUserOrders(Map<String, Object> qm);
+
+    /**
+     * 获取 未支付的订单
+     *
+     * @param expired 过期时间
+     * @param status  状态
+     * @return 订单
+     */
+    List<Order> selectUnpaidOrders(@Param("expired") Long expired, @Param("status") int status);
 }

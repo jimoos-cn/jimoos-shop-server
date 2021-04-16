@@ -11,9 +11,9 @@ public class OrderProperties {
     public static final String KEY = "order.config";
     /**
      * 订单过期取消时间
-     * 一般默认 45 分钟,秒 为单位
+     * 一般默认 60 分钟,秒 为单位
      */
-    private Integer orderExpiredTime = 45 * 60;
+    private Integer orderExpiredTime = 3600;
     /**
      * 默认发货后 自动确认时间
      * 默认 14天 ，秒为单位

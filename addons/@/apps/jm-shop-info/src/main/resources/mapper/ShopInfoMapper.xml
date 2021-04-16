@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.ShopInfoMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.ShopInfo">
+        <!--@mbg.generated-->
+        <!--@Table t_shop_info-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="shop_intro" jdbcType="VARCHAR" property="shopIntro"/>
+        <result column="shop_phone" jdbcType="VARCHAR" property="shopPhone"/>
+        <result column="shop_email" jdbcType="VARCHAR" property="shopEmail"/>
+        <result column="shop_about" jdbcType="LONGVARCHAR" property="shopAbout"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, shop_name, shop_intro, shop_phone, shop_email, shop_about, create_at, update_at
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_shop_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete
+        from t_shop_info
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.ShopInfo"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_shop_info (shop_name, shop_intro, shop_phone,
+                                 shop_email, shop_about, create_at,
+                                 update_at)
+        values (#{shopName,jdbcType=VARCHAR}, #{shopIntro,jdbcType=VARCHAR}, #{shopPhone,jdbcType=VARCHAR},
+                #{shopEmail,jdbcType=VARCHAR}, #{shopAbout,jdbcType=LONGVARCHAR}, #{createAt,jdbcType=BIGINT},
+                #{updateAt,jdbcType=BIGINT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.ShopInfo">
+        <!--@mbg.generated-->
+        update t_shop_info
+        set shop_name  = #{shopName,jdbcType=VARCHAR},
+            shop_intro = #{shopIntro,jdbcType=VARCHAR},
+            shop_phone = #{shopPhone,jdbcType=VARCHAR},
+            shop_email = #{shopEmail,jdbcType=VARCHAR},
+            shop_about = #{shopAbout,jdbcType=LONGVARCHAR},
+            create_at  = #{createAt,jdbcType=BIGINT},
+            update_at  = #{updateAt,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_shop_info
+                (shop_name, shop_intro, shop_phone, shop_email, shop_about, create_at, update_at)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.shopName,jdbcType=VARCHAR}, #{item.shopIntro,jdbcType=VARCHAR}, #{item.shopPhone,jdbcType=VARCHAR},
+             #{item.shopEmail,jdbcType=VARCHAR}, #{item.shopAbout,jdbcType=LONGVARCHAR},
+             #{item.createAt,jdbcType=BIGINT},
+             #{item.updateAt,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <select id="selectOne" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_shop_info
+        order by create_at desc
+        limit 1
+    </select>
+</mapper>

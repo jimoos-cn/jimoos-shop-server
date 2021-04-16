@@ -1,6 +1,8 @@
 # 积墨开源商城 服务端代码
 
 ![Build Status](https://github.com/jimoos-cn/jimoos-shop-server/workflows/Java%20CI%20with%20Maven/badge.svg)
+![最近提交](https://img.shields.io/github/last-commit/jimoos-cn/jimoos-shop-server)
+![测试接口服务在线](https://img.shields.io/website?down_message=%E4%B8%8D%E5%9C%A8%E7%BA%BF&label=%E6%B5%8B%E8%AF%95API%E6%9C%8D%E5%8A%A1&url=http%3A%2F%2F150.158.189.200%3A9000%2Fv1%2Fpings)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->

@@ -10,7 +10,6 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>cn.jimoos</groupId>
     <artifactId>migration</artifactId>
     <version>0.0.1</version>
 
@@ -76,6 +75,11 @@
         <dependency>
             <groupId>cn.jimoos</groupId>
             <artifactId>jm-order</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-shop-info</artifactId>
             <version>${project.version}</version>
         </dependency>
 

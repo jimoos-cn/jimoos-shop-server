@@ -31,6 +31,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "DC-fan",
+      "name": "DC-fan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/54201996?v=4",
+      "profile": "https://github.com/DC-fan",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7

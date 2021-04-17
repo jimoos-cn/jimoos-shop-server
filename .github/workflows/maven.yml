@@ -40,6 +40,15 @@ jobs:
         dockerfile: docker/portal-Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
+    - name: Build Cron Image
+      run: docker build . -f docker/cron-Dockerfile -t jimoos/jimoos-shop-cron:$(date +%s)
+    - name: Publish Cron Starter To Docker Repository
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: jimoos/jimoos-shop-cron
+        dockerfile: docker/cron-Dockerfile
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build Migration Image
       run: docker build . -f docker/migration-Dockerfile -t jimoos/jimoos-shop-migration:$(date +%s)
     - name: Publish migration to Docker Repository

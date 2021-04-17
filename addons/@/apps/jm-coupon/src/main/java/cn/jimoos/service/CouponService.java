@@ -2,12 +2,14 @@ package cn.jimoos.service;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.UserCouponQueryForm;
+import cn.jimoos.form.UserSatisfyQueryForm;
 import cn.jimoos.form.be.*;
 import cn.jimoos.model.Coupon;
 import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.CouponRecordVO;
 import cn.jimoos.vo.UserCouponVO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -59,6 +61,32 @@ public interface CouponService {
      * @throws BussException ErrorCodeDefine.RECORD_NOT_EXISTS
      */
     List<UserCouponVO> queryUserCoupon(UserCouponQueryForm userCouponQueryForm) throws BussException;
+
+    /**
+     * 查询满足 查询条件的优惠券
+     *
+     * @param userSatisfyQueryForm satisfy query form
+     * @return List<UserCouponVO>
+     * @throws BussException ErrorCodeDefine.RECORD_NOT_EXISTS
+     */
+    List<UserCouponVO> querySatisfyCoupon(UserSatisfyQueryForm userSatisfyQueryForm) throws BussException;
+
+    /**
+     * 查找最优的 优惠券
+     *
+     * @param userId       userId
+     * @param totalRealPay 消费金额
+     * @return UserCouponVO 优惠券
+     */
+    UserCouponVO findBestOneCoupon(Long userId, BigDecimal totalRealPay);
+
+    /**
+     * 查找有效的用户优惠券
+     *
+     * @param couponRecordId 用户优惠券 ID
+     * @return UserCouponVO
+     */
+    UserCouponVO findValidCoupon(Long couponRecordId) throws BussException;
 
     /**
      * 添加优惠券

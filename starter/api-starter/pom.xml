@@ -69,6 +69,11 @@
         </dependency>
         <dependency>
             <groupId>cn.jimoos</groupId>
+            <artifactId>jm-shop-buss</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
             <artifactId>jm-product</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -76,6 +81,20 @@
             <groupId>cn.jimoos</groupId>
             <artifactId>jm-order</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-shop-info</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-miniapp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
         </dependency>
 
         <!--连接池-->

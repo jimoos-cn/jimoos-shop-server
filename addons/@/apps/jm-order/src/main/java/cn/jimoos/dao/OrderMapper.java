@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author :keepcleargas
@@ -31,4 +32,38 @@ public interface OrderMapper {
     List<Order> findExpireOrders(@Param("status") Byte status,
                                  @Param("cancelDuration") Long cancelDuration,
                                  @Param("now") Long now);
+
+    /**
+     * 查询 用户 订单 列表
+     *
+     * @param qm ,支持 ${userId} & ${status} 的 倒序分页查询
+     * @return List<Order>
+     */
+    List<Order> queryUserOrders(Map<String, Object> qm);
+
+    /**
+     * 获取 未支付的订单
+     *
+     * @param expired 过期时间
+     * @param status  状态
+     * @return 订单
+     */
+    List<Order> selectUnpaidOrders(@Param("expired") Long expired, @Param("status") int status);
+
+
+    /**
+     * 查询 Order 列表
+     *
+     * @param qm ,支持 ${startTime} - ${endTime} 的 ${status} |${orderType} | ${userId} 的 倒序分页查询
+     * @return List<Order>
+     */
+    List<Order> queryTable(Map<String, Object> qm);
+
+    /**
+     * 查询 Order 总数
+     *
+     * @param qm ,支持 ${startTime} - ${endTime} 的 ${status} |${orderType} | ${userId} 的 倒序分页查询
+     * @return long total
+     */
+    long queryTableCount(Map<String, Object> qm);
 }

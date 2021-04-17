@@ -1,81 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.jimoos.dao.OrderItemDiscountMapper">
-  <resultMap id="BaseResultMap" type="cn.jimoos.model.OrderItemDiscount">
-    <!--@mbg.generated-->
-    <!--@Table t_order_item_discount-->
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="des" jdbcType="VARCHAR" property="des" />
-    <result column="discount_id" jdbcType="BIGINT" property="discountId" />
-    <result column="discount" jdbcType="DECIMAL" property="discount" />
-    <result column="need_return" jdbcType="BOOLEAN" property="needReturn" />
-    <result column="return_type" jdbcType="VARCHAR" property="returnType" />
-    <result column="return_status" jdbcType="BOOLEAN" property="returnStatus" />
-    <result column="return_at" jdbcType="BIGINT" property="returnAt" />
-    <result column="order_id" jdbcType="BIGINT" property="orderId" />
-    <result column="order_item_id" jdbcType="BIGINT" property="orderItemId" />
-    <result column="extras" jdbcType="VARCHAR" property="extras" />
-    <result column="created" jdbcType="BIGINT" property="created" />
-    <result column="updated" jdbcType="BIGINT" property="updated" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    id, `type`, des, discount_id, discount, need_return, return_type, return_status, 
-    return_at, order_id, order_item_id, extras, created, updated
-  </sql>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.OrderItemDiscount" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into t_order_item_discount (`type`, des, discount_id, 
-      discount, need_return, return_type, 
-      return_status, return_at, order_id, 
-      order_item_id, extras, created, 
-      updated)
-    values (#{type,jdbcType=VARCHAR}, #{des,jdbcType=VARCHAR}, #{discountId,jdbcType=BIGINT}, 
-      #{discount,jdbcType=DECIMAL}, #{needReturn,jdbcType=BOOLEAN}, #{returnType,jdbcType=VARCHAR}, 
-      #{returnStatus,jdbcType=BOOLEAN}, #{returnAt,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, 
-      #{orderItemId,jdbcType=BIGINT}, #{extras,jdbcType=VARCHAR}, #{created,jdbcType=BIGINT}, 
-      #{updated,jdbcType=BIGINT})
-  </insert>
-  <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.OrderItemDiscount">
-    <!--@mbg.generated-->
-    update t_order_item_discount
-    set `type` = #{type,jdbcType=VARCHAR},
-      des = #{des,jdbcType=VARCHAR},
-      discount_id = #{discountId,jdbcType=BIGINT},
-      discount = #{discount,jdbcType=DECIMAL},
-      need_return = #{needReturn,jdbcType=BOOLEAN},
-      return_type = #{returnType,jdbcType=VARCHAR},
-      return_status = #{returnStatus,jdbcType=BOOLEAN},
-      return_at = #{returnAt,jdbcType=BIGINT},
-      order_id = #{orderId,jdbcType=BIGINT},
-      order_item_id = #{orderItemId,jdbcType=BIGINT},
-      extras = #{extras,jdbcType=VARCHAR},
-      created = #{created,jdbcType=BIGINT},
-      updated = #{updated,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into t_order_item_discount
-    (`type`, des, discount_id, discount, need_return, return_type, return_status, return_at, 
-      order_id, order_item_id, extras, created, updated)
-    values
-    <foreach collection="list" item="item" separator=",">
-      (#{item.type,jdbcType=VARCHAR}, #{item.des,jdbcType=VARCHAR}, #{item.discountId,jdbcType=BIGINT}, 
-        #{item.discount,jdbcType=DECIMAL}, #{item.needReturn,jdbcType=BOOLEAN}, #{item.returnType,jdbcType=VARCHAR}, 
-        #{item.returnStatus,jdbcType=BOOLEAN}, #{item.returnAt,jdbcType=BIGINT}, #{item.orderId,jdbcType=BIGINT}, 
-        #{item.orderItemId,jdbcType=BIGINT}, #{item.extras,jdbcType=VARCHAR}, #{item.created,jdbcType=BIGINT}, 
-        #{item.updated,jdbcType=BIGINT})
-    </foreach>
-  </insert>
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.OrderItemDiscount">
+        <!--@mbg.generated-->
+        <!--@Table t_order_item_discount-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="des" jdbcType="VARCHAR" property="des"/>
+        <result column="discount_id" jdbcType="BIGINT" property="discountId"/>
+        <result column="discount" jdbcType="DECIMAL" property="discount"/>
+        <result column="need_return" jdbcType="BOOLEAN" property="needReturn"/>
+        <result column="return_type" jdbcType="VARCHAR" property="returnType"/>
+        <result column="return_status" jdbcType="BOOLEAN" property="returnStatus"/>
+        <result column="return_at" jdbcType="BIGINT" property="returnAt"/>
+        <result column="order_id" jdbcType="BIGINT" property="orderId"/>
+        <result column="order_item_id" jdbcType="BIGINT" property="orderItemId"/>
+        <result column="extras" jdbcType="VARCHAR" property="extras"/>
+        <result column="created" jdbcType="BIGINT" property="created"/>
+        <result column="updated" jdbcType="BIGINT" property="updated"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, `type`, des, discount_id, discount, need_return, return_type, return_status,
+        return_at, order_id, order_item_id, extras, created, updated
+    </sql>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.OrderItemDiscount"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_order_item_discount (`type`, des, discount_id,
+                                           discount, need_return, return_type,
+                                           return_status, return_at, order_id,
+                                           order_item_id, extras, created,
+                                           updated)
+        values (#{type,jdbcType=VARCHAR}, #{des,jdbcType=VARCHAR}, #{discountId,jdbcType=BIGINT},
+                #{discount,jdbcType=DECIMAL}, #{needReturn,jdbcType=BOOLEAN}, #{returnType,jdbcType=VARCHAR},
+                #{returnStatus,jdbcType=BOOLEAN}, #{returnAt,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT},
+                #{orderItemId,jdbcType=BIGINT}, #{extras,jdbcType=VARCHAR}, #{created,jdbcType=BIGINT},
+                #{updated,jdbcType=BIGINT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.OrderItemDiscount">
+        <!--@mbg.generated-->
+        update t_order_item_discount
+        set `type`        = #{type,jdbcType=VARCHAR},
+            des           = #{des,jdbcType=VARCHAR},
+            discount_id   = #{discountId,jdbcType=BIGINT},
+            discount      = #{discount,jdbcType=DECIMAL},
+            need_return   = #{needReturn,jdbcType=BOOLEAN},
+            return_type   = #{returnType,jdbcType=VARCHAR},
+            return_status = #{returnStatus,jdbcType=BOOLEAN},
+            return_at     = #{returnAt,jdbcType=BIGINT},
+            order_id      = #{orderId,jdbcType=BIGINT},
+            order_item_id = #{orderItemId,jdbcType=BIGINT},
+            extras        = #{extras,jdbcType=VARCHAR},
+            created       = #{created,jdbcType=BIGINT},
+            updated       = #{updated,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_order_item_discount
+                (`type`, des, discount_id, discount, need_return, return_type, return_status, return_at,
+                 order_id, order_item_id, extras, created, updated)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.type,jdbcType=VARCHAR}, #{item.des,jdbcType=VARCHAR}, #{item.discountId,jdbcType=BIGINT},
+             #{item.discount,jdbcType=DECIMAL}, #{item.needReturn,jdbcType=BOOLEAN},
+             #{item.returnType,jdbcType=VARCHAR},
+             #{item.returnStatus,jdbcType=BOOLEAN}, #{item.returnAt,jdbcType=BIGINT}, #{item.orderId,jdbcType=BIGINT},
+             #{item.orderItemId,jdbcType=BIGINT}, #{item.extras,jdbcType=VARCHAR}, #{item.created,jdbcType=BIGINT},
+             #{item.updated,jdbcType=BIGINT})
+        </foreach>
+    </insert>
 
     <!--auto generated by MybatisCodeHelper on 2021-01-07-->
     <select id="findByOrderId" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from t_order_item_discount
         where order_id = #{orderId,jdbcType=BIGINT}
         order by created desc
+    </select>
+
+    <!--auto generated by MybatisCodeHelper on 2021-04-14-->
+    <select id="findByOrderIdIn" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_order_item_discount
+                where order_id in
+        <foreach item="item" index="index" collection="orderIdCollection"
+                 open="(" separator="," close=")">
+            #{item,jdbcType=BIGINT}
+        </foreach>
     </select>
 </mapper>

@@ -72,6 +72,9 @@ public class OrderItemForm {
         this.productId = productItem.getProductId();
         this.productCover = productItem.getProductCover();
         this.productName = productItem.getProductName();
+        this.skuId = productItem.getSkuId();
+        this.skuName = productItem.getSkuName();
+        this.skuCover = productItem.getSkuCover();
         this.number = number;
         this.productPrice = productItem.getPrice();
         this.productType = productItem.getProductType();

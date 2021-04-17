@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-shop-info
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: 商城介绍
+  Type: app
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

@@ -4,6 +4,7 @@ import cn.jimoos.model.OrderItemDiscount;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -39,10 +40,18 @@ public interface OrderItemDiscountMapper {
     int batchInsert(@Param("list") List<OrderItemDiscount> list);
 
     /**
-     * Find by order id list.
+     * Find list by order id .
      *
      * @param orderId the order id
      * @return the list
      */
     List<OrderItemDiscount> findByOrderId(@Param("orderId") Long orderId);
+
+    /**
+     * Find list by order id list
+     *
+     * @param orderIdCollection orderId list
+     * @return this list
+     */
+    List<OrderItemDiscount> findByOrderIdIn(@Param("orderIdCollection") Collection<Long> orderIdCollection);
 }

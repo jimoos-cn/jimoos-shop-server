@@ -3,8 +3,12 @@ package cn.jimoos.service;
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.form.order.*;
+import cn.jimoos.form.order.be.BeOrderQueryForm;
 import cn.jimoos.user.model.UserAddress;
+import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.OrderVO;
+
+import java.util.List;
 
 /**
  * @author :keepcleargas
@@ -19,7 +23,25 @@ public interface OrderService {
      * @return order vo
      * @throws BussException the buss exception
      */
-    OrderVO addShopOrder(OrderForm orderForm, UserAddress userAddress) throws BussException;
+    OrderVO addProductOrder(OrderForm orderForm, UserAddress userAddress) throws BussException;
+
+    /**
+     * 获取订单详情
+     *
+     * @param userId  user Id
+     * @param orderId order Id
+     * @return OrderVO
+     * @throws BussException OrderError.ORDER_NOT_FOUND
+     */
+    OrderVO getOne(Long userId, Long orderId) throws BussException;
+
+    /**
+     * 查询用户的订单列表
+     *
+     * @param form 表单
+     * @return List<OrderVO>
+     */
+    List<OrderVO> userOrders(UserOrderQueryForm form);
 
     /**
      * 发货
@@ -63,4 +85,12 @@ public interface OrderService {
      * @return order vo
      */
     OrderVO cancelOrderWrapperException(CancelForm cancelForm);
+
+    /**
+     * 查询订单列表
+     *
+     * @param beOrderQueryForm back-end order query form
+     * @return Page<OrderVO>
+     */
+    Page<OrderVO> qTable(BeOrderQueryForm beOrderQueryForm);
 }

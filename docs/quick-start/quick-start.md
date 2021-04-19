@@ -15,7 +15,6 @@
 ![下载压缩包](../_media/download.png)
 
 
-
 点击下载zip，解压到本地
 
 ### 数据库导入
@@ -29,13 +28,13 @@
 
    ![新建数据库](../_media/create_database.png)
 
-2. 修改数据库配置文件
+2. 修改数据库配置文件(当前在jimoos-shop-server目录下)
 
    ```shell
    vim migration/src/main/resources/application.yml  
-   // 当前在jimoos-shop-server目录下，在构建项目之前需要修改jimoos-shop-server/starter/api-starter/src/main/resources/application.yml以及jimoos-shop-server/starter/portal-starter/src/main/resources/application.yml中数据库相应的设置
    // 将spring.datasource.username和spring,dataroutce.password修改为自己的username,password
    ```
+   **在构建项目之前需要修改各个模块中对应application.yml数据库相应的设置**
 
    ![配置文件](../_media/database_setting.png)
 

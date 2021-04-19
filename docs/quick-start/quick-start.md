@@ -28,7 +28,7 @@
 
    ![新建数据库](../_media/create_database.png)
 
-2. 修改数据库配置文件(当前在jimoos-shop-server目录下)
+2. 修改数据库配置文件(当前在jimoos-shop-server目录下)  
 
    ```shell
    vim migration/src/main/resources/application.yml  

@@ -8,6 +8,8 @@ import lombok.Data;
  */
 @Data
 public class DiscountType {
+    public static final String COUPON = "COUPON";
+    public static final DiscountType COUPON_TYPE = new DiscountType(COUPON, "优惠券", true);
     /**
      * code 比如:COUPON
      */

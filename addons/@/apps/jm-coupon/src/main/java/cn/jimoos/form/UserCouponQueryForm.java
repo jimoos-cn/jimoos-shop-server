@@ -2,6 +2,8 @@ package cn.jimoos.form;
 
 import cn.jimoos.utils.form.AbstractUserPageForm4L;
 import com.google.common.collect.Maps;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Map;
 
@@ -11,6 +13,8 @@ import java.util.Map;
  * @author :keepcleargas
  * @date :2021-03-27 18:57.
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class UserCouponQueryForm extends AbstractUserPageForm4L {
     /**
      * 优惠券状态  -1 所有  0 有效  1 已使用 | 过期了

@@ -2,6 +2,7 @@ package cn.jimoos.rest;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.UserCouponQueryForm;
+import cn.jimoos.form.UserSatisfyQueryForm;
 import cn.jimoos.service.CouponService;
 import cn.jimoos.vo.UserCouponVO;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,17 @@ public class CouponApi {
     @GetMapping(value = "byUserId", produces = "application/json; charset=utf-8")
     public List<UserCouponVO> byUserId(@ModelAttribute UserCouponQueryForm form) throws BussException {
         return couponService.queryUserCoupon(form);
+    }
+
+    /**
+     * 查询满足满键条件的优惠券,按满减金额 从大到小
+     *
+     * @param form User Coupon Satisfy Query Form
+     * @return List<UserCouponVO>
+     */
+    @GetMapping(value = "/satisfy", produces = "application/json; charset=utf-8")
+    public List<UserCouponVO> byUserId(@ModelAttribute UserSatisfyQueryForm form) throws BussException {
+        return couponService.querySatisfyCoupon(form);
     }
 
     /**

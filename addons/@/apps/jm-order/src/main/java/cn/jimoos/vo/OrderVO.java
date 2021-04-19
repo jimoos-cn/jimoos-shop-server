@@ -18,13 +18,10 @@ public class OrderVO extends Order {
     List<OrderItem> orderItems;
     List<OrderItemDiscount> orderDiscounts;
     List<OrderItemFee> orderItemFees;
-    Shipment orderShip;
+    Shipment shipment;
 
     public static OrderVO fromEntity(OrderEntity orderEntity) {
         OrderVO orderVo = new OrderVO();
-        orderVo.setOrderItems(orderEntity.getOrderItems());
-        orderVo.setOrderDiscounts(orderEntity.getOrderDiscounts());
-        orderVo.setOrderItemFees(orderEntity.getOrderItemFeeInputs());
         orderVo.setId(orderEntity.getId());
         orderVo.setOrderNum(orderEntity.getOrderNum());
         orderVo.setSubject(orderEntity.getSubject());
@@ -44,16 +41,16 @@ public class OrderVO extends Order {
         orderVo.setCreateAt(orderEntity.getCreateAt());
         orderVo.setUpdateAt(orderEntity.getUpdateAt());
         orderVo.setDeleted(false);
+
+        orderVo.setOrderItems(orderEntity.getOrderItems());
+        orderVo.setOrderDiscounts(orderEntity.getOrderDiscounts());
+        orderVo.setOrderItemFees(orderEntity.getOrderItemFees());
         return orderVo;
     }
 
     public static OrderVO fromEntity(ShopOrderEntity shopOrderEntity) {
         OrderVO orderVo = new OrderVO();
         orderVo.setId(shopOrderEntity.getId());
-        orderVo.setOrderItems(shopOrderEntity.getOrderItems());
-        orderVo.setOrderDiscounts(shopOrderEntity.getOrderDiscounts());
-        orderVo.setOrderItemFees(shopOrderEntity.getOrderItemFeeInputs());
-        orderVo.setOrderShip(shopOrderEntity.getShipment());
         orderVo.setOrderNum(shopOrderEntity.getOrderNum());
         orderVo.setSubject(shopOrderEntity.getSubject());
         orderVo.setOrderType(shopOrderEntity.getOrderType());
@@ -72,6 +69,11 @@ public class OrderVO extends Order {
         orderVo.setCreateAt(shopOrderEntity.getCreateAt());
         orderVo.setUpdateAt(shopOrderEntity.getUpdateAt());
         orderVo.setDeleted(false);
+
+        orderVo.setShipment(shopOrderEntity.getShipment());
+        orderVo.setOrderItems(shopOrderEntity.getOrderItems());
+        orderVo.setOrderDiscounts(shopOrderEntity.getOrderDiscounts());
+        orderVo.setOrderItemFees(shopOrderEntity.getOrderItemFees());
         return orderVo;
     }
 }

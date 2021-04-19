@@ -4,6 +4,7 @@ import cn.jimoos.model.CouponRecord;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,23 @@ public interface CouponRecordMapper {
      * @return List<CouponRecord>
      */
     List<CouponRecord> queryUserRecords(Map<String, Object> qm);
+
+    /**
+     * 查询满足条件的优惠券列表
+     *
+     * @param qm ,支持 ${userId}/${beyond} 的 最优解倒序分页查询
+     * @return List<CouponRecord>
+     */
+    List<CouponRecord> querySatisfyRecords(Map<String, Object> qm);
+
+    /**
+     * 获取 最优的优惠券
+     *
+     * @param userId user id
+     * @param beyond 满多少钱
+     * @return 优惠券
+     */
+    CouponRecord findBestOneCouponRecord(@Param("userId") Long userId, @Param("beyond") BigDecimal beyond);
 
     /**
      * 查询 CouponRecord 列表

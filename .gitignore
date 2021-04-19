@@ -10,7 +10,7 @@ out
 gen
 rebel.xml
 node_modules/
-package.json
+#package.json
 target/
 !.mvn/wrapper/maven-wrapper.jar
 

@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-shop-buss
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: 商店业务
+  Type: app
+  DependOns: jm-order,jm-product
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

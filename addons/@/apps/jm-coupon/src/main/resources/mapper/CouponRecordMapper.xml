@@ -95,6 +95,47 @@
         order by create_at desc
         limit #{offset},#{limit}
     </select>
+    <select id="querySatisfyRecords" resultMap="BaseResultMap">
+        select tcr.id,
+               tcr.coupon_id,
+               tcr.user_id,
+               tcr.`status`,
+               tcr.expired,
+               tcr.create_at,
+               tcr.update_at,
+               tcr.deleted
+        from t_coupon_record tcr
+                     JOIN t_coupon tc on tcr.coupon_id = tc.id
+                where tcr.deleted = false
+                  AND tcr.expired &gt; #{now}
+                  AND tcr.status = 0
+        <if test="userId != null">
+            AND tcr.user_id = #{userId}
+        </if>
+        order by tc.reduce_money desc
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="findBestOneCouponRecord" resultMap="BaseResultMap">
+        select tcr.id,
+               tcr.coupon_id,
+               tcr.user_id,
+               tcr.`status`,
+               tcr.expired,
+               tcr.create_at,
+               tcr.update_at,
+               tcr.deleted
+        from t_coupon_record tcr
+                     JOIN t_coupon tc
+                on tcr.coupon_id = tc.id
+        where tc.deleted = false
+          AND tcr.status = false
+          AND tcr.expired &gt; unix_timestamp(now())
+          AND tcr.user_id = #{userId}
+          AND tc.full_money &gt;= #{beyond}
+        order by reduce_money desc
+        limit 1
+    </select>
 
     <select id="queryTable" resultMap="BaseResultMap">
         select

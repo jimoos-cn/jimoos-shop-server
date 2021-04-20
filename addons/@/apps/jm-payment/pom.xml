@@ -3,34 +3,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>jm-build-parent</artifactId>
+        <artifactId>jm-addons-parent</artifactId>
         <groupId>cn.jimoos</groupId>
         <version>0.0.1</version>
-        <relativePath>../build-parent/pom.xml</relativePath>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>migration</artifactId>
+
+    <groupId>cn.jimoos</groupId>
+    <artifactId>jm-payment</artifactId>
     <version>0.0.1</version>
 
-    <name>migration</name>
+    <name>jm-payment</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <liquibase-core.version>3.6.3</liquibase-core.version>
-        <sonar.projectKey>jimoos-shop-server</sonar.projectKey>
-        <sonar.moduleKey>${project.groupId}:${project.artifactId}:${sonar.projectKey}</sonar.moduleKey>
     </properties>
 
     <dependencies>
-        <!--liquibase 数据初始化和升级 -->
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>${liquibase-core.version}</version>
-        </dependency>
         <dependency>
             <!-- Import dependency management from Spring Boot -->
             <groupId>org.springframework.boot</groupId>
@@ -38,54 +30,6 @@
             <type>pom</type>
             <version>2.1.13.RELEASE</version>
             <scope>import</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-ping</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-settings</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-user</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-coupon</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-banner</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-product</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-order</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-shop-info</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-payment</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -105,26 +49,30 @@
             <artifactId>spring-web</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-spi-registry</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!--连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
         </dependency>
-        <!--mysql 数据驱动-->
+        <!--数据库驱动-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <!--使用postgreSql时引入-->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
-
 
         <!-- validate-->
         <dependency>
@@ -147,10 +95,13 @@
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -167,22 +118,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

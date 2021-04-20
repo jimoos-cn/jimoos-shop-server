@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-payment
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: 支付管理
+  Type: app
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

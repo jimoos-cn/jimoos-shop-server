@@ -1,0 +1,12 @@
+Addon:
+  Name: jm-admin
+  Ref: jimoos-shop-server
+  SourceType: git
+  Source: 
+  Description: 后台管理模块
+  Type: app
+  DependOns: 
+  Conflicts: 
+  Migrations: 
+  Docs: 
+  DataSources: 

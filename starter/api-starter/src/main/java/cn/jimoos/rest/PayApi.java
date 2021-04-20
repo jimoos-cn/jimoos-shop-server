@@ -12,4 +12,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/v1/payments")
 @Slf4j
 public class PayApi {
+    
 }

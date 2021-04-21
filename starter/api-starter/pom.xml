@@ -87,6 +87,11 @@
             <artifactId>jm-shop-info</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-payment</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.github.binarywang</groupId>

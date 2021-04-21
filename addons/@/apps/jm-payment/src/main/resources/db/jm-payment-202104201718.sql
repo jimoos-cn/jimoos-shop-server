@@ -19,6 +19,5 @@ CREATE TABLE `t_payment`
     `deleted`      tinyint(1)     NOT NULL DEFAULT '0' COMMENT '0 未删除 1 已删除',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 2
   DEFAULT CHARSET = utf8mb4 COMMENT ='支付表';
 

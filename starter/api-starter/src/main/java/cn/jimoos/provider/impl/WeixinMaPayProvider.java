@@ -7,6 +7,7 @@ import com.github.binarywang.wxpay.bean.request.BaseWxPayRequest;
 import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderResult;
 import com.github.binarywang.wxpay.service.WxPayService;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @author :keepcleargas
  * @date :2021-04-20 20:35.
  */
+@Component
 public class WeixinMaPayProvider implements PayProvider {
     @Resource
     WxPayService wxPayService;

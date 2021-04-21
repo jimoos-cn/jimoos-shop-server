@@ -2,6 +2,7 @@ package cn.jimoos;
 
 import static org.junit.Assert.assertTrue;
 
+import cn.jimoos.utils.encrypt.BCrypt;
 import org.junit.Test;
 
 /**

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.AdminLoginLogMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.AdminLoginLog">
+        <!--@mbg.generated-->
+        <!--@Table t_admin_login_log-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="admin_id" jdbcType="BIGINT" property="adminId"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="agent" jdbcType="VARCHAR" property="agent"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, admin_id, ip, agent, create_at
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_admin_login_log
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from t_admin_login_log
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.AdminLoginLog"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_admin_login_log (admin_id, ip, agent,
+        create_at)
+        values (#{adminId,jdbcType=BIGINT}, #{ip,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR},
+        #{createAt,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.AdminLoginLog"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_admin_login_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adminId != null">
+                admin_id,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="agent != null">
+                agent,
+            </if>
+            <if test="createAt != null">
+                create_at,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adminId != null">
+                #{adminId,jdbcType=BIGINT},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="agent != null">
+                #{agent,jdbcType=VARCHAR},
+            </if>
+            <if test="createAt != null">
+                #{createAt,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.jimoos.model.AdminLoginLog">
+        <!--@mbg.generated-->
+        update t_admin_login_log
+        <set>
+            <if test="adminId != null">
+                admin_id = #{adminId,jdbcType=BIGINT},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="agent != null">
+                agent = #{agent,jdbcType=VARCHAR},
+            </if>
+            <if test="createAt != null">
+                create_at = #{createAt,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.AdminLoginLog">
+        <!--@mbg.generated-->
+        update t_admin_login_log
+        set admin_id = #{adminId,jdbcType=BIGINT},
+        ip = #{ip,jdbcType=VARCHAR},
+        agent = #{agent,jdbcType=VARCHAR},
+        create_at = #{createAt,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_admin_login_log
+        (admin_id, ip, agent, create_at)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.adminId,jdbcType=BIGINT}, #{item.ip,jdbcType=VARCHAR}, #{item.agent,jdbcType=VARCHAR},
+            #{item.createAt,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.AdminTokenMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.AdminToken">
+        <!--@mbg.generated-->
+        <!--@Table t_admin_token-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="admin_id" jdbcType="BIGINT" property="adminId"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="expired" jdbcType="BIGINT" property="expired"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, admin_id, token, ip,expired, create_at
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_admin_token
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        <!--@mbg.generated-->
+        delete from t_admin_token
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.AdminToken"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_admin_token (admin_id, token, ip,expired, create_at)
+        values (#{adminId,jdbcType=BIGINT}, #{token,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR},
+        #{expired,jdbcType=BIGINT}, #{createAt,jdbcType=BIGINT})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.AdminToken"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_admin_token
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adminId != null">
+                admin_id,
+            </if>
+            <if test="token != null">
+                token,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="expired != null">
+                expired,
+            </if>
+            <if test="createAt != null">
+                create_at,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adminId != null">
+                #{adminId,jdbcType=BIGINT},
+            </if>
+            <if test="token != null">
+                #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="expired != null">
+                #{expired,jdbcType=BIGINT},
+            </if>
+            <if test="created != null">
+                #{createAt,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="cn.jimoos.model.AdminToken">
+        <!--@mbg.generated-->
+        update t_admin_token
+        <set>
+            <if test="adminId != null">
+                admin_id = #{adminId,jdbcType=BIGINT},
+            </if>
+            <if test="token != null">
+                token = #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="expired != null">
+                expired = #{expired,jdbcType=BIGINT},
+            </if>
+            <if test="createAt != null">
+                create_at = #{createAt,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.AdminToken">
+        <!--@mbg.generated-->
+        update t_admin_token
+        set admin_id = #{adminId,jdbcType=BIGINT},
+        token = #{token,jdbcType=VARCHAR},
+        ip = #{ip,jdbcType=VARCHAR},
+        expired = #{expired,jdbcType=BIGINT},
+        create_at = #{createAt,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_admin_token
+        (admin_id, token, ip,expired, create_at)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.adminId,jdbcType=BIGINT}, #{item.token,jdbcType=VARCHAR}, #{item.ip,jdbcType=VARCHAR},
+            #{item.expired,jdbcType=BIGINT}, #{item.createAt,jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+    <select id="findByAdminIdValid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_admin_token
+        where admin_id = #{adminId}
+          AND expired <![CDATA[>]]> #{now}
+        ORDER BY id DESC
+        LIMIT 1
+    </select>
+    <select id="findByTokenValid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_admin_token
+        where token = #{token}
+        AND expired <![CDATA[>]]> #{now}
+        ORDER BY id DESC
+        LIMIT 1
+    </select>
+</mapper>

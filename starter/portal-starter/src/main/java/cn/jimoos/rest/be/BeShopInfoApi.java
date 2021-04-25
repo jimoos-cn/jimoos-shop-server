@@ -3,10 +3,7 @@ package cn.jimoos.rest.be;
 import cn.jimoos.form.be.BeShopInfoForm;
 import cn.jimoos.model.ShopInfo;
 import cn.jimoos.service.ShopInfoService;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -28,5 +25,15 @@ public class BeShopInfoApi {
     @PostMapping(produces = "application/json; charset=utf-8")
     public ShopInfo getShopInfo(@ModelAttribute BeShopInfoForm shopInfoForm) {
         return shopInfoService.saveShopInfo(shopInfoForm);
+    }
+
+    /**
+     * 获取商城 介绍信息
+     *
+     * @return ShopInfo
+     */
+    @GetMapping(produces = "application/json; charset=utf-8")
+    public ShopInfo getShopInfo() {
+        return shopInfoService.getOne();
     }
 }

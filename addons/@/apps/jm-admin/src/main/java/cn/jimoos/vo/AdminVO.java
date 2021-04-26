@@ -7,7 +7,7 @@ import lombok.Data;
  * @date :2021-04-26 20:29.
  */
 @Data
-public class AdminVo {
+public class AdminVO {
     private Long id;
     private String username;
     private String token;

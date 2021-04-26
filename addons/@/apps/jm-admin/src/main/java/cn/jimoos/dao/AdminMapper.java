@@ -34,4 +34,20 @@ public interface AdminMapper {
     List<Admin> findAdmins(Map map);
 
     List<Admin> findByIdIn(@Param("idCollection") Collection<Long> idCollection);
+
+    /**
+     * 查询 Admin 列表
+     *
+     * @param qm ,支持  ${name} 的 倒序分页查询
+     * @return List<Admin>
+     */
+    List<Admin> queryTable(Map<String, Object> qm);
+
+    /**
+     * 查询 Admin 总数
+     *
+     * @param qm ,支持  ${name} 的 倒序分页查询
+     * @return long total
+     */
+    long queryTableCount(Map<String, Object> qm);
 }

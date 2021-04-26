@@ -6,14 +6,19 @@ import cn.jimoos.entity.AdminEntity;
 import cn.jimoos.error.AdminError;
 import cn.jimoos.factory.AdminFactory;
 import cn.jimoos.form.*;
+import cn.jimoos.model.Admin;
 import cn.jimoos.model.AdminLoginLog;
 import cn.jimoos.repository.AdminRepository;
-import cn.jimoos.vo.AdminVo;
+import cn.jimoos.service.AdminService;
+import cn.jimoos.utils.http.Page;
+import cn.jimoos.vo.AdminVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Admin service.
@@ -22,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date :2021-04-26
  */
 @Service
-public class AdminServiceImpl {
+public class AdminServiceImpl implements AdminService {
     /**
      * The Admin repository.
      */
@@ -41,15 +46,9 @@ public class AdminServiceImpl {
     @Resource
     AdminMapper adminMapper;
 
-    /**
-     * Login admin vo.
-     *
-     * @param request        the request
-     * @param adminLoginForm the admin login form
-     * @return admin vo
-     * @throws BussException the buss exception
-     */
-    public AdminVo login(HttpServletRequest request, AdminLoginForm adminLoginForm) throws BussException {
+
+    @Override
+    public AdminVO login(HttpServletRequest request, AdminLoginForm adminLoginForm) throws BussException {
         AdminEntity adminEntity = adminRepository.findByAccount(adminLoginForm.getAccount());
         if (adminEntity == null) {
             throw new BussException(AdminError.ADMIN_NOT_EXIST);
@@ -64,7 +63,7 @@ public class AdminServiceImpl {
             Long now = System.currentTimeMillis();
             String ip = (String) request.getAttribute("ip");
             String userAgent = (String) request.getAttribute("agent");
-            AdminVo adminVo = new AdminVo();
+            AdminVO adminVo = new AdminVO();
             BeanUtils.copyProperties(adminEntity, adminVo);
             adminVo.setToken(adminEntity.newToken(ip).getToken());
 
@@ -80,32 +79,22 @@ public class AdminServiceImpl {
         }
     }
 
-    /**
-     * 创建管理员
-     *
-     * @param adminCreateFrom the admin create from
-     * @return AdminVo admin vo
-     * @throws BussException the buss exception
-     */
-    public AdminVo create(AdminCreateFrom adminCreateFrom) throws BussException {
+
+    @Override
+    public AdminVO create(AdminCreateFrom adminCreateFrom) throws BussException {
         AdminEntity adminEntity = adminRepository.findByAccount(adminCreateFrom.getAccount());
         if (adminEntity != null) {
             throw new BussException(AdminError.ACCOUNT_EXIST);
         } else {
             adminEntity = adminFactory.createAdmin(adminCreateFrom.getAccount(), adminCreateFrom.getPwd());
             adminRepository.saveAdmin(adminEntity);
-            AdminVo adminVo = new AdminVo();
+            AdminVO adminVo = new AdminVO();
             BeanUtils.copyProperties(adminEntity, adminVo);
             return adminVo;
         }
     }
 
-    /**
-     * 删除管理员
-     *
-     * @param adminDeleteForm the admin delete form
-     * @throws BussException the buss exception
-     */
+    @Override
     public void delete(AdminDeleteForm adminDeleteForm) throws BussException {
         AdminEntity adminEntity = adminRepository.findById(adminDeleteForm.getToDeleteAdminId());
         if (adminEntity == null) {
@@ -116,12 +105,8 @@ public class AdminServiceImpl {
         }
     }
 
-    /**
-     * 更新密码
-     *
-     * @param adminUpdatePwdForm the admin update pwd form
-     * @throws BussException the buss exception
-     */
+
+    @Override
     public void updatePwd(AdminUpdatePwdForm adminUpdatePwdForm) throws BussException {
         AdminEntity adminEntity;
         if (adminUpdatePwdForm.getToUpdateAdminId() == null || adminUpdatePwdForm.getToUpdateAdminId() == 0) {
@@ -139,12 +124,8 @@ public class AdminServiceImpl {
         }
     }
 
-    /**
-     * Ban admin.
-     *
-     * @param adminBanForm the admin ban form
-     * @throws BussException the buss exception
-     */
+
+    @Override
     public void ban(AdminBanForm adminBanForm) throws BussException {
         AdminEntity adminEntity = adminRepository.findById(adminBanForm.getToBanAdminId());
         if (adminEntity == null) {
@@ -153,5 +134,22 @@ public class AdminServiceImpl {
             adminEntity.setBan(adminBanForm.getBan());
             adminRepository.saveAdmin(adminEntity);
         }
+    }
+
+    @Override
+    public Page<AdminVO> query(AdminQueryForm form) {
+        long count = adminMapper.queryTableCount(form.toQueryMap());
+
+        if (count > 0) {
+            List<Admin> adminList = adminMapper.queryTable(form.toQueryMap());
+
+            List<AdminVO> adminVOs = adminList.stream().map(admin -> {
+                AdminVO adminVO = new AdminVO();
+                BeanUtils.copyProperties(admin, adminVO);
+                return adminVO;
+            }).collect(Collectors.toList());
+            return Page.create(count, adminVOs);
+        }
+        return Page.empty();
     }
 }

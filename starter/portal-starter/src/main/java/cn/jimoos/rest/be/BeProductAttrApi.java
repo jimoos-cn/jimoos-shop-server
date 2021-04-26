@@ -40,7 +40,7 @@ public class BeProductAttrApi {
      * @return ProductAttr
      */
     @PostMapping(produces = "application/json; charset=utf-8")
-    public ProductAttrVO add(@ModelAttribute BeProductAttrForm form) {
+    public ProductAttrVO add(@RequestBody BeProductAttrForm form) {
         return productAttrService.addAttr(form);
     }
 
@@ -52,7 +52,7 @@ public class BeProductAttrApi {
      * @throws BussException ProductError.ATTR_NOT_FOUND
      */
     @PostMapping(value = "/{id}", produces = "application/json; charset=utf-8")
-    public ProductAttrVO update(@ModelAttribute BeProductAttrForm form) throws BussException {
+    public ProductAttrVO update(@RequestBody BeProductAttrForm form) throws BussException {
         return productAttrService.updateAttr(form);
     }
 

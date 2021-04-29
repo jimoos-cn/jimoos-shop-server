@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.RCollectionProductMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.RCollectionProduct">
+        <!--@mbg.generated-->
+        <!--@Table r_collection_product-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="product_id" jdbcType="BIGINT" property="productId"/>
+        <result column="collection_id" jdbcType="BIGINT" property="collectionId"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, product_id, collection_id, sort, create_at
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from r_collection_product
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.RCollectionProduct"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into r_collection_product (product_id, collection_id, sort,
+                                          create_at)
+        values (#{productId,jdbcType=BIGINT}, #{collectionId,jdbcType=BIGINT}, #{sort,jdbcType=INTEGER},
+                #{createAt,jdbcType=BIGINT})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.RCollectionProduct">
+        <!--@mbg.generated-->
+        update r_collection_product
+        set product_id    = #{productId,jdbcType=BIGINT},
+            collection_id = #{collectionId,jdbcType=BIGINT},
+            sort          = #{sort,jdbcType=INTEGER},
+            create_at     = #{createAt,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into r_collection_product
+                (product_id, collection_id, sort, create_at)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.productId,jdbcType=BIGINT}, #{item.collectionId,jdbcType=BIGINT}, #{item.sort,jdbcType=INTEGER},
+             #{item.createAt,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+    <select id="queryTable" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from r_collection_product
+                where 1 = 1
+        <if test="collectionId != null">
+            AND collection_id = #{collectionId}
+        </if>
+        order by sort asc, create_at desc
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="queryTableCount" resultType="long">
+        select count(id)
+        from r_collection_product
+                where 1 = 1
+        <if test="collectionId != null">
+            AND collection_id = #{collectionId}
+        </if>
+    </select>
+</mapper>

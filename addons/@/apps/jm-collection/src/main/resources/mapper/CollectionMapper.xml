@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.CollectionMapper">
+    <resultMap id="BaseResultMap" type="cn.jimoos.model.Collection">
+        <!--@mbg.generated-->
+        <!--@Table t_collection-->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="sub_title" jdbcType="VARCHAR" property="subTitle"/>
+        <result column="recommend" jdbcType="BOOLEAN" property="recommend"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="status" jdbcType="BOOLEAN" property="status"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="deleted" jdbcType="BOOLEAN" property="deleted"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, title, sub_title, recommend, sort, `status`, `type`, create_at, update_at, deleted
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_collection
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.Collection"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_collection (title, sub_title, recommend,
+                                  sort, `status`, `type`,
+                                  create_at, update_at, deleted)
+        values (#{title,jdbcType=VARCHAR}, #{subTitle,jdbcType=VARCHAR}, #{recommend,jdbcType=BOOLEAN},
+                #{sort,jdbcType=INTEGER}, #{status,jdbcType=BOOLEAN}, #{type,jdbcType=INTEGER},
+                #{createAt,jdbcType=BIGINT}, #{updateAt,jdbcType=BIGINT}, #{deleted,jdbcType=BOOLEAN})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.Collection">
+        <!--@mbg.generated-->
+        update t_collection
+        set title     = #{title,jdbcType=VARCHAR},
+            sub_title = #{subTitle,jdbcType=VARCHAR},
+            recommend = #{recommend,jdbcType=BOOLEAN},
+            sort      = #{sort,jdbcType=INTEGER},
+            `status`  = #{status,jdbcType=BOOLEAN},
+            `type`    = #{type,jdbcType=INTEGER},
+            create_at = #{createAt,jdbcType=BIGINT},
+            update_at = #{updateAt,jdbcType=BIGINT},
+            deleted   = #{deleted,jdbcType=BOOLEAN}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_collection
+                (title, sub_title, recommend, sort, `status`, `type`, create_at, update_at, deleted)
+                values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.title,jdbcType=VARCHAR}, #{item.subTitle,jdbcType=VARCHAR}, #{item.recommend,jdbcType=BOOLEAN},
+             #{item.sort,jdbcType=INTEGER}, #{item.status,jdbcType=BOOLEAN}, #{item.type,jdbcType=INTEGER},
+             #{item.createAt,jdbcType=BIGINT}, #{item.updateAt,jdbcType=BIGINT}, #{item.deleted,jdbcType=BOOLEAN})
+        </foreach>
+    </insert>
+
+    <select id="queryTable" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_collection
+                where deleted = false
+        <if test="name != null">
+            <bind name="bind" value="'%' + name + '%'"/>
+            AND title like #{bind}
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+        order by sort asc, create_at desc
+        limit #{offset},#{limit}
+    </select>
+
+    <select id="queryTableCount" resultType="long">
+        select count(id)
+        from t_collection
+                where deleted = false
+        <if test="name != null">
+            <bind name="bind" value="'%' + name + '%'"/>
+            AND title like #{bind}
+        </if>
+        <if test="status != null">
+            AND status = #{status}
+        </if>
+    </select>
+</mapper>

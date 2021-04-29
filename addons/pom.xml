@@ -31,6 +31,7 @@
         <module>@/apps/jm-order</module>
         <module>@/apps/jm-payment</module>
         <module>@/apps/jm-product</module>
+        <module>@/apps/jm-collection</module>
         <module>@/apps/jm-shop-buss</module>
         <module>@/apps/jm-shop-info</module>
         <module>@/apps/jm-user</module>

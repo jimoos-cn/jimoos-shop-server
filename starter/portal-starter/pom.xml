@@ -74,6 +74,11 @@
             <artifactId>jm-admin</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-collection</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -85,13 +85,39 @@ public interface CollectionService {
      */
     void deleteCollection(BeCollectionIdForm beCollectionIdForm) throws BussException;
 
+    /**
+     * 查找集合内的商品
+     *
+     * @param beCollectionIdForm 表单
+     * @return Page<RCollectionProduct>
+     */
     Page<RCollectionProduct> findByCollectionIdPage(BeCollectionIdForm beCollectionIdForm);
 
-    int addRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm);
+    /**
+     * 添加商品到集合
+     *
+     * @param beRCollectionProductForm form
+     */
+    void addRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm);
 
-    int updateRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm);
+    /**
+     * 更新排序
+     *
+     * @param beRCollectionProductForm form
+     */
+    void updateRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm);
 
-    int batchUpdateRCollectionProducts(BeBatchUpdateForm beBatchUpdateForm);
+    /**
+     * 批量更新 移除原商品
+     *
+     * @param beBatchUpdateForm back-end batch update form
+     */
+    void batchUpdateRCollectionProducts(BeBatchUpdateForm beBatchUpdateForm);
 
-    int removeRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm);
+    /**
+     * 移除 原商品
+     *
+     * @param beRCollectionProductForm back-end collection product delete form
+     */
+    void removeRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm);
 }

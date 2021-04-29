@@ -13,5 +13,6 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class BeBatchUpdateForm extends AbstractAdminForm4L {
+    private Long collectionId;
     private List<BeRCollectionProductForm> collectionProductForms;
 }

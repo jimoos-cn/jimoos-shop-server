@@ -21,6 +21,20 @@ public interface RCollectionProductMapper {
 
     int batchInsert(@Param("list") List<RCollectionProduct> list);
 
+    int deleteById(@Param("id")Long id);
+
+    /**
+     * find one by collectionId and productId
+     *
+     * @param collectionId 集合 ID
+     * @param productId    商品 ID
+     * @return RCollectionProduct
+     */
+    RCollectionProduct findOneByCollectionIdAndProductId(@Param("collectionId") Long collectionId, @Param("productId") Long productId);
+
+    int deleteByCollectionId(@Param("collectionId")Long collectionId);
+
+
     /**
      * 查询 RCollectionProduct 列表
      *

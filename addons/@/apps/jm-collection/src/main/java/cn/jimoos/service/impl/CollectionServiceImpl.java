@@ -119,23 +119,34 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public int addRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm) {
-        return 0;
+    public void addRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm) {
+        CollectionEntity collectionEntity = collectionRepository.findById(beRCollectionProductForm.getCollectionId());
+
+        collectionEntity.addProduct(beRCollectionProductForm);
+        collectionRepository.saveProducts(collectionEntity);
     }
 
     @Override
-    public int updateRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm) {
-        return 0;
+    public void updateRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm) {
+        CollectionEntity collectionEntity = collectionRepository.findById(beRCollectionProductForm.getCollectionId());
+
+        collectionEntity.updateProduct(beRCollectionProductForm);
+        collectionRepository.saveProducts(collectionEntity);
     }
 
     @Override
-    public int batchUpdateRCollectionProducts(BeBatchUpdateForm beBatchUpdateForm) {
-        return 0;
+    public void batchUpdateRCollectionProducts(BeBatchUpdateForm beBatchUpdateForm) {
+        CollectionEntity collectionEntity = collectionRepository.findById(beBatchUpdateForm.getCollectionId());
+
+        collectionEntity.batchUpdateProducts(beBatchUpdateForm.getCollectionProductForms());
+        collectionRepository.saveProducts(collectionEntity);
     }
 
     @Override
-    public int removeRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm) {
-        return 0;
+    public void removeRCollectionProduct(BeRCollectionProductForm beRCollectionProductForm) {
+        CollectionEntity collectionEntity = collectionRepository.findById(beRCollectionProductForm.getCollectionId());
+
+        collectionEntity.remove(beRCollectionProductForm);
     }
 
     private CollectionEntity findByIdThrow(Long id) throws BussException {

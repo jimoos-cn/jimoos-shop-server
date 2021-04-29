@@ -4,8 +4,10 @@ import cn.jimoos.dao.CollectionMapper;
 import cn.jimoos.dao.RCollectionProductMapper;
 import cn.jimoos.entity.CollectionEntity;
 import cn.jimoos.model.Collection;
+import cn.jimoos.model.RCollectionProduct;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 
@@ -28,7 +30,7 @@ public class CollectionRepository {
     /**
      * 保存 CollectionEntity信息
      *
-     * @param collectionEntity
+     * @param collectionEntity 集合对象
      */
     public void save(CollectionEntity collectionEntity) {
         if (collectionEntity.getId() != null && collectionEntity.getId() > 0) {
@@ -36,6 +38,16 @@ public class CollectionRepository {
         } else {
             collectionMapper.insert(collectionEntity);
         }
+    }
+
+    /**
+     * 查找 集合内 某个 商品
+     *
+     * @param id rCollectionProductId
+     * @return RCollectionProduct
+     */
+    public RCollectionProduct findByRId(Long id) {
+        return collectionProductMapper.selectByPrimaryKey(id);
     }
 
     /**
@@ -56,5 +68,39 @@ public class CollectionRepository {
             return collectionEntity;
         }
         return null;
+    }
+
+    /**
+     * 保存商品
+     *
+     * @param collectionEntity 集合对象
+     */
+    public void saveProducts(CollectionEntity collectionEntity) {
+        if (collectionEntity.isBatchUpdate()) {
+            collectionProductMapper.deleteByCollectionId(collectionEntity.getId());
+            if (!CollectionUtils.isEmpty(collectionEntity.getRCollectionProductInputs())) {
+                collectionProductMapper.batchInsert(collectionEntity.getRCollectionProductInputs());
+            }
+        } else {
+            if (!CollectionUtils.isEmpty(collectionEntity.getRCollectionProductInputs())) {
+                RCollectionProduct rCollectionProduct = collectionEntity.getRCollectionProductInputs().get(0);
+                if (rCollectionProduct.getId() != null && rCollectionProduct.getId() > 0) {
+                    for (RCollectionProduct rCollectionProduct1 : collectionEntity.getRCollectionProductInputs()) {
+                        collectionProductMapper.updateByPrimaryKey(rCollectionProduct1);
+                    }
+                } else {
+                    collectionProductMapper.batchInsert(collectionEntity.getRCollectionProductInputs());
+                }
+            }
+        }
+    }
+
+    /**
+     * 删除内部 商品
+     *
+     * @param id collectionProductId
+     */
+    public void deleteRCollectionProduct(Long id) {
+        collectionProductMapper.deleteById(id);
     }
 }

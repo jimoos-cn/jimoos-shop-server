@@ -20,8 +20,8 @@ public class PayFactory {
     /**
      * 注册可用支付方式
      *
-     * @param type
-     * @param payProvider
+     * @param type        支付类别
+     * @param payProvider 实现方法
      */
     public void registryPayProvider(Integer type, PayProvider payProvider) {
         payProviderMap.put(type, payProvider);
@@ -30,7 +30,7 @@ public class PayFactory {
     /**
      * 取消注册可用支付方式
      *
-     * @param type
+     * @param type 支付类别
      */
     public void unRegistryPayProvider(Integer type) {
         payProviderMap.put(type, null);

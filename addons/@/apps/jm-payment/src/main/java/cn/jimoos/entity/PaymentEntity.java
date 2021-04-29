@@ -25,14 +25,12 @@ public class PaymentEntity extends Payment {
      *
      * @param tradeNo 交易号
      * @param channel 支付渠道
-     * @param payType 支付类别
      * @param extras  额外的信息
      */
-    public void paid(String tradeNo, String channel, Integer payType, String extras) {
+    public void paid(String tradeNo, String channel, String extras) {
         this.setPaid(true);
         this.setTradeNo(tradeNo);
         this.setPaidChannel(channel);
-        this.setPayType(payType);
         this.setPayAt(System.currentTimeMillis());
     }
 

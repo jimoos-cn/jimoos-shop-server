@@ -1,9 +1,7 @@
 package cn.jimoos.rest.be;
 
 import cn.jimoos.common.exception.BussException;
-import cn.jimoos.form.BeCollectionForm;
-import cn.jimoos.form.BeCollectionIdForm;
-import cn.jimoos.form.BeCollectionQueryForm;
+import cn.jimoos.form.*;
 import cn.jimoos.model.Collection;
 import cn.jimoos.service.CollectionService;
 import cn.jimoos.utils.http.Page;
@@ -117,13 +115,57 @@ public class BeCollectionApi {
 
 
     /**
-     *  取消推荐
+     * 取消推荐
      *
      * @param form collection  unRecommend form
      * @throws BussException CollectionError.COLLECTION_NOT_FOUND
      */
     @PostMapping(value = "/{id}/cancelRecommend", produces = "application/json; charset=utf-8")
-    public void cancelRecommend(@ModelAttribute BeCollectionIdForm  form) throws BussException {
+    public void cancelRecommend(@ModelAttribute BeCollectionIdForm form) throws BussException {
         collectionService.unRecommendCollection(form);
+    }
+
+
+    /**
+     * 添加商品到集合
+     *
+     * @param form add product to collection form
+     */
+    @PostMapping(value = "/{id}/products", produces = "application/json; charset=utf-8")
+    public void addProduct(@ModelAttribute BeRCollectionProductForm form) {
+        collectionService.addRCollectionProduct(form);
+    }
+
+
+    /**
+     * 更新
+     *
+     * @param form add product to collection form
+     */
+    @PostMapping(value = "/{id}/products/info", produces = "application/json; charset=utf-8")
+    public void updateProductInfo(@ModelAttribute BeRCollectionProductForm form) {
+        collectionService.updateRCollectionProduct(form);
+    }
+
+
+    /**
+     * 批量更新
+     *
+     * @param form add product to collection form
+     */
+    @PostMapping(value = "/{collectionId}/products/batch", produces = "application/json; charset=utf-8")
+    public void batchUpdate(@RequestBody BeBatchUpdateForm form) {
+        collectionService.batchUpdateRCollectionProducts(form);
+    }
+
+
+    /**
+     *  移除商品
+     *
+     * @param form add product to collection form
+     */
+    @PostMapping(value = "/{collectionId}/products/delete", produces = "application/json; charset=utf-8")
+    public void remove(@RequestBody BeRCollectionProductForm form) {
+        collectionService.removeRCollectionProduct(form);
     }
 }

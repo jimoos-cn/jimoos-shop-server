@@ -38,7 +38,7 @@ https://jimoos-cn.github.io/jimoos-shop-server/#/quick-start/quick-start
 [X] 下单      
 [X] 优惠券     
 [X] 我的订单    
-[ ] 商品集合  
+[-] 商品集合  
 [X] 商城介绍
 
 

@@ -182,16 +182,16 @@ public class ProductEntity extends Product {
 
         public SkuEntity(ProductEntity productEntity, BeProductForm.SkuInput skuInput) {
             long now = System.currentTimeMillis();
-            SkuEntity productSku = new SkuEntity();
-            productSku.setAttrValueIds("");
-            productSku.setCover(skuInput.getCover());
-            productSku.setPrice(skuInput.getPrice());
-            productSku.setShowPrice(skuInput.getShowPrice());
-            productSku.setProductId(productEntity.getId());
-            productSku.setMerchantId(productEntity.getMerchantId());
-            productSku.setCreateAt(now);
-            productSku.setUpdateAt(now);
-            productSku.setDeleted(false);
+            // SkuEntity productSku = new SkuEntity();
+            this.setAttrValueIds("");
+            this.setCover(skuInput.getCover());
+            this.setPrice(skuInput.getPrice());
+            this.setShowPrice(skuInput.getShowPrice());
+            this.setProductId(productEntity.getId());
+            this.setMerchantId(productEntity.getMerchantId());
+            this.setCreateAt(now);
+            this.setUpdateAt(now);
+            this.setDeleted(false);
         }
 
         /**

@@ -91,12 +91,13 @@ public class BeProductAttrApi {
 
     /**
      * 更新 attrId 下的 value 列表 ，批量更新
+     * 此处的上传的参数应该为JSON数组
      *
      * @param valuesForm ProductAttr delete form
      * @throws BussException ProductError.ATTR_NOT_FOUND
      */
     @PostMapping(value = "/{attrId}/values", produces = "application/json; charset=utf-8")
-    public List<ProductAttrValue> updateAttrValues(@ModelAttribute BeAttrValuesForm valuesForm) throws BussException {
+    public List<ProductAttrValue> updateAttrValues(@RequestBody BeAttrValuesForm valuesForm) throws BussException {
         return productAttrService.saveAttrValues(valuesForm);
     }
 

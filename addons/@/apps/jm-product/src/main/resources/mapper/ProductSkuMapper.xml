@@ -121,14 +121,14 @@
                tps.update_at,
                tps.deleted
                 from t_product_sku tps
-                join (select product_id, min(price) price
+                join (select id, min(price) price
                       from t_product_sku where product_id in
         <foreach item="item" index="index" collection="productIdCollection"
                  open="(" separator="," close=")">
             #{item,jdbcType=BIGINT}
         </foreach>
         group by product_id
-                ) b on tps.product_id = b.product_id and tps.price = b.price
+                ) b on tps.id = b.id 
     </select>
 
 

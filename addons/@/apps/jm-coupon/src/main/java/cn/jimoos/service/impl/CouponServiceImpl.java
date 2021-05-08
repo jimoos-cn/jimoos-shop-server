@@ -203,6 +203,15 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    public Coupon getOne(Long couponId) throws BussException {
+        CouponEntity couponEntity = couponRepository.findById(couponId);
+        if (couponEntity == null) {
+            throw new BussException(CouponError.COUPON_NOT_EXIST);
+        }
+        return couponEntity;
+    }
+
+    @Override
     public Coupon updateCoupon(BeCouponForm couponForm) throws BussException {
         CouponEntity couponEntity = couponRepository.findById(couponForm.getId());
 

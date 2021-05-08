@@ -207,7 +207,14 @@ public class ProductServiceImpl implements ProductService {
             ProductVO productVO = new ProductVO();
             BeanUtils.copyProperties(product, productVO);
             productVO.setCategory(idToProductCategoryMap.get(product.getCategoryId()));
-            productVO.setTags(idToTagListMap.get(product.getId()).stream().map(ProductTag.class::cast).collect(Collectors.toList()));
+            List<ProductTagDto> tagList = idToTagListMap.get(product.getId());
+
+            if (!CollectionUtils.isEmpty(tagList)) {
+                productVO.setTags(tagList.stream().map(ProductTag.class::cast).collect(Collectors.toList()));
+            } else {
+                productVO.setTags(new ArrayList<>());
+            }
+
             ProductSku productSku = idToProductSkuMap.get(product.getId());
             if (productSku != null) {
                 productVO.setPrice(productSku.getPrice());

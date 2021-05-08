@@ -97,6 +97,15 @@ public interface CouponService {
     Coupon addCoupon(BeCouponForm couponForm);
 
     /**
+     * 获取一张优惠券
+     *
+     * @param couponId
+     * @return
+     */
+    Coupon getOne(Long couponId) throws BussException;
+
+
+    /**
      * 更新优惠券
      *
      * @param couponForm Coupon Form

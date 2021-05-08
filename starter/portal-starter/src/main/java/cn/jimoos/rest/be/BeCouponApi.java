@@ -50,6 +50,15 @@ public class BeCouponApi {
     public Coupon update(@ModelAttribute BeCouponForm couponForm) throws BussException {
         return couponService.updateCoupon(couponForm);
     }
+    /**
+     * 查询
+     *
+     * @param couponId Coupon Id
+     */
+    @GetMapping(value = "/{id}", produces = "application/json; charset=utf-8")
+    public Coupon getOne(@PathVariable("id") Long couponId) throws BussException {
+        return couponService.getOne(couponId);
+    }
 
     /**
      * 查询领取记录

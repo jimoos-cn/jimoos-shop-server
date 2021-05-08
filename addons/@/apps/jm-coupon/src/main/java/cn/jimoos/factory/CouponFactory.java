@@ -19,6 +19,7 @@ public class CouponFactory {
 
     public CouponEntity create(BeCouponForm couponForm) {
         CouponEntity couponEntity = new CouponEntity(couponRepository);
+        couponEntity.setRemainNum(couponForm.getTotalNum());
         BeanUtils.copyProperties(couponForm, couponEntity);
         couponEntity.setUpdateAt(System.currentTimeMillis());
         couponEntity.setCreateAt(System.currentTimeMillis());

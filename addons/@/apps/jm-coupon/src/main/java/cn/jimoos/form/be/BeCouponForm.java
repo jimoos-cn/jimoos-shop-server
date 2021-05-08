@@ -67,11 +67,6 @@ public class BeCouponForm extends AbstractAdminForm4L {
     private Integer totalNum;
 
     /**
-     * 剩余发放数
-     */
-    private Integer remainNum;
-
-    /**
      * 排序
      */
     private Integer sort;
@@ -79,5 +74,5 @@ public class BeCouponForm extends AbstractAdminForm4L {
     /**
      * 1 在线 0 下架
      */
-    private Byte status;
+    private Boolean status;
 }

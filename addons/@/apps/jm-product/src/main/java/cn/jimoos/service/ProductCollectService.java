@@ -2,6 +2,8 @@ package cn.jimoos.service;
 
 
 import cn.jimoos.model.UserProductCollection;
+import cn.jimoos.utils.form.AbstractUserPageForm4L;
+import cn.jimoos.vo.ProductCollectVO;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +28,14 @@ public interface ProductCollectService {
      * @param productId product Id
      */
     void unCollect(Long userId, Long productId);
+
+    /**
+     * 查询用户收藏的商品列表
+     *
+     * @param abstractUserPageForm4L 用户分页表单
+     * @return List<ProductCollectVO>
+     */
+    List<ProductCollectVO> getUserCollects(AbstractUserPageForm4L abstractUserPageForm4L);
 
     /**
      * 获取用户对某商品的收藏

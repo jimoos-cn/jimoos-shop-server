@@ -1,8 +1,13 @@
 package cn.jimoos.service.impl;
 
+import cn.jimoos.dao.ProductMapper;
 import cn.jimoos.dao.UserProductCollectionMapper;
+import cn.jimoos.model.Product;
 import cn.jimoos.model.UserProductCollection;
 import cn.jimoos.service.ProductCollectService;
+import cn.jimoos.utils.form.AbstractUserPageForm4L;
+import cn.jimoos.vo.ProductCollectVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -11,6 +16,9 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author :keepcleargas
@@ -20,6 +28,8 @@ import java.util.List;
 public class ProductCollectServiceImpl implements ProductCollectService {
     @Resource
     UserProductCollectionMapper userProductCollectionMapper;
+    @Resource
+    ProductMapper productMapper;
 
     @Override
     public void collect(Long userId, Long productId) {
@@ -37,6 +47,26 @@ public class ProductCollectServiceImpl implements ProductCollectService {
     @Override
     public void unCollect(Long userId, Long productId) {
         userProductCollectionMapper.deleteByUserIdAndProductId(userId, productId);
+    }
+
+    @Override
+    public List<ProductCollectVO> getUserCollects(AbstractUserPageForm4L abstractUserPageForm4L) {
+        List<UserProductCollection> userProductCollections = userProductCollectionMapper.findByUserId(abstractUserPageForm4L.getUserId(), abstractUserPageForm4L.getOffset(), abstractUserPageForm4L.getLimit());
+
+        if (CollectionUtils.isEmpty(userProductCollections)) {
+            return new ArrayList<>();
+        } else {
+            List<Long> productIds = userProductCollections.stream().map(UserProductCollection::getProductId).collect(Collectors.toList());
+            List<Product> products = productMapper.findByIdIn(productIds);
+            Map<Long, Product> idToProductMap = products.stream().collect(Collectors.toMap(Product::getId, Function.identity()));
+
+            return userProductCollections.stream().map(userProductCollection -> {
+                ProductCollectVO productCollectVO = new ProductCollectVO();
+                BeanUtils.copyProperties(userProductCollection, productCollectVO);
+                productCollectVO.setProduct(idToProductMap.get(userProductCollection.getProductId()));
+                return productCollectVO;
+            }).collect(Collectors.toList());
+        }
     }
 
     @Nullable

@@ -78,9 +78,9 @@ public class ProductApi {
      */
     @GetMapping(value = "/{productId}/skus/{skuId}/buy", produces = "application/json; charset=utf-8")
     public OrderPreVO<String> buy(@RequestParam("userId") Long userId,
-                          @PathVariable("productId") Long productId,
-                          @PathVariable("skuId") Long skuId,
-                          @RequestParam("num") Integer num) throws BussException {
+                                  @PathVariable("productId") Long productId,
+                                  @PathVariable("skuId") Long skuId,
+                                  @RequestParam("num") Integer num) throws BussException {
         ProductItem productItem = productProvider.byId(skuId);
 
         if (productItem == null) {
@@ -191,5 +191,30 @@ public class ProductApi {
                     .collect(Collectors.toList());
         }
         return productVOS;
+    }
+
+
+    /**
+     * 收藏
+     *
+     * @param userId    user Id
+     * @param productId product Id
+     */
+    @PostMapping(value = "/{productId}/collect", produces = "application/json; charset=utf-8")
+    public void collect(@RequestParam("userId") Long userId,
+                        @PathVariable("productId") Long productId) {
+        productCollectService.collect(userId, productId);
+    }
+
+    /**
+     * 取消商品收藏
+     *
+     * @param userId    user Id
+     * @param productId product Id
+     */
+    @PostMapping(value = "/{productId}/unCollect", produces = "application/json; charset=utf-8")
+    public void unCollect(@RequestParam("userId") Long userId,
+                          @PathVariable("productId") Long productId) {
+        productCollectService.unCollect(userId, productId);
     }
 }

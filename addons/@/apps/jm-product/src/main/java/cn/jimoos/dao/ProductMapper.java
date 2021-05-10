@@ -4,6 +4,7 @@ import cn.jimoos.model.Product;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,14 @@ public interface ProductMapper {
     int updateByPrimaryKey(Product record);
 
     int batchInsert(@Param("list") List<Product> list);
+
+    /**
+     * 批量查找商品
+     *
+     * @param idCollection id list
+     * @return List<Product>
+     */
+    List<Product> findByIdIn(@Param("idCollection") Collection<Long> idCollection);
 
     /**
      * 统计 分类下的商品数
@@ -46,7 +55,7 @@ public interface ProductMapper {
      * @return long total
      */
     long queryTableCount(Map<String, Object> qm);
-    
+
     /**
      * 查询 Product 列表
      *

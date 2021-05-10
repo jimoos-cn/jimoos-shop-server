@@ -34,6 +34,17 @@ public interface UserProductCollectionMapper {
     UserProductCollection findOneByUserIdAndProductId(@Param("userId") Long userId, @Param("productId") Long productId);
 
     /**
+     * 查询用户的 收藏记录
+     *
+     * @param userId user id
+     * @param offset -
+     * @param limit  -
+     * @return List<UserProductCollection>
+     */
+    List<UserProductCollection> findByUserId(@Param("userId") Long userId, @Param("offset") Integer offset, @Param("limit") Integer limit);
+
+
+    /**
      * 获取 用户对 商品列表的收藏情况
      *
      * @param userId              用户 ID

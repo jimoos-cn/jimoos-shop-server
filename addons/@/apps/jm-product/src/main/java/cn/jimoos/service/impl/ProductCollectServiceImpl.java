@@ -35,7 +35,7 @@ public class ProductCollectServiceImpl implements ProductCollectService {
     public void collect(Long userId, Long productId) {
         UserProductCollection userProductCollection = userProductCollectionMapper.findOneByUserIdAndProductId(userId, productId);
 
-        if (userProductCollection != null) {
+        if (userProductCollection == null) {
             userProductCollection = new UserProductCollection();
             userProductCollection.setProductId(productId);
             userProductCollection.setUserId(userId);

@@ -19,6 +19,7 @@ import com.obs.services.model.PostSignatureRequest;
 import com.obs.services.model.PostSignatureResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -42,6 +43,8 @@ public class HuaweiObsService {
         }
         // 创建ObsClient实例
         String endPoint = this.huaweiObsProperties.getEndPoint();
+
+        Assert.notNull(endPoint, "Huawei Obs未配置，请配置后重试");
 
         try (ObsClient obsClient = new ObsClient(this.huaweiObsProperties.getAccessKey(), this.huaweiObsProperties.getSecretKey(), endPoint)) {
             List<ObsTemporarySignVO> result = new ArrayList<>();

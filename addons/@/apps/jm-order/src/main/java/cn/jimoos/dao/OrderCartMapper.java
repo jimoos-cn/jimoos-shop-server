@@ -44,12 +44,12 @@ public interface OrderCartMapper {
     /**
      * 更新用户 购物车 选中状态
      *
-     * @param updatedChecked  选中状态
-     * @param userId          user Id
-     * @param skuIdCollection sku id collection
+     * @param updatedChecked   选中状态
+     * @param userId           user Id
+     * @param cartIdCollection cart id collection
      * @return affectNum
      */
-    int updateCheckedByUserIdAndSkuIdIn(@Param("updatedChecked") Boolean updatedChecked, @Param("userId") Long userId, @Param("skuIdCollection") Collection<Long> skuIdCollection);
+    int updateCheckedByUserIdAndIdIn(@Param("updatedChecked") Boolean updatedChecked, @Param("userId") Long userId, @Param("cartIdCollection") Collection<Long> cartIdCollection);
 
 
     /**

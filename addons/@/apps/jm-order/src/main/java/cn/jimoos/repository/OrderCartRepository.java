@@ -65,23 +65,23 @@ public class OrderCartRepository {
     /**
      * 设置为 选中状态
      *
-     * @param userId user id
-     * @param skuIds sku id list
+     * @param userId  user id
+     * @param cartIds cart id list
      * @return affectNum
      */
-    public int updateCheckedStatus(Long userId, List<Long> skuIds) {
-        return orderCartMapper.updateCheckedByUserIdAndSkuIdIn(Boolean.TRUE, userId, skuIds);
+    public int updateCheckedStatus(Long userId, List<Long> cartIds) {
+        return orderCartMapper.updateCheckedByUserIdAndIdIn(Boolean.TRUE, userId, cartIds);
     }
 
     /**
      * 设置为 未选中状态
      *
-     * @param userId user id
-     * @param skuIds sku id list
+     * @param userId  user id
+     * @param cartIds cart id list
      * @return affectNum
      */
-    public int updateUnCheckStatus(Long userId, List<Long> skuIds) {
-        return orderCartMapper.updateCheckedByUserIdAndSkuIdIn(Boolean.FALSE, userId, skuIds);
+    public int updateUnCheckStatus(Long userId, List<Long> cartIds) {
+        return orderCartMapper.updateCheckedByUserIdAndIdIn(Boolean.FALSE, userId, cartIds);
     }
 
     /**

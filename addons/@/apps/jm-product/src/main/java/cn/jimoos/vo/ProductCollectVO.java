@@ -1,6 +1,5 @@
 package cn.jimoos.vo;
 
-import cn.jimoos.model.Product;
 import lombok.Data;
 
 /**
@@ -26,5 +25,5 @@ public class ProductCollectVO {
      */
     private Long createAt;
 
-    Product product;
+    ProductSimpleVO product;
 }

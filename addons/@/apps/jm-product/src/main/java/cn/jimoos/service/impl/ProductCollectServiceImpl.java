@@ -1,12 +1,15 @@
 package cn.jimoos.service.impl;
 
 import cn.jimoos.dao.ProductMapper;
+import cn.jimoos.dao.ProductSkuMapper;
 import cn.jimoos.dao.UserProductCollectionMapper;
 import cn.jimoos.model.Product;
+import cn.jimoos.model.ProductSku;
 import cn.jimoos.model.UserProductCollection;
 import cn.jimoos.service.ProductCollectService;
 import cn.jimoos.utils.form.AbstractUserPageForm4L;
 import cn.jimoos.vo.ProductCollectVO;
+import cn.jimoos.vo.ProductSimpleVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -30,6 +33,8 @@ public class ProductCollectServiceImpl implements ProductCollectService {
     UserProductCollectionMapper userProductCollectionMapper;
     @Resource
     ProductMapper productMapper;
+    @Resource
+    ProductSkuMapper productSkuMapper;
 
     @Override
     public void collect(Long userId, Long productId) {
@@ -60,10 +65,26 @@ public class ProductCollectServiceImpl implements ProductCollectService {
             List<Product> products = productMapper.findByIdIn(productIds);
             Map<Long, Product> idToProductMap = products.stream().collect(Collectors.toMap(Product::getId, Function.identity()));
 
+            List<ProductSku> minPriceSkus = productSkuMapper.findMinPricesByProductIds(productIds);
+
+            Map<Long, ProductSku> idToProductSkuMap = minPriceSkus.stream().collect(Collectors.toMap(ProductSku::getProductId, Function.identity()));
+
             return userProductCollections.stream().map(userProductCollection -> {
                 ProductCollectVO productCollectVO = new ProductCollectVO();
                 BeanUtils.copyProperties(userProductCollection, productCollectVO);
-                productCollectVO.setProduct(idToProductMap.get(userProductCollection.getProductId()));
+                Product product = idToProductMap.get(userProductCollection.getProductId());
+                if (product != null) {
+                    ProductSimpleVO productSimpleVO = new ProductSimpleVO();
+                    BeanUtils.copyProperties(product, productSimpleVO);
+                    ProductSku productSku = idToProductSkuMap.get(product.getId());
+                    if (productSku != null) {
+                        productSimpleVO.setPrice(productSku.getPrice());
+                        productSimpleVO.setShowPrice(productSku.getShowPrice());
+                    }
+                    productCollectVO.setProduct(productSimpleVO);
+                } else {
+                    productCollectVO.setProduct(null);
+                }
                 return productCollectVO;
             }).collect(Collectors.toList());
         }

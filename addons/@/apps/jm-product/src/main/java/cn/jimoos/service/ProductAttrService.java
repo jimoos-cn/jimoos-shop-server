@@ -2,7 +2,6 @@ package cn.jimoos.service;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.attr.*;
-import cn.jimoos.model.ProductAttr;
 import cn.jimoos.model.ProductAttrValue;
 import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.ProductAttrVO;
@@ -57,7 +56,7 @@ public interface ProductAttrService {
      * @param form Product Attr Query Form
      * @return Page<ProductAttr>
      */
-    Page<ProductAttr> query(BeProductAttrQueryForm form);
+    Page<ProductAttrVO> query(BeProductAttrQueryForm form);
 
     /**
      * 查询 销售属性的 值的列表

@@ -4,6 +4,7 @@ import cn.jimoos.model.ProductAttrValue;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,6 +20,14 @@ public interface ProductAttrValueMapper {
     int updateByPrimaryKey(ProductAttrValue record);
 
     int batchInsert(@Param("list") List<ProductAttrValue> list);
+
+    /**
+     * 批量获取 销售属性值
+     *
+     * @param attrIdCollection
+     * @return
+     */
+    List<ProductAttrValue> findByAttrIdIn(@Param("attrIdCollection") Collection<Long> attrIdCollection);
 
     /**
      * 查询 销售属性值列表

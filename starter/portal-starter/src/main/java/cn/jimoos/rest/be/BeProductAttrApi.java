@@ -2,7 +2,6 @@ package cn.jimoos.rest.be;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.attr.*;
-import cn.jimoos.model.ProductAttr;
 import cn.jimoos.model.ProductAttrValue;
 import cn.jimoos.service.ProductAttrService;
 import cn.jimoos.utils.http.Page;
@@ -29,7 +28,7 @@ public class BeProductAttrApi {
      * @return List<ProductAttr>
      */
     @GetMapping(value = "/query", produces = "application/json; charset=utf-8")
-    public Page<ProductAttr> query(@ModelAttribute BeProductAttrQueryForm form) {
+    public Page<ProductAttrVO> query(@ModelAttribute BeProductAttrQueryForm form) {
         return productAttrService.query(form);
     }
 

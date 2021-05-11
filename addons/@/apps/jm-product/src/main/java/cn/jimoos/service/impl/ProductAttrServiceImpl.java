@@ -2,6 +2,7 @@ package cn.jimoos.service.impl;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dao.ProductAttrMapper;
+import cn.jimoos.dao.ProductAttrValueMapper;
 import cn.jimoos.entity.ProductAttrEntity;
 import cn.jimoos.error.ProductError;
 import cn.jimoos.factory.ProductAttrFactory;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author :keepcleargas
@@ -30,6 +33,8 @@ public class ProductAttrServiceImpl implements ProductAttrService {
     ProductAttrMapper productAttrMapper;
     @Resource
     ProductAttrRepository productAttrRepository;
+    @Resource
+    ProductAttrValueMapper productAttrValueMapper;
 
     @Override
     public ProductAttrVO addAttr(BeProductAttrForm productAttrForm) {
@@ -74,14 +79,15 @@ public class ProductAttrServiceImpl implements ProductAttrService {
     }
 
     @Override
-    public Page<ProductAttr> query(BeProductAttrQueryForm form) {
+    public Page<ProductAttrVO> query(BeProductAttrQueryForm form) {
         long count = productAttrMapper.queryTableCount(form.toQueryMap());
 
         if (count > 0) {
-            return Page.create(count, productAttrMapper.queryTable(form.toQueryMap()));
+            return Page.create(count, fromAttrList(productAttrMapper.queryTable(form.toQueryMap())));
         }
         return Page.empty();
     }
+
 
     @Override
     public List<ProductAttrValue> attrValues(Long attrId) throws BussException {
@@ -119,5 +125,19 @@ public class ProductAttrServiceImpl implements ProductAttrService {
             throw new BussException(ProductError.ATTR_VALUE_USED);
         }
         return productAttrRepository.deleteAttrValue(attrValueDeleteForm.getAttrValueId());
+    }
+
+    private List<ProductAttrVO> fromAttrList(List<ProductAttr> productAttrs) {
+        List<Long> attrIds = productAttrs.stream().map(ProductAttr::getId).collect(Collectors.toList());
+
+        List<ProductAttrValue> productAttrValues = productAttrValueMapper.findByAttrIdIn(attrIds);
+        Map<Long, List<ProductAttrValue>> id2ListMap = productAttrValues.stream().collect(Collectors.groupingBy(ProductAttrValue::getAttrId));
+
+        return productAttrs.stream().map(productAttr -> {
+            ProductAttrVO productAttrVO = new ProductAttrVO();
+            BeanUtils.copyProperties(productAttr, productAttrVO);
+            productAttrVO.setAttrValues(id2ListMap.get(productAttr.getId()));
+            return productAttrVO;
+        }).collect(Collectors.toList());
     }
 }

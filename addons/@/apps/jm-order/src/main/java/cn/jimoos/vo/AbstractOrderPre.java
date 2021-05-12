@@ -2,6 +2,7 @@ package cn.jimoos.vo;
 
 import cn.jimoos.form.order.OrderForm;
 import cn.jimoos.form.order.OrderItemForm;
+import lombok.Data;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.util.List;
  * @author :keepcleargas
  * @date :2021-04-13 11:12.
  */
+@Data
 public class AbstractOrderPre implements IOrderPre {
     private Long userId;
     private List<OrderItemForm> orderItems = new ArrayList<>();

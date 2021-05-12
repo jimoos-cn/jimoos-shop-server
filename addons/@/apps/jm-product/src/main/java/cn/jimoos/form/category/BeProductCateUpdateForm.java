@@ -18,7 +18,7 @@ public class BeProductCateUpdateForm extends AbstractAdminForm4L {
     /**
      * 父id
      */
-    private Long pid;
+    private Long pid = 0L;
 
     /**
      * 商品分类名称
@@ -34,7 +34,7 @@ public class BeProductCateUpdateForm extends AbstractAdminForm4L {
     /**
      * 商品分类图片
      */
-    private String imgUrl;
+    private String imgUrl = "";
 
     /**
      * 商品排序

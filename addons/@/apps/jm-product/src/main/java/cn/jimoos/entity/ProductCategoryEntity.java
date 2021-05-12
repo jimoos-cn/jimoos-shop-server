@@ -34,7 +34,9 @@ public class ProductCategoryEntity extends ProductCategory {
         this.setDescription(form.getDescription());
         this.setSort(form.getSort());
         this.setImgUrl(form.getImgUrl());
-        this.setPid(form.getPid());
+        if (form.getPid() != null && form.getPid() > 0) {
+            this.setPid(form.getPid());
+        }
         this.setUpdateAt(System.currentTimeMillis());
     }
 

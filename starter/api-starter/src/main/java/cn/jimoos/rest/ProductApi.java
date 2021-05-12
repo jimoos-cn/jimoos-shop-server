@@ -165,7 +165,7 @@ public class ProductApi {
         }
 
         for (ProductItem productItem : productItems) {
-            result.addOrderItem(new OrderItemForm(productItem, idToNumberFormMap.get(productItem.getProductId())));
+            result.addOrderItem(new OrderItemForm(productItem, idToNumberFormMap.get(productItem.getSkuId())));
         }
         return productItems;
     }

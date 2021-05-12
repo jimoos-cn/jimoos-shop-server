@@ -26,7 +26,7 @@ public class BeProductAttrForm extends AbstractAdminForm4L {
     /**
      * 销售属性描述
      */
-    private String description;
+    private String description = "";
     /**
      * 商家 ID
      */

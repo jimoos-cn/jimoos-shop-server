@@ -13,5 +13,5 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UserOrderQueryForm extends AbstractUserPageForm4L {
-    private byte status;
+    private Byte status;
 }

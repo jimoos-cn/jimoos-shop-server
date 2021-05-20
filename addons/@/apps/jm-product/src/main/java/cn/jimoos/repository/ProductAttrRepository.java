@@ -176,4 +176,20 @@ public class ProductAttrRepository {
     public boolean hasAnyBindByAttrValueId(Long valueId) {
         return productSkuAttrMapMapper.findAnyOneByAttrValueId(valueId) != null;
     }
+
+    /**
+     * 保存 单个属性值
+     *
+     * @param productAttrEntity
+     * @return
+     */
+    public ProductAttrValue saveOneAttrValue(ProductAttrEntity productAttrEntity) {
+        ProductAttrValue productAttrValue = productAttrEntity.getAttrValueInput();
+        if (productAttrValue != null) {
+            productAttrValueMapper.insert(productAttrValue);
+            return productAttrValue;
+        } else {
+            return null;
+        }
+    }
 }

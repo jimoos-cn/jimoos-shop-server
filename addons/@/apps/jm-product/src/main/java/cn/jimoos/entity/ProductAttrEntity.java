@@ -26,6 +26,8 @@ public class ProductAttrEntity extends ProductAttr {
 
     private List<ProductAttrValue> attrValueInputs;
 
+    private ProductAttrValue attrValueInput;
+
     public ProductAttrEntity() {
     }
 
@@ -68,6 +70,23 @@ public class ProductAttrEntity extends ProductAttr {
         this.setAttrValueInputs(productAttrValues);
     }
 
+    /**
+     * 添加 单个属性
+     *
+     * @param attrValueForm
+     */
+    public void addAttrValue(BeAttrValueForm attrValueForm) {
+        attrValueInput = new ProductAttrValue();
+        attrValueInput.setName(attrValueForm.getName());
+        attrValueInput.setDescription(attrValueForm.getDescription());
+        attrValueInput.setSort(attrValueForm.getSort());
+        attrValueInput.setAttrId(this.getId());
+        attrValueInput.setMerchantId(this.getMerchantId());
+        attrValueInput.setCreateAt(System.currentTimeMillis());
+        attrValueInput.setUpdateAt(0L);
+        attrValueInput.setDeleted(Boolean.FALSE);
+    }
+
 
     /**
      * 是否被绑定
@@ -83,6 +102,7 @@ public class ProductAttrEntity extends ProductAttr {
 
     /**
      * value 是否被绑定
+     *
      * @param valueId value id
      * @return if bind true,else false
      */

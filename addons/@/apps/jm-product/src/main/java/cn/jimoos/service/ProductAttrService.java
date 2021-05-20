@@ -93,4 +93,13 @@ public interface ProductAttrService {
      * @throws BussException ProductError.ATTR_NOT_FOUND | ATTR_VALUE_USED
      */
     int deleteAttrValue(BeAttrValueDeleteForm attrValueDeleteForm) throws BussException;
+
+    /**
+     * 添加 销售属性值
+     *
+     * @param beAttrValueForm
+     * @return
+     * @throws BussException  ProductError.ATTR_NOT_FOUND
+     */
+    ProductAttrValue addAttrValue(BeAttrValueForm beAttrValueForm) throws BussException;
 }

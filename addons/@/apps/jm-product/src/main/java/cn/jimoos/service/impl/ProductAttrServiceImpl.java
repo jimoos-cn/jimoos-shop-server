@@ -127,6 +127,15 @@ public class ProductAttrServiceImpl implements ProductAttrService {
         return productAttrRepository.deleteAttrValue(attrValueDeleteForm.getAttrValueId());
     }
 
+    @Override
+    public ProductAttrValue addAttrValue(BeAttrValueForm beAttrValueForm) throws BussException {
+        ProductAttrEntity productAttrEntity = productAttrRepository.byIdThrow(beAttrValueForm.getAttrId());
+        //增量添加一个
+        productAttrEntity.addAttrValue(beAttrValueForm);
+
+        return productAttrRepository.saveOneAttrValue(productAttrEntity);
+    }
+
     private List<ProductAttrVO> fromAttrList(List<ProductAttr> productAttrs) {
         List<Long> attrIds = productAttrs.stream().map(ProductAttr::getId).collect(Collectors.toList());
 

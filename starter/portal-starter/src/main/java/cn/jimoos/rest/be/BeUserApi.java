@@ -1,11 +1,11 @@
 package cn.jimoos.rest.be;
 
 import cn.jimoos.common.exception.BussException;
+import cn.jimoos.form.be.UserQueryForm;
 import cn.jimoos.service.UserService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.jimoos.user.vo.UserVO;
+import cn.jimoos.utils.http.Page;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -20,6 +20,28 @@ import javax.annotation.Resource;
 public class BeUserApi {
     @Resource
     UserService userService;
+
+    /**
+     * 用户管理中查询用户列表
+     *
+     * @param form user query form for table
+     * @return Page<UserVO>
+     */
+    @GetMapping(value = "/query", produces = "application/json;charset=utf-8")
+    public Page<UserVO> getUserInfo(@ModelAttribute UserQueryForm form) {
+        return userService.getUserInfo(form);
+    }
+
+    /**
+     * 删除 某个用户${userId}
+     *
+     * @param userId 用户ID
+     * @throws BussException UserError.USER_NOT_FOUND
+     */
+    @PostMapping(value = "/{userId}/remove", produces = "application/json;charset=utf-8")
+    public void removeUser(@PathVariable("userId") Long userId) throws BussException {
+        userService.removeUser(userId);
+    }
 
     /**
      * 禁止登录 某个用户${userId}

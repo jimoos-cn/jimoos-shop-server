@@ -9,15 +9,21 @@ import cn.jimoos.factory.UserFactory;
 import cn.jimoos.form.LogoutForm;
 import cn.jimoos.form.ProfileForm;
 import cn.jimoos.form.SocialRegForm;
+import cn.jimoos.form.be.UserQueryForm;
 import cn.jimoos.impl.JmSpringEventPublisher;
 import cn.jimoos.repository.UserRepository;
 import cn.jimoos.service.UserService;
+import cn.jimoos.user.model.User;
 import cn.jimoos.user.vo.UserVO;
+import cn.jimoos.utils.http.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author :keepcleargas
@@ -113,5 +119,41 @@ public class UserServiceImpl implements UserService {
 
         userEntity.unBan();
         userRepository.save(userEntity);
+    }
+
+    @Override
+    public Page<UserVO> getUserInfo(UserQueryForm form) {
+        long total = userRepository.queryTableCount(form.toQm());
+        if (total > 0) {
+            List<User> users = userRepository.queryTable(form.toQm());
+            return Page.create(total, toUserVO(users));
+        }
+        return Page.empty();
+    }
+
+    @Override
+    public void removeUser(Long userId) throws BussException{
+        UserEntity user = userRepository.findById(userId);
+        if (user == null) {
+            throw new BussException(UserError.USER_NOT_FOUND);
+        }
+
+        user.remove();
+        userRepository.save(user);
+    }
+
+    /**
+     * user转userVO
+     * @param users
+     * @return List<UserVO>
+     */
+    private List<UserVO> toUserVO(List<User> users) {
+        return users.stream().map(user ->{
+            UserVO userVO = new UserVO();
+            BeanUtils.copyProperties(user, userVO);
+            //不同类型间的转换(ban参数)
+            userVO.transformBanValue(user.getBan());
+            return userVO;
+        }).collect(Collectors.toList());
     }
 }

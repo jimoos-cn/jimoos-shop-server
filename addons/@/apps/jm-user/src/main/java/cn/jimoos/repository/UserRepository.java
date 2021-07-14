@@ -8,12 +8,14 @@ import cn.jimoos.entity.UserEntity;
 import cn.jimoos.model.UserSocial;
 import cn.jimoos.user.model.User;
 import cn.jimoos.user.model.UserSession;
+import cn.jimoos.user.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -133,5 +135,19 @@ public class UserRepository {
      */
     public void setSessionExpired(Long userId, int platform) {
         userSessionMapper.setExpired(userId, System.currentTimeMillis(), platform);
+    }
+
+    /**
+     * 查询用户总数
+     *
+     * @param qm 参数 nickname ban phone
+     * @return long total
+     */
+    public long queryTableCount(Map<String, String> qm) {
+        return userMapper.queryTableCount(qm);
+    }
+
+    public List<User> queryTable(Map<String, String> qm) {
+        return userMapper.queryTable(qm);
     }
 }

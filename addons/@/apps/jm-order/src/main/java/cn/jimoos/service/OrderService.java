@@ -93,4 +93,11 @@ public interface OrderService {
      * @return Page<OrderVO>
      */
     Page<OrderVO> qTable(BeOrderQueryForm beOrderQueryForm);
+
+    /**
+     * 根据userId查询订单列表 分页
+     * @param beOrderQueryForm
+     * @return Page<OrderVO>
+     */
+    Page<OrderVO> qTableByUid(BeOrderQueryForm beOrderQueryForm);
 }

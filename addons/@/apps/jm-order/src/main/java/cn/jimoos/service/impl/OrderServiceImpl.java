@@ -29,6 +29,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -244,6 +245,19 @@ public class OrderServiceImpl implements OrderService {
             List<Order> orders = orderMapper.queryTable(form.toQueryMap());
 
             return Page.create(count,fromOrders(orders));
+        }
+        return Page.empty();
+    }
+
+    @Override
+    public Page<OrderVO> qTableByUid(BeOrderQueryForm beOrderQueryForm) {
+        if (beOrderQueryForm.getUserId() == null) {
+            return Page.empty();
+        }
+        long count = orderMapper.queryTableCount(beOrderQueryForm.toQueryMap());
+        if (count > 0) {
+            List<Order> orders = orderMapper.queryUserOrders(beOrderQueryForm.toQueryMap());
+            return Page.create(count, fromOrders(orders));
         }
         return Page.empty();
     }

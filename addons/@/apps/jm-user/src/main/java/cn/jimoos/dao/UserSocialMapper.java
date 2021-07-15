@@ -33,4 +33,12 @@ public interface UserSocialMapper {
      * @return 社交记录
      */
     UserSocial findOneBySocialIdAndType(@Param("socialId") String socialId, @Param("type") Byte type);
+
+    /**
+     * 根据 用户ID查询 社交登陆
+     *
+     * @param userId
+     * @return
+     */
+    List<UserSocial> findAllById(@Param("userId") Long userId);
 }

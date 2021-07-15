@@ -1,5 +1,6 @@
 package cn.jimoos.service.impl;
 
+import cn.jimoos.common.error.ErrorCodeDefine;
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.entity.UserEntity;
 import cn.jimoos.error.UserError;
@@ -9,15 +10,25 @@ import cn.jimoos.factory.UserFactory;
 import cn.jimoos.form.LogoutForm;
 import cn.jimoos.form.ProfileForm;
 import cn.jimoos.form.SocialRegForm;
+import cn.jimoos.form.be.UserQueryForm;
 import cn.jimoos.impl.JmSpringEventPublisher;
+import cn.jimoos.model.UserRelation;
+import cn.jimoos.model.UserSocial;
 import cn.jimoos.repository.UserRepository;
 import cn.jimoos.service.UserService;
+import cn.jimoos.user.model.User;
+import cn.jimoos.user.model.UserAddress;
 import cn.jimoos.user.vo.UserVO;
+import cn.jimoos.utils.http.Page;
+import cn.jimoos.vo.be.UserDetailVO;
+import cn.jimoos.vo.be.UserQueryVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author :keepcleargas
@@ -113,5 +124,85 @@ public class UserServiceImpl implements UserService {
 
         userEntity.unBan();
         userRepository.save(userEntity);
+    }
+
+    @Override
+    public Page<UserQueryVO> getUserInfo(UserQueryForm form) {
+        long total = userRepository.queryTableCount(form.toQm());
+        if (total > 0) {
+            List<User> users = userRepository.queryTable(form.toQm());
+            return Page.create(total, toUserQueryVO(users));
+        }
+        return Page.empty();
+    }
+
+    @Override
+    public void deleteUser(Long userId) throws BussException{
+        UserEntity user = userRepository.findById(userId);
+        if (user == null) {
+            throw new BussException(UserError.USER_NOT_FOUND);
+        }
+
+        user.delete();
+        userRepository.save(user);
+    }
+
+    @Override
+    public UserDetailVO getUserDetailById(Long userId) throws BussException{
+        if (userId == null) {
+            throw new BussException(ErrorCodeDefine.FORM_PARAMS_NOT_VALID);
+        }
+        UserEntity user = userRepository.findById(userId);
+        if (user == null) {
+            throw new BussException(UserError.USER_NOT_FOUND);
+        }
+        return toUserDetailVO(user);
+    }
+
+    /**
+     * user转UserQueryVO
+     * @param users
+     * @return List<UserQueryVO>
+     */
+    private List<UserQueryVO> toUserQueryVO(List<User> users) {
+        return users.stream().map(user ->{
+            UserQueryVO userQueryVO = new UserQueryVO();
+            BeanUtils.copyProperties(user, userQueryVO);
+            return userQueryVO;
+        }).collect(Collectors.toList());
+    }
+
+    /**
+     * user转UserQueryVO
+     * @param user 用户主表
+     * @return UserQueryVO
+     */
+    private UserQueryVO toUserQueryVO(User user) {
+        UserQueryVO userQueryVO = new UserQueryVO();
+        BeanUtils.copyProperties(user, userQueryVO);
+        return userQueryVO;
+
+    }
+
+
+
+    /**
+     * 查询某用户的{收货地址,分销关系,社交登陆}
+     * user转UserDetailVO
+     * @param user 用户主表
+     * @return UserDetailVO
+     */
+    private UserDetailVO toUserDetailVO(User user) {
+        UserDetailVO userDetailVO = new UserDetailVO();
+        UserQueryVO userQueryVO = toUserQueryVO(user);
+        List<UserAddress> userAddresses = userRepository.queryUserAddressById(user.getId());
+        UserRelation userRelation = userRepository.queryUserRelation(user.getId());
+        List<UserSocial> userSocials = userRepository.queryUserSocials(user.getId());
+
+        userDetailVO.setUser(userQueryVO);
+        userDetailVO.setUserAddresses(userAddresses);
+        userDetailVO.setUserRelation(userRelation);
+        userDetailVO.setUserSocials(userSocials);
+        return userDetailVO;
     }
 }

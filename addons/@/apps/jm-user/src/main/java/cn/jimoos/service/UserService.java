@@ -4,7 +4,11 @@ import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.LogoutForm;
 import cn.jimoos.form.ProfileForm;
 import cn.jimoos.form.SocialRegForm;
+import cn.jimoos.form.be.UserQueryForm;
 import cn.jimoos.user.vo.UserVO;
+import cn.jimoos.utils.http.Page;
+import cn.jimoos.vo.be.UserDetailVO;
+import cn.jimoos.vo.be.UserQueryVO;
 
 /**
  * @author :keepcleargas
@@ -53,4 +57,27 @@ public interface UserService {
      * @author qisheng.chen
      */
     void unbanUser(Long userId) throws BussException;
+
+    /**
+     * 后台系统中用户管理 查询用户列表
+     *
+     * @param form 查询参数
+     * @return Page<UserVO>
+     */
+    Page<UserQueryVO> getUserInfo(UserQueryForm form);
+
+    /**
+     * 删除用户
+     *
+     * @param userId 用户ID
+     * @throws BussException UserError.USER_NOT_FOUND
+     */
+    void deleteUser(Long userId) throws BussException;
+
+    /**
+     * 根据ID获取 某个用户详细信息
+     *
+     * @param userId 用户ID
+     */
+    UserDetailVO getUserDetailById(Long userId) throws BussException;
 }

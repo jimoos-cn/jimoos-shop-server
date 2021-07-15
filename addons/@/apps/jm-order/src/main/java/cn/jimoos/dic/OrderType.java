@@ -8,5 +8,13 @@ public class OrderType {
     private OrderType() {
     }
 
+    /**
+     * 实体类
+     */
     public static final String PRODUCT = "PRODUCT";
+
+    /**
+     * 虚拟类
+     */
+    public static final String VIRTUAL = "VIRTUAL";
 }

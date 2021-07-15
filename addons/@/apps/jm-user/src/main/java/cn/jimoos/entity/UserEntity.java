@@ -152,4 +152,12 @@ public class UserEntity extends User {
         this.setBan(false);
         this.setUpdateAt(System.currentTimeMillis());
     }
+
+    /**
+     * 删除账户
+     */
+    public void delete() {
+        this.setDeleted(true);
+        this.setUpdateAt(System.currentTimeMillis());
+    }
 }

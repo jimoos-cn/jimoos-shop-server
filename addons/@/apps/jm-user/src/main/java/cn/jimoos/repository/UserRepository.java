@@ -1,14 +1,12 @@
 package cn.jimoos.repository;
 
-import cn.jimoos.dao.UserAddressMapper;
-import cn.jimoos.dao.UserMapper;
-import cn.jimoos.dao.UserSessionMapper;
-import cn.jimoos.dao.UserSocialMapper;
+import cn.jimoos.dao.*;
 import cn.jimoos.entity.UserEntity;
+import cn.jimoos.model.UserRelation;
 import cn.jimoos.model.UserSocial;
 import cn.jimoos.user.model.User;
+import cn.jimoos.user.model.UserAddress;
 import cn.jimoos.user.model.UserSession;
-import cn.jimoos.user.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -33,6 +31,8 @@ public class UserRepository {
     UserAddressMapper userAddressMapper;
     @Resource
     UserSocialMapper userSocialMapper;
+    @Resource
+    UserRelationMapper userRelationMapper;
 
     public UserMapper getUserMapper() {
         return userMapper;
@@ -147,7 +147,34 @@ public class UserRepository {
         return userMapper.queryTableCount(qm);
     }
 
+    /**
+     * 查询用户收货地址
+     * @param userId 参数
+     * @return List<UserAddress>
+     */
+    public List<UserAddress> queryUserAddressById(Long userId){
+        return userAddressMapper.selectByUid(userId);
+    }
+
     public List<User> queryTable(Map<String, String> qm) {
         return userMapper.queryTable(qm);
+    }
+
+    /**
+     * 用户分销关系查询
+     * @param id 用户ID
+     * @return UserRelation
+     */
+    public UserRelation queryUserRelation(Long id) {
+        return userRelationMapper.findOneByUserId(id);
+    }
+
+    /**
+     * 用户社交登陆查询
+     * @param id 用户ID
+     * @return
+     */
+    public List<UserSocial> queryUserSocials(Long id) {
+        return userSocialMapper.findAllById(id);
     }
 }

@@ -156,7 +156,7 @@ public class UserEntity extends User {
     /**
      * 删除账户
      */
-    public void remove() {
+    public void delete() {
         this.setDeleted(true);
         this.setUpdateAt(System.currentTimeMillis());
     }

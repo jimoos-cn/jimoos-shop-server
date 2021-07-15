@@ -3,13 +3,13 @@ package cn.jimoos.rest.be;
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.be.UserQueryForm;
 import cn.jimoos.service.UserService;
-import cn.jimoos.user.vo.UserVO;
 import cn.jimoos.utils.http.Page;
-import cn.jimoos.vo.be.UserDetailVO;
+import cn.jimoos.vo.be.UserAddressVO;
 import cn.jimoos.vo.be.UserQueryVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * back-end user api
@@ -74,7 +74,19 @@ public class BeUserApi {
      * @return UserVO
      */
     @GetMapping(value = "/{userId}/details", produces = "application/json;charset=utf-8")
-    public UserDetailVO getUserDetail(@PathVariable("userId") Long userId) throws BussException {
+    public UserQueryVO getUserDetail(@PathVariable("userId") Long userId) throws BussException {
         return userService.getUserDetailById(userId);
+    }
+
+
+    /**
+     * 获取的用户地址
+     *
+     * @param userId 用户ID
+     * @return UserVO
+     */
+    @GetMapping(value = "/{userId}/address", produces = "application/json;charset=utf-8")
+    public List<UserAddressVO> getUserAddress(@PathVariable("userId") Long userId) {
+        return userService.getUserAddress(userId);
     }
 }

@@ -12,21 +12,20 @@ import cn.jimoos.form.ProfileForm;
 import cn.jimoos.form.SocialRegForm;
 import cn.jimoos.form.be.UserQueryForm;
 import cn.jimoos.impl.JmSpringEventPublisher;
-import cn.jimoos.model.UserRelation;
-import cn.jimoos.model.UserSocial;
 import cn.jimoos.repository.UserRepository;
 import cn.jimoos.service.UserService;
 import cn.jimoos.user.model.User;
 import cn.jimoos.user.model.UserAddress;
 import cn.jimoos.user.vo.UserVO;
 import cn.jimoos.utils.http.Page;
-import cn.jimoos.vo.be.UserDetailVO;
+import cn.jimoos.vo.be.UserAddressVO;
 import cn.jimoos.vo.be.UserQueryVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -131,7 +130,7 @@ public class UserServiceImpl implements UserService {
         long total = userRepository.queryTableCount(form.toQm());
         if (total > 0) {
             List<User> users = userRepository.queryTable(form.toQm());
-            return Page.create(total, toUserQueryVO(users));
+            return Page.create(total, users.stream().map(UserQueryVO::fromUser).collect(Collectors.toList()));
         }
         return Page.empty();
     }
@@ -148,7 +147,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetailVO getUserDetailById(Long userId) throws BussException{
+    public UserQueryVO getUserDetailById(Long userId) throws BussException{
         if (userId == null) {
             throw new BussException(ErrorCodeDefine.FORM_PARAMS_NOT_VALID);
         }
@@ -156,53 +155,15 @@ public class UserServiceImpl implements UserService {
         if (user == null) {
             throw new BussException(UserError.USER_NOT_FOUND);
         }
-        return toUserDetailVO(user);
+        return UserQueryVO.fromUser(user);
     }
 
-    /**
-     * user转UserQueryVO
-     * @param users
-     * @return List<UserQueryVO>
-     */
-    private List<UserQueryVO> toUserQueryVO(List<User> users) {
-        return users.stream().map(user ->{
-            UserQueryVO userQueryVO = new UserQueryVO();
-            BeanUtils.copyProperties(user, userQueryVO);
-            return userQueryVO;
-        }).collect(Collectors.toList());
-    }
-
-    /**
-     * user转UserQueryVO
-     * @param user 用户主表
-     * @return UserQueryVO
-     */
-    private UserQueryVO toUserQueryVO(User user) {
-        UserQueryVO userQueryVO = new UserQueryVO();
-        BeanUtils.copyProperties(user, userQueryVO);
-        return userQueryVO;
-
-    }
-
-
-
-    /**
-     * 查询某用户的{收货地址,分销关系,社交登陆}
-     * user转UserDetailVO
-     * @param user 用户主表
-     * @return UserDetailVO
-     */
-    private UserDetailVO toUserDetailVO(User user) {
-        UserDetailVO userDetailVO = new UserDetailVO();
-        UserQueryVO userQueryVO = toUserQueryVO(user);
-        List<UserAddress> userAddresses = userRepository.queryUserAddressById(user.getId());
-        UserRelation userRelation = userRepository.queryUserRelation(user.getId());
-        List<UserSocial> userSocials = userRepository.queryUserSocials(user.getId());
-
-        userDetailVO.setUser(userQueryVO);
-        userDetailVO.setUserAddresses(userAddresses);
-        userDetailVO.setUserRelation(userRelation);
-        userDetailVO.setUserSocials(userSocials);
-        return userDetailVO;
+    @Override
+    public List<UserAddressVO> getUserAddress(Long userId) {
+        if (userId != null) {
+            List<UserAddress> userAddresses = userRepository.queryUserAddressById(userId);
+            return userAddresses.stream().map(UserAddressVO::toVO).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
     }
 }

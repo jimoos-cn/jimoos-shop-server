@@ -43,7 +43,7 @@ public class BeOrderApi {
      * @param beOrderQueryForm page search form
      * @return Page<OrderVO>
      */
-    @GetMapping(value = "/{userId}/query", produces = "application/json; charset=utf-8")
+    @GetMapping(value = "/byUserId", produces = "application/json; charset=utf-8")
     public Page<OrderVO> queryTableByUserId(@ModelAttribute BeOrderQueryForm beOrderQueryForm) {
         return orderService.qTableByUid(beOrderQueryForm);
     }

@@ -5,6 +5,8 @@ import cn.jimoos.form.be.UserQueryForm;
 import cn.jimoos.service.UserService;
 import cn.jimoos.user.vo.UserVO;
 import cn.jimoos.utils.http.Page;
+import cn.jimoos.vo.be.UserDetailVO;
+import cn.jimoos.vo.be.UserQueryVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -25,10 +27,10 @@ public class BeUserApi {
      * 用户管理中查询用户列表
      *
      * @param form user query form for table
-     * @return Page<UserVO>
+     * @return Page<UserQueryVO>
      */
     @GetMapping(value = "/query", produces = "application/json;charset=utf-8")
-    public Page<UserVO> getUserInfo(@ModelAttribute UserQueryForm form) {
+    public Page<UserQueryVO> getUserInfo(@ModelAttribute UserQueryForm form) {
         return userService.getUserInfo(form);
     }
 
@@ -38,9 +40,9 @@ public class BeUserApi {
      * @param userId 用户ID
      * @throws BussException UserError.USER_NOT_FOUND
      */
-    @PostMapping(value = "/{userId}/remove", produces = "application/json;charset=utf-8")
-    public void removeUser(@PathVariable("userId") Long userId) throws BussException {
-        userService.removeUser(userId);
+    @PostMapping(value = "/{userId}/delete", produces = "application/json;charset=utf-8")
+    public void deleteUser(@PathVariable("userId") Long userId) throws BussException {
+        userService.deleteUser(userId);
     }
 
     /**
@@ -63,5 +65,16 @@ public class BeUserApi {
     @PostMapping(value = "/{userId}/unban", produces = "application/json;charset=utf-8")
     public void unbanUser(@PathVariable("userId") Long userId) throws BussException {
         userService.unbanUser(userId);
+    }
+
+    /**
+     * 根据用户ID获取 某个用户详细信息
+     *
+     * @param userId 用户ID
+     * @return UserVO
+     */
+    @GetMapping(value = "/{userId}/details", produces = "application/json;charset=utf-8")
+    public UserDetailVO getUserDetail(@PathVariable("userId") Long userId) throws BussException {
+        return userService.getUserDetailById(userId);
     }
 }

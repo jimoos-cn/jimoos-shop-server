@@ -66,4 +66,12 @@
           AND social_id = #{socialId,jdbcType=VARCHAR}
           and `type` = #{type,jdbcType=TINYINT}
     </select>
+
+    <select id="findAllById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_user_social
+        where deleted = 0
+        and user_id = #{userId,jdbcType=BIGINT}
+    </select>
 </mapper>

@@ -59,4 +59,12 @@ public class UserVO {
         this.id = userId;
         this.role = role;
     }
+
+    public void transformBanValue(Boolean ban) {
+        if (ban) {
+            this.ban = 1;
+        } else {
+            this.ban = 0;
+        }
+    }
 }

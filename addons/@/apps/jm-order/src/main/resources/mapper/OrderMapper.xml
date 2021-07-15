@@ -125,7 +125,7 @@
         <if test="userId != null">
             AND user_id = #{userId}
         </if>
-        <if test="status != null">
+        <if test="status != null and status != -1">
             AND status = #{status}
         </if>
         order by create_at desc

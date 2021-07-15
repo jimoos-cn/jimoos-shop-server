@@ -28,9 +28,24 @@ public class BeOrderApi {
     @Resource
     ShipmentService shipmentService;
 
+    /**
+     * 订单查询
+     * @param beOrderQueryForm order search form
+     * @return Page<OrderVO>
+     */
     @GetMapping(value = "query", produces = "application/json; charset=utf-8")
     public Page<OrderVO> queryTable(@ModelAttribute BeOrderQueryForm beOrderQueryForm) {
         return orderService.qTable(beOrderQueryForm);
+    }
+
+    /**
+     * 根据用户ID 订单查询
+     * @param beOrderQueryForm page search form
+     * @return Page<OrderVO>
+     */
+    @GetMapping(value = "/byUserId", produces = "application/json; charset=utf-8")
+    public Page<OrderVO> queryTableByUserId(@ModelAttribute BeOrderQueryForm beOrderQueryForm) {
+        return orderService.qTableByUid(beOrderQueryForm);
     }
 
     /**

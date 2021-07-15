@@ -20,6 +20,7 @@ public class BeOrderQueryForm extends AbstractAdminPageForm4L {
     private String phone;
     private String orderNum;
     private String orderType;
+    private String userId;
 
     public Map<String, Object> toQueryMap() {
         Map<String, Object> qm = Maps.newHashMapWithExpectedSize(8);
@@ -30,6 +31,7 @@ public class BeOrderQueryForm extends AbstractAdminPageForm4L {
         qm.put("startTime", startTime);
         qm.put("endTime", endTime);
         qm.put("orderType", orderType);
+        qm.put("userId", userId);
         return qm;
     }
 }

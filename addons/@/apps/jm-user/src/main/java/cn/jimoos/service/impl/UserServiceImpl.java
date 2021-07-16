@@ -15,11 +15,12 @@ import cn.jimoos.impl.JmSpringEventPublisher;
 import cn.jimoos.repository.UserRepository;
 import cn.jimoos.service.UserService;
 import cn.jimoos.user.model.User;
-import cn.jimoos.user.model.UserAddress;
 import cn.jimoos.user.vo.UserVO;
 import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.be.UserAddressVO;
 import cn.jimoos.vo.be.UserQueryVO;
+import cn.jimoos.vo.be.UserRelationVO;
+import cn.jimoos.vo.be.UserSocialVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -161,8 +162,28 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserAddressVO> getUserAddress(Long userId) {
         if (userId != null) {
-            List<UserAddress> userAddresses = userRepository.queryUserAddressById(userId);
-            return userAddresses.stream().map(UserAddressVO::toVO).collect(Collectors.toList());
+            UserEntity userEntity = new UserEntity(userRepository);
+            return userEntity.getAddresses().stream().map(UserAddressVO::toVO).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public UserRelationVO getUserRelation(Long userId) {
+        if (userId != null) {
+            UserEntity userEntity = new UserEntity(userRepository);
+            userEntity.setId(userId);
+            return UserRelationVO.toVO(userEntity.getRelation());
+        }
+        return new UserRelationVO();
+    }
+
+    @Override
+    public List<UserSocialVO> getUserSocial(Long userId) {
+        if (userId != null) {
+            UserEntity userEntity = new UserEntity(userRepository);
+            userEntity.setId(userId);
+            return userEntity.getSocials().stream().map(UserSocialVO::toVO).collect(Collectors.toList());
         }
         return new ArrayList<>();
     }

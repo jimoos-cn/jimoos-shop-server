@@ -49,6 +49,17 @@ public class BeOrderApi {
     }
 
     /**
+     * 后台根据订单ID 查询订单详细
+     *
+     * @param orderId 订单Id
+     * @return OrderVO
+     */
+    @GetMapping(value = "/{orderId}/details", produces = "application/json; charset=utf-8")
+    public OrderVO queryTableByUserId(@PathVariable("orderId") Long orderId) throws BussException {
+        return orderService.getOrderDetails(orderId);
+    }
+
+    /**
      * 商家发货
      *
      * @param deliverForm order deliver form

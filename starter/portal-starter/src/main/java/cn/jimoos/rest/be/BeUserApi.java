@@ -6,6 +6,8 @@ import cn.jimoos.service.UserService;
 import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.be.UserAddressVO;
 import cn.jimoos.vo.be.UserQueryVO;
+import cn.jimoos.vo.be.UserRelationVO;
+import cn.jimoos.vo.be.UserSocialVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -89,4 +91,27 @@ public class BeUserApi {
     public List<UserAddressVO> getUserAddress(@PathVariable("userId") Long userId) {
         return userService.getUserAddress(userId);
     }
+
+    /**
+     * 获取的用户分销关系
+     *
+     * @param userId 用户ID
+     * @return UserVO
+     */
+    @GetMapping(value = "/{userId}/relation", produces = "application/json;charset=utf-8")
+    public UserRelationVO getUserRelation(@PathVariable("userId") Long userId) {
+        return userService.getUserRelation(userId);
+    }
+
+    /**
+     * 获取的社交登陆
+     *
+     * @param userId 用户ID
+     * @return UserVO
+     */
+    @GetMapping(value = "/{userId}/social", produces = "application/json;charset=utf-8")
+    public List<UserSocialVO> getUserSocial(@PathVariable("userId") Long userId) {
+        return userService.getUserSocial(userId);
+    }
+
 }

@@ -94,4 +94,14 @@
             #{item,jdbcType=VARCHAR}
         </foreach>
     </select>
+
+    <select id="findByOrderNumAndUserId" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from t_shipment
+            where user_id = #{userId,jdbcType=BIGINT}
+            and out_trade_no = #{orderNum,jdbcType=VARCHAR}
+            order by create_at desc
+        limit 1
+    </select>
 </mapper>

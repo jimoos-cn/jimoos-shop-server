@@ -2,11 +2,9 @@ package cn.jimoos.entity;
 
 import cn.jimoos.dic.OrderStatus;
 import cn.jimoos.form.shipment.ShipmentCreateForm;
-import cn.jimoos.model.Order;
-import cn.jimoos.model.OrderItem;
-import cn.jimoos.model.OrderItemDiscount;
-import cn.jimoos.model.OrderItemFee;
+import cn.jimoos.model.*;
 import cn.jimoos.repository.OrderRepository;
+import cn.jimoos.repository.ShipmentRepository;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.CollectionUtils;
@@ -28,6 +26,10 @@ public class OrderEntity extends Order {
      * The Order repository.
      */
     protected OrderRepository orderRepository;
+    /**
+     * The shipment repository.
+     */
+    protected ShipmentRepository shipmentRepository;
     private List<OrderItem> orderItemInputs;
     private List<OrderItemDiscount> orderItemDiscountInputs;
     private List<OrderItemFee> orderItemFeeInputs;
@@ -46,6 +48,16 @@ public class OrderEntity extends Order {
      */
     public OrderEntity(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
+    }
+
+    /**
+     * 构造方法
+     * @param orderRepository
+     * @param shipmentRepository
+     */
+    public OrderEntity(OrderRepository orderRepository, ShipmentRepository shipmentRepository) {
+        this.orderRepository = orderRepository;
+        this.shipmentRepository = shipmentRepository;
     }
 
     /**
@@ -130,6 +142,14 @@ public class OrderEntity extends Order {
      */
     public List<OrderItemFee> getOrderItemFees() {
         return orderRepository.getOrderItemFeeByOrderId(this.getId());
+    }
+
+    /**
+     * 获取配送表
+     *
+     */
+    public Shipment getShipmentByRepository() {
+        return shipmentRepository.byUserIdAndOrderNum(this.getOrderNum(),this.getUserId());
     }
 
 

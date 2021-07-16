@@ -7,8 +7,9 @@ import cn.jimoos.form.SocialRegForm;
 import cn.jimoos.form.be.UserQueryForm;
 import cn.jimoos.user.vo.UserVO;
 import cn.jimoos.utils.http.Page;
-import cn.jimoos.vo.be.UserDetailVO;
-import cn.jimoos.vo.be.UserQueryVO;
+import cn.jimoos.vo.be.*;
+
+import java.util.List;
 
 /**
  * @author :keepcleargas
@@ -79,5 +80,27 @@ public interface UserService {
      *
      * @param userId 用户ID
      */
-    UserDetailVO getUserDetailById(Long userId) throws BussException;
+    UserQueryVO getUserDetailById(Long userId) throws BussException;
+
+    /**
+     * 获取 用户地址
+     *
+     * @param userId 用户ID
+     * @return
+     */
+    List<UserAddressVO> getUserAddress(Long userId);
+
+    /**
+     * 获取 用户分销
+     * @param userId 用户ID
+     * @return
+     */
+    UserRelationVO getUserRelation(Long userId);
+
+    /**
+     * 获取 用户社交登陆
+     * @param userId
+     * @return
+     */
+    List<UserSocialVO> getUserSocial(Long userId);
 }

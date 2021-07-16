@@ -49,5 +49,10 @@ public interface ShipmentMapper {
      */
     List<Shipment> findByTypeAndOutTradeNoIn(@Param("type") Integer type, @Param("outTradeNoCollection") Collection<String> outTradeNoCollection);
 
-
+    /**
+     * @param orderNum 订单编码
+     * @param userId 用户ID
+     * @return Shipment
+     */
+    Shipment findByOrderNumAndUserId(@Param("orderNum") String orderNum, @Param("userId") Long userId);
 }

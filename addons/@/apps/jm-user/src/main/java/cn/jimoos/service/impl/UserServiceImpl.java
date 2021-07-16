@@ -163,6 +163,7 @@ public class UserServiceImpl implements UserService {
     public List<UserAddressVO> getUserAddress(Long userId) {
         if (userId != null) {
             UserEntity userEntity = new UserEntity(userRepository);
+            userEntity.setId(userId);
             return userEntity.getAddresses().stream().map(UserAddressVO::toVO).collect(Collectors.toList());
         }
         return new ArrayList<>();

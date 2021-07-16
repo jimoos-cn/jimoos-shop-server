@@ -62,6 +62,8 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(productEntity);
         //更新sku数据
         List<BeProductForm.SkuInput> skuInputs = beProductForm.getSkus();
+        //关联sku中的cover（数据库中'cover' cannot be null）
+        skuInputs.stream().peek(sku -> sku.setCover(beProductForm.getCover())).collect(Collectors.toList());
 
         if (!CollectionUtils.isEmpty(skuInputs)) {
             //添加 sku

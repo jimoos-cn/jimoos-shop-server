@@ -4,7 +4,7 @@ import cn.jimoos.common.exception.BussException;
 import cn.jimoos.context.DiscountContext;
 import cn.jimoos.context.FeeContext;
 import cn.jimoos.dao.*;
-import cn.jimoos.dic.ShipmentType;
+import cn.jimoos.constant.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.entity.ShopOrderEntity;
 import cn.jimoos.error.OrderError;

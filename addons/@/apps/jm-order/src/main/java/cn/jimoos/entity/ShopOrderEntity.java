@@ -1,7 +1,7 @@
 package cn.jimoos.entity;
 
-import cn.jimoos.dic.OrderStatus;
-import cn.jimoos.dic.ShipmentType;
+import cn.jimoos.constant.OrderStatus;
+import cn.jimoos.constant.ShipmentType;
 import cn.jimoos.form.order.OrderDeliverForm;
 import cn.jimoos.form.shipment.ShipmentDeliverForm;
 import cn.jimoos.model.Shipment;

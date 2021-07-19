@@ -2,7 +2,7 @@ package cn.jimoos.rest;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dao.OrderMapper;
-import cn.jimoos.dic.OrderStatus;
+import cn.jimoos.constant.OrderStatus;
 import cn.jimoos.error.OrderError;
 import cn.jimoos.factory.PayFactory;
 import cn.jimoos.form.PayForm;

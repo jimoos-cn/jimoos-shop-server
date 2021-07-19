@@ -1,7 +1,7 @@
 package cn.jimoos.rest.be;
 
 import cn.jimoos.common.exception.BussException;
-import cn.jimoos.dic.ShipmentType;
+import cn.jimoos.constant.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.form.order.OrderDeliverForm;
 import cn.jimoos.form.order.be.BeOrderQueryForm;

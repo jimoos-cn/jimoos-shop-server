@@ -1,6 +1,6 @@
 package cn.jimoos.entity;
 
-import cn.jimoos.dic.OrderStatus;
+import cn.jimoos.constant.OrderStatus;
 import cn.jimoos.form.shipment.ShipmentCreateForm;
 import cn.jimoos.model.*;
 import cn.jimoos.repository.OrderRepository;

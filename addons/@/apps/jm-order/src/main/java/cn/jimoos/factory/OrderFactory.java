@@ -2,8 +2,8 @@ package cn.jimoos.factory;
 
 import cn.jimoos.context.DiscountContext;
 import cn.jimoos.context.FeeContext;
-import cn.jimoos.dic.OrderStatus;
-import cn.jimoos.dic.ShipmentType;
+import cn.jimoos.constant.OrderStatus;
+import cn.jimoos.constant.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.entity.ShopOrderEntity;
 import cn.jimoos.form.order.OrderForm;

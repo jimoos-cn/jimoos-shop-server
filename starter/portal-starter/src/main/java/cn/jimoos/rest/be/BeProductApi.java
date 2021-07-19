@@ -6,7 +6,6 @@ import cn.jimoos.service.ProductService;
 import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.ProductSkuVO;
 import cn.jimoos.vo.ProductVO;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

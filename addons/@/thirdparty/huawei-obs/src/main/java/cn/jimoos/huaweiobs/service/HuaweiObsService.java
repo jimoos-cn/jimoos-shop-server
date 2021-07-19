@@ -1,6 +1,7 @@
 package cn.jimoos.huaweiobs.service;
 
 import cn.jimoos.huaweiobs.config.HuaweiObsProperties;
+import cn.jimoos.huaweiobs.dic.UploadType;
 import cn.jimoos.huaweiobs.form.ObsTemporarySignForm;
 import cn.jimoos.huaweiobs.vo.ObsTemporarySignVO;
 import cn.jimoos.huaweiobs.vo.TemporaryAccessKeyVO;
@@ -23,10 +24,7 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -50,8 +48,7 @@ public class HuaweiObsService {
             List<ObsTemporarySignVO> result = new ArrayList<>();
             for (ObsTemporarySignForm.Blob blob : blobs) {
                 String bucketName = this.huaweiObsProperties.getBucketNameByType(blob.getType());
-                long nanoTime = System.currentTimeMillis();
-                String blobName = nanoTime + "_" + blob.getName();
+                String blobName = this.autoCreateUrl(blob);
                 // 替换成您对应的操作
                 Long duration = this.huaweiObsProperties.getDuration();
 
@@ -84,6 +81,35 @@ public class HuaweiObsService {
         }
         return new ArrayList<>();
     }
+
+    public String autoCreateUrl(ObsTemporarySignForm.Blob blob){
+        StringBuilder build = new StringBuilder();
+        // 判断类别
+        switch (blob.getType()){
+            case UploadType.PICTURE:
+                build.append("photo");
+                break;
+            case UploadType.VIDEO:
+                build.append("video");
+                break;
+            case UploadType.MIX:
+                build.append("mix");
+                break;
+            default:
+                build.append("unknown");
+        }
+        // 生成时间戳
+        long nanoTime = System.currentTimeMillis();
+        build.append("/").append(nanoTime);
+        // 生成uuid
+        String uuid = UUID.randomUUID().toString().replace("-","");
+        build.append("_").append(uuid);
+        // 获取原文件的后缀
+        String[] split = blob.getName().split("\\.");
+        build.append(".").append(split[split.length - 1]);
+        return build.toString();
+    }
+
 
     public TemporaryAccessKeyVO getTemporaryAccessKey(int type) {
         ICredential auth = new GlobalCredentials()

@@ -2,7 +2,7 @@ package cn.jimoos.service.impl;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dao.BannerMapper;
-import cn.jimoos.dic.BannerStatus;
+import cn.jimoos.constant.BannerStatus;
 import cn.jimoos.entity.BannerEntity;
 import cn.jimoos.entity.RouteEntity;
 import cn.jimoos.factory.BannerFactory;

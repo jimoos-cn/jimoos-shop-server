@@ -2,7 +2,7 @@ package cn.jimoos.entity;
 
 
 import cn.jimoos.common.exception.BussException;
-import cn.jimoos.dic.BannerStatus;
+import cn.jimoos.constant.BannerStatus;
 import cn.jimoos.model.Banner;
 import cn.jimoos.repository.BannerRepository;
 import lombok.Data;

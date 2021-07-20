@@ -4,15 +4,19 @@ import cn.jimoos.common.exception.BussException;
 import cn.jimoos.error.UserError;
 import cn.jimoos.form.ProfileForm;
 import cn.jimoos.form.SocialRegForm;
+import cn.jimoos.model.UserRelation;
 import cn.jimoos.model.UserSocial;
 import cn.jimoos.repository.UserRepository;
 import cn.jimoos.user.model.User;
+import cn.jimoos.user.model.UserAddress;
 import cn.jimoos.user.model.UserSession;
 import cn.jimoos.utils.encrypt.BCrypt;
 import cn.jimoos.utils.encrypt.EncryptUtil;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
+
+import java.util.List;
 
 /**
  * 用户对象
@@ -159,5 +163,26 @@ public class UserEntity extends User {
     public void delete() {
         this.setDeleted(true);
         this.setUpdateAt(System.currentTimeMillis());
+    }
+
+    /**
+     * 获取用户的收货地址
+     */
+    public List<UserAddress> getAddresses(){
+        return userRepository.queryUserAddressById(this.getId());
+    }
+
+    /**
+     * 获取用户分销关系
+     */
+    public UserRelation getRelation(){
+        return userRepository.queryUserRelation(this.getId());
+    }
+
+    /**
+     * 获取用户的社交登陆
+     */
+    public List<UserSocial> getSocials(){
+        return userRepository.queryUserSocials(this.getId());
     }
 }

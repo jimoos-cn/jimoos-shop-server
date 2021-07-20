@@ -1,4 +1,4 @@
-package cn.jimoos.dic;
+package cn.jimoos.constant;
 
 /**
  * @author :keepcleargas

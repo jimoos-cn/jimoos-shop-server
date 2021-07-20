@@ -3,6 +3,7 @@ package cn.jimoos.factory;
 import cn.jimoos.entity.ProductEntity;
 import cn.jimoos.form.product.BeProductForm;
 import cn.jimoos.repository.ProductRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -30,6 +31,11 @@ public class ProductFactory {
         productEntity.setCover(form.getCover());
         productEntity.setVideoUrl(form.getVideoUrl());
         productEntity.setBannerUrls(form.getBannerUrls());
+        // 数据库必填项
+        if (StringUtils.isEmpty(form.getBannerUrls())) {
+            //设置为cover
+            productEntity.setBannerUrls(form.getCover());
+        }
         productEntity.setSort(form.getSort());
         productEntity.setFakeSales(form.getFakeSales());
         productEntity.setType(ProductEntity.Type.NORMAL.val());

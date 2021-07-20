@@ -4,7 +4,7 @@ import cn.jimoos.common.exception.BussException;
 import cn.jimoos.context.DiscountContext;
 import cn.jimoos.context.FeeContext;
 import cn.jimoos.dao.*;
-import cn.jimoos.dic.ShipmentType;
+import cn.jimoos.constant.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.entity.ShopOrderEntity;
 import cn.jimoos.error.OrderError;
@@ -13,6 +13,7 @@ import cn.jimoos.form.order.*;
 import cn.jimoos.form.order.be.BeOrderQueryForm;
 import cn.jimoos.model.*;
 import cn.jimoos.repository.OrderRepository;
+import cn.jimoos.repository.ShipmentRepository;
 import cn.jimoos.service.OrderService;
 import cn.jimoos.user.model.UserAddress;
 import cn.jimoos.user.provider.UserProvider;
@@ -29,7 +30,6 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -54,6 +54,9 @@ public class OrderServiceImpl implements OrderService {
      */
     @Resource
     OrderRepository orderRepository;
+
+    @Resource
+    ShipmentRepository shipmentRepository;
 
     @Resource
     UserProvider userProvider;
@@ -260,6 +263,17 @@ public class OrderServiceImpl implements OrderService {
             return Page.create(count, fromOrders(orders));
         }
         return Page.empty();
+    }
+
+    @Override
+    public OrderVO getOrderDetails(Long orderId) throws BussException {
+        if (orderId != null) {
+            OrderEntity orderEntity = orderRepository.findById(orderId);
+            orderEntity.setOrderRepository(orderRepository);
+            orderEntity.setShipmentRepository(shipmentRepository);
+            return OrderVO.toVO(orderEntity);
+        }
+        return new OrderVO();
     }
 
     /**

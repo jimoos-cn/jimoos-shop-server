@@ -1,7 +1,7 @@
 package cn.jimoos.rest.be;
 
 import cn.jimoos.common.exception.BussException;
-import cn.jimoos.dic.ShipmentType;
+import cn.jimoos.constant.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.form.order.OrderDeliverForm;
 import cn.jimoos.form.order.be.BeOrderQueryForm;
@@ -46,6 +46,17 @@ public class BeOrderApi {
     @GetMapping(value = "/byUserId", produces = "application/json; charset=utf-8")
     public Page<OrderVO> queryTableByUserId(@ModelAttribute BeOrderQueryForm beOrderQueryForm) {
         return orderService.qTableByUid(beOrderQueryForm);
+    }
+
+    /**
+     * 后台根据订单ID 查询订单详细
+     *
+     * @param orderId 订单Id
+     * @return OrderVO
+     */
+    @GetMapping(value = "/{orderId}/details", produces = "application/json; charset=utf-8")
+    public OrderVO queryTableByUserId(@PathVariable("orderId") Long orderId) throws BussException {
+        return orderService.getOrderDetails(orderId);
     }
 
     /**

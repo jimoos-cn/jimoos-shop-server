@@ -1,7 +1,7 @@
 package cn.jimoos.service.impl;
 
 import cn.jimoos.common.exception.BussException;
-import cn.jimoos.dic.ShipmentType;
+import cn.jimoos.constant.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.error.OrderError;
 import cn.jimoos.form.order.CancelForm;

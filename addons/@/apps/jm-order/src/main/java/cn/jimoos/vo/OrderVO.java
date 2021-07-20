@@ -5,6 +5,7 @@ import cn.jimoos.entity.ShopOrderEntity;
 import cn.jimoos.model.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -75,5 +76,27 @@ public class OrderVO extends Order {
         orderVo.setOrderDiscounts(shopOrderEntity.getOrderDiscounts());
         orderVo.setOrderItemFees(shopOrderEntity.getOrderItemFees());
         return orderVo;
+    }
+
+    /**
+     * 用于 将orderEntity转换为orderVO
+     * @date 2021年7月15日18:55:44
+     * @param orderEntity
+     * @return OrderVO
+     * @author SilentFlower
+     */
+    public static OrderVO toVO(OrderEntity orderEntity) {
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(orderEntity, orderVO);
+        List<OrderItem> orderItems = orderEntity.getOrderItems();
+        List<OrderItemFee> orderItemFees = orderEntity.getOrderItemFees();
+        List<OrderItemDiscount> orderDiscounts = orderEntity.getOrderDiscounts();
+        Shipment shipment = orderEntity.getShipmentByRepository();
+
+        orderVO.setOrderItems(orderItems);
+        orderVO.setOrderItemFees(orderItemFees);
+        orderVO.setOrderDiscounts(orderDiscounts);
+        orderVO.setShipment(shipment);
+        return orderVO;
     }
 }

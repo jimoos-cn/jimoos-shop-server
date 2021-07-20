@@ -100,4 +100,12 @@ public interface OrderService {
      * @return Page<OrderVO>
      */
     Page<OrderVO> qTableByUid(BeOrderQueryForm beOrderQueryForm);
+
+    /**
+     * 后台根据订单ID 查询订单详细
+     * @param orderId
+     * @return
+     * @throws BussException
+     */
+    OrderVO getOrderDetails(Long orderId) throws BussException;
 }

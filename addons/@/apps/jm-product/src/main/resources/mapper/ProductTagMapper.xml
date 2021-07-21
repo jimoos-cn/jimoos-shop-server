@@ -138,4 +138,20 @@
             AND type = #{type}
         </if>
     </select>
+
+    <select id="findByProductIdNotIn" resultMap="BaseResultDto">
+    SELECT
+        tpt.id,
+        tpt.`name`,
+        tpt.`type`,
+        tpt.color,
+        tpt.create_at,
+        tpt.update_at,
+        tpt.deleted
+    FROM
+	    t_product_tag tpt
+    WHERE
+        tpt.deleted = FALSE
+        AND NOT EXISTS(SELECT product_id from r_product_tag rpt WHERE rpt.product_id = #{productId,jdbcType=BIGINT} AND rpt.tag_id = tpt.id)
+    </select>
 </mapper>

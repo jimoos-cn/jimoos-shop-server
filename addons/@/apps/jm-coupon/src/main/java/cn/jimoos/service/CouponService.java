@@ -7,6 +7,7 @@ import cn.jimoos.form.be.*;
 import cn.jimoos.model.Coupon;
 import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.CouponRecordVO;
+import cn.jimoos.vo.CouponStatisticsVO;
 import cn.jimoos.vo.UserCouponVO;
 
 import java.math.BigDecimal;
@@ -146,4 +147,11 @@ public interface CouponService {
      * @return Page<CouponRecordVO>
      */
     Page<CouponRecordVO> couponRecords(BeCouponRecordQueryForm recordQueryForm);
+
+    /**
+     * 查询某优惠券的统计信息
+     * @param couponId
+     * @return
+     */
+    CouponStatisticsVO getCouponStatistics(Long couponId);
 }

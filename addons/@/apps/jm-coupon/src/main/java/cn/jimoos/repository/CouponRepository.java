@@ -1,8 +1,10 @@
 package cn.jimoos.repository;
 
+import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dao.CouponMapper;
 import cn.jimoos.dao.CouponRecordMapper;
 import cn.jimoos.entity.CouponEntity;
+import cn.jimoos.error.CouponError;
 import cn.jimoos.model.Coupon;
 import cn.jimoos.model.CouponRecord;
 import org.springframework.beans.BeanUtils;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 
 /**
  * @author :keepcleargas
@@ -52,7 +55,7 @@ public class CouponRepository {
             couponMapper.insert(couponEntity);
         }
     }
-    
+
     public void saveRecord(CouponRecord couponRecord) {
         couponRecordMapper.updateByPrimaryKey(couponRecord);
     }
@@ -81,8 +84,12 @@ public class CouponRepository {
      *
      * @param couponEntity 优惠券对象
      */
-    public void saveRecords(CouponEntity couponEntity) {
-        couponMapper.updateByPrimaryKey(couponEntity);
+    public void saveRecords(CouponEntity couponEntity) throws BussException {
+        // modify 2021-7-22 09:49:07 扣除优惠券时 做库存的二次校验
+        int i = couponMapper.reduceNum(couponEntity.getId());
+        if (i <= 0) {
+            throw new BussException(CouponError.COUPON_NOT_ENOUGH);
+        }
         if (!CollectionUtils.isEmpty(couponEntity.getCouponRecordInputs())) {
             couponRecordMapper.batchInsert(couponEntity.getCouponRecordInputs());
         }
@@ -96,5 +103,14 @@ public class CouponRepository {
      */
     public Long countRecords(Long couponId) {
         return couponRecordMapper.countByCouponId(couponId);
+    }
+
+    /**
+     * 查询某优惠券关联订单的总金额
+     * @param id
+     * @return
+     */
+    public BigDecimal queryAssociatedOrderAmount(Long id) {
+        return couponRecordMapper.queryAssociatedOrderAmount(id);
     }
 }

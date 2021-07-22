@@ -5,8 +5,10 @@ import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dao.CouponMapper;
 import cn.jimoos.dao.CouponRecordMapper;
 import cn.jimoos.entity.CouponEntity;
+import cn.jimoos.entity.CouponStatisticsEntity;
 import cn.jimoos.error.CouponError;
 import cn.jimoos.factory.CouponFactory;
+import cn.jimoos.factory.CouponStatisticsFactory;
 import cn.jimoos.form.UserCouponQueryForm;
 import cn.jimoos.form.UserSatisfyQueryForm;
 import cn.jimoos.form.be.*;
@@ -18,6 +20,7 @@ import cn.jimoos.user.provider.UserProvider;
 import cn.jimoos.user.vo.UserVO;
 import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.CouponRecordVO;
+import cn.jimoos.vo.CouponStatisticsVO;
 import cn.jimoos.vo.UserCouponVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -47,6 +50,8 @@ public class CouponServiceImpl implements CouponService {
     CouponMapper couponMapper;
     @Resource
     CouponFactory couponFactory;
+    @Resource
+    CouponStatisticsFactory couponStatisticsFactory;
     @Resource
     CouponRecordMapper couponRecordMapper;
     @Resource
@@ -283,5 +288,11 @@ public class CouponServiceImpl implements CouponService {
         }
 
         return Page.empty();
+    }
+
+    @Override
+    public CouponStatisticsVO getCouponStatistics(Long couponId) {
+        CouponStatisticsEntity couponStatisticsEntity = couponStatisticsFactory.create(couponId);
+        return couponStatisticsEntity.queryCouponStatistics();
     }
 }

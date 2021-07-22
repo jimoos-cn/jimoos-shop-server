@@ -59,7 +59,7 @@ public class ProductTagRepository {
         }else{
             i = rProductTagMapper.updateByPrimaryKey(rProductTagEntity);
         }
-        Assert.isTrue(i > 0, "新增或修改失败");
+        Assert.isTrue(i > 0, "rProductTag 新增或修改失败");
         return true;
     }
 
@@ -81,7 +81,7 @@ public class ProductTagRepository {
      */
     public boolean deleteBoundValue(RProductTagEntity productTagEntity) {
         int i = rProductTagMapper.deleteByTagIdAndProductId(productTagEntity);
-        Assert.isTrue(i > 0, "删除失败");
+        Assert.isTrue(i > 0, "rProductTag 删除失败");
         return true;
     }
 

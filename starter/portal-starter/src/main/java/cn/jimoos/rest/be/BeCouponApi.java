@@ -6,6 +6,7 @@ import cn.jimoos.model.Coupon;
 import cn.jimoos.service.CouponService;
 import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.CouponRecordVO;
+import cn.jimoos.vo.CouponStatisticsVO;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -50,6 +51,7 @@ public class BeCouponApi {
     public Coupon update(@ModelAttribute BeCouponForm couponForm) throws BussException {
         return couponService.updateCoupon(couponForm);
     }
+
     /**
      * 查询
      *
@@ -104,5 +106,16 @@ public class BeCouponApi {
     public void downCoupon(@ModelAttribute BeCouponStatusForm form) throws BussException {
         form.setStatus(false);
         couponService.upOrDownCoupon(form);
+    }
+
+    /**
+     * 查询某优惠券的统计信息
+     *
+     * @param couponId
+     * @return
+     */
+    @GetMapping(value = "/{couponId}/statistics", produces = "application/json; charset=utf-8")
+    public CouponStatisticsVO getCouponStatistics(@PathVariable("couponId") Long couponId) {
+        return couponService.getCouponStatistics(couponId);
     }
 }

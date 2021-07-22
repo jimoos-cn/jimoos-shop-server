@@ -82,4 +82,12 @@ public interface CouponRecordMapper {
      * @return
      */
     Long countByCouponId(@Param("couponId") Long couponId);
+
+    /**
+     * 查询某优惠券关联订单的总金额
+     *
+     * @param id
+     * @return
+     */
+    BigDecimal queryAssociatedOrderAmount(Long id);
 }

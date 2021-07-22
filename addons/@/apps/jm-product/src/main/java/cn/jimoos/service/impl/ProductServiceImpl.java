@@ -159,16 +159,14 @@ public class ProductServiceImpl implements ProductService {
             throw new BussException(ProductError.PRODUCT_SKU_LOSE);
         }
         productEntity.up();
-
-        productRepository.save(productEntity);
+        productRepository.saveAndNoDelete(productEntity);
     }
 
     @Override
     public void down(BeProductStatusForm statusForm) throws BussException {
         ProductEntity productEntity = productRepository.byId(statusForm.getProductId());
         productEntity.down(statusForm.getReason());
-
-        productRepository.save(productEntity);
+        productRepository.saveAndNoDelete(productEntity);
     }
 
     @Override

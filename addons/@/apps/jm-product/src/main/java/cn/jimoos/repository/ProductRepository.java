@@ -63,6 +63,24 @@ public class ProductRepository {
     }
 
     /**
+     * 保存 ProductEntity信息 此处不修改时不删除tag
+     * 2021年7月22日16:35:41
+     * @param productEntity product entity
+     */
+    public void saveAndNoDelete(ProductEntity productEntity) {
+        if (productEntity.getId() != null && productEntity.getId() > 0) {
+            productMapper.updateByPrimaryKey(productEntity);
+        } else {
+            productMapper.insert(productEntity);
+            List<RProductTag> rProductTags = productEntity.getRProductTagInputs();
+            if (!CollectionUtils.isEmpty(rProductTags)) {
+                rProductTags = rProductTags.stream().peek(rProductTag -> rProductTag.setProductId(productEntity.getId())).collect(Collectors.toList());
+            }
+            rProductTagMapper.batchInsert(rProductTags);
+        }
+    }
+
+    /**
      * 查找 product 对象
      *
      * @param id product id

@@ -28,7 +28,7 @@ public class BeAuthApi {
     AdminService adminService;
 
     /**
-     * 更新密码
+     * 后台登陆
      *
      * @param adminLoginForm 登录表单
      * @throws BussException AdminError.ADMIN_NOT_EXIST

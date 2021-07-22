@@ -188,4 +188,13 @@ public class UserServiceImpl implements UserService {
         }
         return new ArrayList<>();
     }
+
+    @Override
+    public String resetPwd(Long userId) {
+        UserEntity userEntity = userFactory.create(userId);
+        String newPwd = userEntity.resetPwd();
+        userEntity.save();
+        userEntity.deleteAllSession();
+        return newPwd;
+    }
 }

@@ -103,4 +103,11 @@ public interface UserService {
      * @return
      */
     List<UserSocialVO> getUserSocial(Long userId);
+
+    /**
+     * 重置 用户密码
+     * @param userId
+     * @return
+     */
+    String resetPwd(Long userId);
 }

@@ -34,4 +34,10 @@ public class UserFactory {
         userEntity.setInviteCode(defaultCodeGenComponent.getAvailableInviteCode(userEntity));
         return userEntity;
     }
+
+    public UserEntity create(Long userId) {
+        UserEntity userEntity = new UserEntity(userRepository);
+        userEntity.setId(userId);
+        return userEntity;
+    }
 }

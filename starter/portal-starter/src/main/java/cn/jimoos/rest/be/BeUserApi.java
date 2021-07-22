@@ -114,4 +114,14 @@ public class BeUserApi {
         return userService.getUserSocial(userId);
     }
 
+    /**
+     * 重置用户密码
+     *
+     * @param userId 用户ID
+     */
+    @PostMapping(value = "/{userId}/resetPwd",produces = "application/json;charset=utf-8")
+    public String resetPassword(@PathVariable("userId") Long userId) {
+        return userService.resetPwd(userId);
+    }
+
 }

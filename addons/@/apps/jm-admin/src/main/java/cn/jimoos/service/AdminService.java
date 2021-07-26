@@ -62,4 +62,11 @@ public interface AdminService {
      * @return Page<Admin>
      */
     Page<AdminVO> query(AdminQueryForm adminQueryForm);
+
+    /**
+     * 登出操作
+     * @param request
+     * @return
+     */
+    boolean logout(HttpServletRequest request);
 }

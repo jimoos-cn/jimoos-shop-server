@@ -16,6 +16,7 @@ import cn.jimoos.vo.AdminVO;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -155,5 +156,14 @@ public class AdminServiceImpl implements AdminService {
             return Page.create(count, adminVOs);
         }
         return Page.empty();
+    }
+
+    @Override
+    public boolean logout(HttpServletRequest request) {
+        AdminEntity adminEntity = new AdminEntity(adminRepository);
+        String token = request.getHeader("Authorization");
+        int i = adminEntity.deleteSessionByToken(token);
+        Assert.isTrue(i > 0, "后台管理账户登出失败");
+        return true;
     }
 }

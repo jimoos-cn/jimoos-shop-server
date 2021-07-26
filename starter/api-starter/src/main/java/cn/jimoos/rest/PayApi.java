@@ -6,9 +6,12 @@ import cn.jimoos.constant.OrderStatus;
 import cn.jimoos.error.OrderError;
 import cn.jimoos.factory.PayFactory;
 import cn.jimoos.form.PayForm;
+import cn.jimoos.form.PayRefundForm;
+import cn.jimoos.form.PaySearchForm;
 import cn.jimoos.form.payment.PayBussForm;
 import cn.jimoos.model.Order;
 import cn.jimoos.payment.model.PaymentVO;
+import cn.jimoos.payment.model.RefundVO;
 import cn.jimoos.payment.provider.PayProvider;
 import cn.jimoos.provider.impl.WeixinMaPayProvider;
 import cn.jimoos.service.PaymentService;
@@ -75,5 +78,52 @@ public class PayApi {
         PayForm payForm = new PayForm(orderNum, payType, subject, subject, order.getRealPay(), extras);
 
         return paymentService.pay(payForm, payFactory.getPayProvider(payType));
+    }
+
+    /**
+     * 主动查询 第三方接口订单状态
+     * @param paySearchForm
+     * @throws BussException
+     */
+    @GetMapping(value = "/orderQuery", produces = "application/json; charset=utf-8")
+    public boolean orderQuery(@ModelAttribute PaySearchForm paySearchForm) throws BussException {
+        log.debug("pay orderQuery:{}", JsonMapper.defaultMapper().toJson(paySearchForm));
+        String orderNum = paySearchForm.getOrderNum();
+        Order order = orderMapper.findOneByOrderNumAndUserId(orderNum, paySearchForm.getUserId());
+        // 订单本地判断
+        if (order == null) {
+            throw new BussException(OrderError.ORDER_NOT_FOUND);
+        }
+        if (order.getStatus() >= OrderStatus.PAID && order.getStatus() != OrderStatus.CANCEL) {
+            throw new BussException(OrderError.ORDER_IS_PAID);
+        } else if (order.getStatus() == OrderStatus.CANCEL) {
+            throw new BussException(OrderError.ORDER_IS_CANCELED);
+        }
+        // 如果第三方平台出现延迟，则调用第三方主动查询接口
+        paySearchForm.setOpenId(String.valueOf(order.getUserId()));
+        return paymentService.query(paySearchForm, payFactory.getPayProvider(paySearchForm.getPayType()));
+    }
+
+    /**
+     * 退款
+     * @param payRefundForm
+     * @return
+     * @throws BussException
+     */
+    @PostMapping(value = "/refund", produces = "application/json; charset=utf-8")
+    public RefundVO refund(@ModelAttribute PayRefundForm payRefundForm) throws BussException {
+        log.debug("pay orderRefund:{}", JsonMapper.defaultMapper().toJson(payRefundForm));
+        String orderNum = payRefundForm.getOrderNum();
+        Order order = orderMapper.findOneByOrderNum(orderNum);
+        // 判断订单是否存在以及状态
+        if (order == null) {
+            throw new BussException(OrderError.ORDER_NOT_FOUND);
+        }
+        payRefundForm.setMoney(order.getRealPay());
+        if (payRefundForm.getMoney().compareTo(payRefundForm.getRefundMoney()) < 0) {
+            throw new BussException(OrderError.ORDER_REFUND_NOT_ENOUGH);
+        }
+        // todo 判断订单是否为退款状态，未商定退款状态码
+        return paymentService.refund(payRefundForm, payFactory.getPayProvider(payRefundForm.getPayType()));
     }
 }

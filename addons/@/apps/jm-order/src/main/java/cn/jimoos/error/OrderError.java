@@ -17,7 +17,8 @@ public enum OrderError implements IErrorCode {
     ORDER_IS_CANCELED("order.order_is_canceled", "订单已取消"),
     PRODUCT_TYPE_NOT_FOUND("order.product_type_not_found", "商品类别未找到"),
     PRODUCT_NOT_FOUND("order.product_not_found", "商品未找到"),
-    SHIPMENT_NOT_EXIST("shipment.shipment_not_exist", "发货单找不到了");
+    SHIPMENT_NOT_EXIST("shipment.shipment_not_exist", "发货单找不到了"),
+    ORDER_REFUND_NOT_ENOUGH("order.refund.not.enough", "退款金额大于订单金额");
 
     private String code;
     private String desc;

@@ -47,4 +47,12 @@ public interface OrderItemMapper {
      * @return this list
      */
     List<OrderItem> findByOrderIdIn(@Param("orderIdCollection") Collection<Long> orderIdCollection);
+
+    /**
+     * 根据订单编号
+     * 查询订单商品
+     * @param orderNum
+     * @return
+     */
+    List<OrderItem> findByOrderNum(String orderNum);
 }

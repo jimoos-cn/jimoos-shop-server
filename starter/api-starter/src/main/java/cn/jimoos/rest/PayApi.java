@@ -105,7 +105,7 @@ public class PayApi {
     }
 
     /**
-     * 退款
+     * 退款 （商家确认退款金额）
      * @param payRefundForm
      * @return
      * @throws BussException
@@ -123,7 +123,9 @@ public class PayApi {
         if (payRefundForm.getMoney().compareTo(payRefundForm.getRefundMoney()) < 0) {
             throw new BussException(OrderError.ORDER_REFUND_NOT_ENOUGH);
         }
-        // todo 判断订单是否为退款状态，未商定退款状态码
+        if (order.getStatus() != OrderStatus.REFUND) {
+            throw new BussException(OrderError.ORDER_REFUND_NOT_EXIST);
+        }
         return paymentService.refund(payRefundForm, payFactory.getPayProvider(payRefundForm.getPayType()));
     }
 }

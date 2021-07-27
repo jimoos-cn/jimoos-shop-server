@@ -8,6 +8,9 @@ import cn.jimoos.common.error.IErrorCode;
  * @date :2021-04-07 12:42.
  */
 public enum OrderError implements IErrorCode {
+    /**
+     * 订单错误相关
+     */
     ORDER_NOT_FOUND("order.order_not_found", "订单找不到了"),
     ORDER_TYPE_NOT_SUPPORT("order.order_type_not_support", "订单类型不支持"),
     ORDER_STATUS_NOT_VALID("order.order_status_not_valid", "订单状态不正确,请刷新重试"),
@@ -18,7 +21,8 @@ public enum OrderError implements IErrorCode {
     PRODUCT_TYPE_NOT_FOUND("order.product_type_not_found", "商品类别未找到"),
     PRODUCT_NOT_FOUND("order.product_not_found", "商品未找到"),
     SHIPMENT_NOT_EXIST("shipment.shipment_not_exist", "发货单找不到了"),
-    ORDER_REFUND_NOT_ENOUGH("order.refund.not.enough", "退款金额大于订单金额");
+    ORDER_REFUND_NOT_ENOUGH("order.refund_not_enough", "退款金额大于订单金额"),
+    ORDER_REFUND_NOT_EXIST("order.refund_not_exist", "退款订单不存在");
 
     private String code;
     private String desc;

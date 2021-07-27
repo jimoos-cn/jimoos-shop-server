@@ -5,9 +5,12 @@ import cn.jimoos.context.FeeContext;
 import cn.jimoos.constant.OrderStatus;
 import cn.jimoos.constant.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
+import cn.jimoos.entity.OrderRefundEntity;
 import cn.jimoos.entity.ShopOrderEntity;
 import cn.jimoos.form.order.OrderForm;
 import cn.jimoos.form.order.OrderItemForm;
+import cn.jimoos.form.order.OrderRefundForm;
+import cn.jimoos.form.order.be.BeRefundDeleteForm;
 import cn.jimoos.form.shipment.ShipmentCreateForm;
 import cn.jimoos.model.OrderItem;
 import cn.jimoos.model.OrderItemDiscount;
@@ -18,6 +21,7 @@ import cn.jimoos.repository.OrderRepository;
 import cn.jimoos.user.model.UserAddress;
 import cn.jimoos.utils.mapper.JsonMapper;
 import cn.jimoos.utils.validate.ValidateUtils;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -253,5 +257,33 @@ public class OrderFactory {
             return orderItemFee;
         }
         return null;
+    }
+
+    /**
+     * 根据orderId
+     * 创建orderRefundEntity
+     */
+    @SneakyThrows
+    public OrderRefundEntity createOrderRefundEntity(OrderRefundForm orderRefundForm) {
+        OrderRefundEntity orderRefundEntity = new OrderRefundEntity(orderRepository);
+        orderRefundEntity.setOrderNum(orderRefundForm.getOrderNum());
+        orderRefundEntity.setCreateTime(System.currentTimeMillis());
+        return orderRefundEntity;
+    }
+
+    @SneakyThrows
+    public OrderRefundEntity createOrderRefundEntity() {
+        return new OrderRefundEntity(orderRepository);
+
+    }
+
+    @SneakyThrows
+    public OrderRefundEntity createOrderRefundEntity(BeRefundDeleteForm beRefundDeleteForm) {
+        OrderRefundEntity orderRefundEntity = new OrderRefundEntity(orderRepository);
+        orderRefundEntity.setUpdateTime(System.currentTimeMillis());
+        orderRefundEntity.setId(beRefundDeleteForm.getId());
+        orderRefundEntity.setRefundStatus(OrderStatus.REFUND_CANCEL);
+        orderRefundEntity.setOrderNum(beRefundDeleteForm.getOrderNum());
+        return orderRefundEntity;
     }
 }

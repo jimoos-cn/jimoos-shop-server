@@ -5,10 +5,13 @@ import cn.jimoos.constant.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.form.order.OrderDeliverForm;
 import cn.jimoos.form.order.be.BeOrderQueryForm;
+import cn.jimoos.form.order.be.BeRefundDeleteForm;
+import cn.jimoos.form.order.be.BeRefundQueryForm;
 import cn.jimoos.form.shipment.ShipmentDeliverForm;
 import cn.jimoos.service.OrderService;
 import cn.jimoos.service.ShipmentService;
 import cn.jimoos.utils.http.Page;
+import cn.jimoos.vo.OrderRefundVO;
 import cn.jimoos.vo.OrderVO;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +31,10 @@ public class BeOrderApi {
     @Resource
     ShipmentService shipmentService;
 
+
     /**
      * 订单查询
+     *
      * @param beOrderQueryForm order search form
      * @return Page<OrderVO>
      */
@@ -40,6 +45,7 @@ public class BeOrderApi {
 
     /**
      * 根据用户ID 订单查询
+     *
      * @param beOrderQueryForm page search form
      * @return Page<OrderVO>
      */
@@ -71,5 +77,25 @@ public class BeOrderApi {
                 orderEntity.getOrderNum(), deliverForm.getShipCode(),
                 deliverForm.getExpress(), deliverForm.getExpressCode());
         shipmentService.deliver(shipmentDeliverForm);
+    }
+
+    /**
+     * 商家查看 申请退款订单
+     * @param beRefundQueryForm
+     * @return
+     */
+    @GetMapping(value = "/refund/query", produces = "application/json; charset=utf-8")
+    public Page<OrderRefundVO> queryRefund(@ModelAttribute BeRefundQueryForm beRefundQueryForm) {
+        return orderService.queryRefund(beRefundQueryForm);
+    }
+
+    /**
+     * 商家取消 申请退款订单
+     * @param beRefundDeleteForm
+     * @return
+     */
+    @PostMapping(value = "/refund/cancel", produces = "application/json; charset=utf-8")
+    public void cancelRefund(@ModelAttribute BeRefundDeleteForm beRefundDeleteForm) {
+        orderService.cancelRefund(beRefundDeleteForm);
     }
 }

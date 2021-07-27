@@ -4,8 +4,11 @@ import cn.jimoos.common.exception.BussException;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.form.order.*;
 import cn.jimoos.form.order.be.BeOrderQueryForm;
+import cn.jimoos.form.order.be.BeRefundDeleteForm;
+import cn.jimoos.form.order.be.BeRefundQueryForm;
 import cn.jimoos.user.model.UserAddress;
 import cn.jimoos.utils.http.Page;
+import cn.jimoos.vo.OrderRefundVO;
 import cn.jimoos.vo.OrderVO;
 
 import java.util.List;
@@ -108,4 +111,24 @@ public interface OrderService {
      * @throws BussException
      */
     OrderVO getOrderDetails(Long orderId) throws BussException;
+
+    /**
+     * 订单退款申请
+     * @param orderRefundForm
+     * @throws BussException
+     */
+    void refundOrder(OrderRefundForm orderRefundForm) throws BussException;
+
+    /**
+     * 后台查询 退款订单
+     * @param beRefundQueryForm
+     * @return
+     */
+    Page<OrderRefundVO> queryRefund(BeRefundQueryForm beRefundQueryForm);
+
+    /**
+     * 商家取消 申请退款订单
+     * @param beRefundDeleteForm
+     */
+    void cancelRefund(BeRefundDeleteForm beRefundDeleteForm);
 }

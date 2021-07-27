@@ -157,9 +157,9 @@ public class GlobalExceptionHandler {
     /**
      * 未经授权异常，应该返回 FORBIDDEN 403 权限不足
      */
-    @ExceptionHandler(value = {UnauthorizedException.class, AccessForbiddenException.class})
+    @ExceptionHandler(value = {AccessForbiddenException.class})
     @ResponseBody
-    public ResponseEntity<String> unauthorizedExceptionHandler(Exception ex, HttpServletRequest request) {
+    public ResponseEntity<String> accessForbiddenExceptionHandler(Exception ex, HttpServletRequest request) {
         HttpStatus status = FORBIDDEN;
         ErrorRes errorRes = new ErrorRes();
         errorRes.setCode(ErrorCodeDefine.UNAUTHORIZED.getCode());
@@ -168,6 +168,22 @@ public class GlobalExceptionHandler {
         log.info("Not authorized,url:{}, message:{},throwable:", request.getRequestURL().toString(), res.getBody(), ex);
         return res;
     }
+
+    /**
+     * 未登陆 应该返回 401
+     */
+    @ExceptionHandler(value = {UnauthorizedException.class})
+    @ResponseBody
+    public ResponseEntity<String> unauthorizedExceptionHandler(Exception ex, HttpServletRequest request) {
+        HttpStatus status = UNAUTHORIZED;
+        ErrorRes errorRes = new ErrorRes();
+        errorRes.setCode(ErrorCodeDefine.UNAUTHORIZED.getCode());
+        errorRes.setMessage(ErrorCodeDefine.UNAUTHORIZED.getDesc());
+        ResponseEntity<String> res = new ResponseEntity<>(JsonMapper.defaultMapper().toJson(errorRes), MULTI_VALUE_MAP, status);
+        log.info("Not authorized,url:{}, message:{},throwable:", request.getRequestURL().toString(), res.getBody(), ex);
+        return res;
+    }
+
 
     /**
      * 拦截未知的运行时异常

@@ -57,8 +57,8 @@ public class ProductRepository {
             List<RProductTag> rProductTags = productEntity.getRProductTagInputs();
             if (!CollectionUtils.isEmpty(rProductTags)) {
                 rProductTags = rProductTags.stream().peek(rProductTag -> rProductTag.setProductId(productEntity.getId())).collect(Collectors.toList());
+                rProductTagMapper.batchInsert(rProductTags);
             }
-            rProductTagMapper.batchInsert(rProductTags);
         }
     }
 
@@ -75,8 +75,8 @@ public class ProductRepository {
             List<RProductTag> rProductTags = productEntity.getRProductTagInputs();
             if (!CollectionUtils.isEmpty(rProductTags)) {
                 rProductTags = rProductTags.stream().peek(rProductTag -> rProductTag.setProductId(productEntity.getId())).collect(Collectors.toList());
+                rProductTagMapper.batchInsert(rProductTags);
             }
-            rProductTagMapper.batchInsert(rProductTags);
         }
     }
 

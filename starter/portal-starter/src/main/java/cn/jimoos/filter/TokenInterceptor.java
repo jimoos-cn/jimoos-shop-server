@@ -1,6 +1,6 @@
 package cn.jimoos.filter;
 
-import cn.jimoos.common.exception.BussException;
+import cn.jimoos.common.exception.UnauthorizedException;
 import cn.jimoos.entity.AdminEntity;
 import cn.jimoos.error.AdminError;
 import cn.jimoos.repository.AdminRepository;
@@ -37,7 +37,7 @@ public class TokenInterceptor extends HandlerInterceptorAdapter {
         AdminEntity adminEntity = new AdminEntity(adminRepository);
         boolean b = adminEntity.validToken(token);
         if(!b){
-            throw new BussException(AdminError.ADMIN_NOT_LOGIN);
+            throw new UnauthorizedException(AdminError.ADMIN_NOT_LOGIN.getDesc());
         }
         return true;
     }

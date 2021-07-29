@@ -20,6 +20,16 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
 
+    /**
+     * 根据orderNum更新订单
+     * @param order
+     * @param orderNum
+     * @return
+     */
+    int updateByOrderNum(@Param("updated")Order order,@Param("orderNum")String orderNum);
+
+
+
     Order findOneByOrderNumAndUserId(@Param("orderNum") String orderNum, @Param("userId") Long userId);
 
     Order findOneByOrderNum(@Param("orderNum") String orderNum);

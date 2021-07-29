@@ -1,16 +1,20 @@
 package cn.jimoos.service.impl;
 
 import cn.jimoos.common.exception.BussException;
+import cn.jimoos.constant.OrderStatus;
 import cn.jimoos.context.DiscountContext;
 import cn.jimoos.context.FeeContext;
 import cn.jimoos.dao.*;
 import cn.jimoos.constant.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
+import cn.jimoos.entity.OrderRefundEntity;
 import cn.jimoos.entity.ShopOrderEntity;
 import cn.jimoos.error.OrderError;
 import cn.jimoos.factory.OrderFactory;
 import cn.jimoos.form.order.*;
 import cn.jimoos.form.order.be.BeOrderQueryForm;
+import cn.jimoos.form.order.be.BeRefundDeleteForm;
+import cn.jimoos.form.order.be.BeRefundQueryForm;
 import cn.jimoos.model.*;
 import cn.jimoos.repository.OrderRepository;
 import cn.jimoos.repository.ShipmentRepository;
@@ -20,6 +24,7 @@ import cn.jimoos.user.provider.UserProvider;
 import cn.jimoos.user.vo.UserVO;
 import cn.jimoos.utils.http.Page;
 import cn.jimoos.utils.validate.ValidateUtils;
+import cn.jimoos.vo.OrderRefundVO;
 import cn.jimoos.vo.OrderVO;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -307,5 +312,36 @@ public class OrderServiceImpl implements OrderService {
             orderVO.setShipment(outTradeNo2ShipmentMap.get(order.getOrderNum()));
             return orderVO;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public void refundOrder(OrderRefundForm orderRefundForm) throws BussException {
+        if (StringUtils.isEmpty(orderRefundForm.getOrderNum())) {
+            throw new BussException(OrderError.ORDER_REFUND_NOT_EXIST);
+        }
+        OrderRefundEntity orderRefundEntity = orderFactory.createOrderRefundEntity(orderRefundForm);
+        OrderEntity order = orderRefundEntity.findOrder();
+        // 订单需要在支付完后 才能进行退款申请
+        if (order == null || order.getStatus() < OrderStatus.PAID) {
+            throw new BussException(OrderError.ORDER_REFUND_NOT_EXIST);
+        }
+        orderRefundEntity.dataMigration(order);
+        // 有关dao层增改操作
+        orderRefundEntity.save();
+        orderRefundEntity.updateOrderStatus(OrderStatus.REFUND);
+    }
+
+    @Override
+    public Page<OrderRefundVO> queryRefund(BeRefundQueryForm beRefundQueryForm) {
+        OrderRefundEntity entity = orderFactory.createOrderRefundEntity();
+        return entity.findRefundByParamForPage(beRefundQueryForm);
+    }
+
+    @Override
+    public void cancelRefund(BeRefundDeleteForm beRefundDeleteForm) {
+        OrderRefundEntity entity = orderFactory.createOrderRefundEntity(beRefundDeleteForm);
+        // 有关dao层操作
+        entity.save();
+        entity.updateOrderStatus(OrderStatus.REFUND_CANCEL);
     }
 }

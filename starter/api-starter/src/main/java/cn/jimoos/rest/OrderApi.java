@@ -41,7 +41,7 @@ public class OrderApi {
      * @return OrderVo
      */
     @GetMapping(value = "/query", produces = "application/json; charset=utf-8")
-    public List<OrderVO> getOrderDetail(@ModelAttribute UserOrderQueryForm orderQueryForm) throws BussException {
+    public List<OrderVO> getOrderDetail(@ModelAttribute UserOrderQueryForm orderQueryForm) {
         return orderService.userOrders(orderQueryForm);
     }
 
@@ -56,7 +56,7 @@ public class OrderApi {
     public OrderVO getOrderDetail(@PathVariable("orderId") Long orderId, @RequestParam("userId") Long userId) throws BussException {
         return orderService.getOne(userId, orderId);
     }
-    
+
     /**
      * 确认收货
      *
@@ -87,5 +87,13 @@ public class OrderApi {
     @PostMapping(value = "/{orderId}/cancel", produces = "application/json; charset=utf-8")
     public void cancelOrder(@ModelAttribute CancelForm cancelForm) throws BussException {
         orderComposeService.cancelOrder(cancelForm);
+    }
+
+    /**
+     * 订单退款申请(支付后)
+     */
+    @PostMapping(value = "/refund", produces = "application/json;charset=utf-8")
+    public void refundOrder(@ModelAttribute OrderRefundForm orderRefundForm) throws BussException{
+        orderService.refundOrder(orderRefundForm);
     }
 }

@@ -51,6 +51,42 @@
             deleted        = #{deleted,jdbcType=BOOLEAN}
         where id = #{id,jdbcType=BIGINT}
     </update>
+
+<!--   根据字段更新  -->
+    <update id="updateById" parameterType="cn.jimoos.model.ProductSku">
+        update t_product_sku
+        <set>
+            <if test="attrValueIds != null and attrValueIds != ''">
+                attr_value_ids = #{attrValueIds,jdbcType=VARCHAR},
+            </if>
+            <if test="cover != null and cover != ''">
+                cover          = #{cover,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price          = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="showPrice != null">
+                show_price     = #{showPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="productId != null">
+                product_id     = #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="merchantId != null">
+                merchant_id    = #{merchantId,jdbcType=BIGINT},
+            </if>
+            <if test="createAt != null">
+                create_at      = #{createAt,jdbcType=BIGINT},
+            </if>
+            <if test="updateAt != null">
+                update_at      = #{updateAt,jdbcType=BIGINT},
+            </if>
+            <if test="deleted != null">
+                deleted        = #{deleted,jdbcType=BOOLEAN},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
     <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into t_product_sku
@@ -128,7 +164,7 @@
             #{item,jdbcType=BIGINT}
         </foreach>
         group by product_id
-                ) b on tps.id = b.id 
+                ) b on tps.id = b.id
     </select>
 
 
@@ -169,4 +205,5 @@
           and ps.deleted = false
           and ps.id = #{skuId,jdbcType=BIGINT}
     </select>
+
 </mapper>

@@ -1,5 +1,6 @@
 package cn.jimoos.dao;
 
+import cn.jimoos.entity.RProductTagEntity;
 import cn.jimoos.model.RProductTag;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -54,4 +55,11 @@ public interface RProductTagMapper {
      * @return List<RProductTag>
      */
     List<RProductTag> findByProductIdIn(@Param("productIdCollection") Collection<Long> productIdCollection);
+
+    /**
+     * 根据tagID 和 productID 删除绑定表
+     * @param productTagEntity
+     * @return
+     */
+    int deleteByTagIdAndProductId(RProductTagEntity productTagEntity);
 }

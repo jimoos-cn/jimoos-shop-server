@@ -17,6 +17,7 @@ import lombok.EqualsAndHashCode;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 用户对象
@@ -81,6 +82,19 @@ public class UserEntity extends User {
         if (StringUtils.isEmpty(this.getPassword()) || !this.getPassword().equals(BCrypt.hashpw(pwd, this.getSalt()))) {
             throw new BussException(UserError.PWD_NOT_VALID);
         }
+    }
+
+    /**
+     * 重置密码
+     */
+    public String resetPwd(){
+        this.setUpdateAt(System.currentTimeMillis());
+        String newPwd = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        String gensalt = BCrypt.gensalt();
+        String hashpw = BCrypt.hashpw(newPwd, gensalt);
+        this.setPassword(hashpw);
+        this.setSalt(gensalt);
+        return newPwd;
     }
 
     /**
@@ -165,6 +179,8 @@ public class UserEntity extends User {
         this.setUpdateAt(System.currentTimeMillis());
     }
 
+    // 与Dao操作相关
+
     /**
      * 获取用户的收货地址
      */
@@ -184,5 +200,19 @@ public class UserEntity extends User {
      */
     public List<UserSocial> getSocials(){
         return userRepository.queryUserSocials(this.getId());
+    }
+
+    /**
+     * 用户数据保存
+     */
+    public void save(){
+        userRepository.save(this);
+    }
+
+    /**
+     * 清除所有平台的session
+     */
+    public void deleteAllSession(){
+        userRepository.setSessionExpired(this.getId(),null);
     }
 }

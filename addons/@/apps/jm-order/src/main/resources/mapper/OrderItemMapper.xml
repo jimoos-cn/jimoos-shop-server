@@ -88,4 +88,33 @@
             #{item,jdbcType=BIGINT}
         </foreach>
     </select>
+
+    <select id="findByOrderNum" resultMap="BaseResultMap">
+        select
+            item.id,
+            item.product_id,
+            item.product_name,
+            item.product_cover,
+            item.product_type,
+            item.sku_id,
+            item.sku_name,
+            item.sku_cover,
+            item.num,
+            item.price,
+            item.fee,
+            item.product_price,
+            item.discount,
+            item.real_pay,
+            item.order_id,
+            item.extra,
+            item.create_at,
+            item.update_at,
+            item.deleted
+        from  t_order torder
+            join t_order_item item on item.order_id = torder.id
+        where
+            torder.deleted = false
+            AND item.deleted = false
+            AND torder.order_num = #{orderNum,jdbcType=VARCHAR}
+    </select>
 </mapper>

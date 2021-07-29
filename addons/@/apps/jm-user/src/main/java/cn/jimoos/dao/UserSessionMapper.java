@@ -31,5 +31,5 @@ public interface UserSessionMapper {
      * @param expired  过期 ID
      * @param platform 平台类型
      */
-    void setExpired(@Param("userId") Long userId, @Param("expired") Long expired, @Param("platform") int platform);
+    void setExpired(@Param("userId") Long userId, @Param("expired") Long expired, @Param("platform") Integer platform);
 }

@@ -1,11 +1,13 @@
 package cn.jimoos.constant;
 
+
 /**
  * @author :keepcleargas
  * @date :2021-04-07 14:04.
  */
-public class OrderStatus {
+public class  OrderStatus {
     private OrderStatus() {
+
     }
 
     /**
@@ -28,6 +30,23 @@ public class OrderStatus {
      * 已评价
      */
     public static final byte RATED = 4;
+
+
+    /**
+     * 退款中
+     */
+    public static final byte REFUND = -1;
+
+    /**
+     * 退款完成
+     */
+    public static final byte REFUND_DONE = -2;
+
+    /**
+     * 退款取消
+     */
+    public static final byte REFUND_CANCEL= -3;
+
     /**
      * 已取消
      */

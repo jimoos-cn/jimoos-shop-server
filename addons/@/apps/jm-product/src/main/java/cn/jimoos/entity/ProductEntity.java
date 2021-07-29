@@ -5,7 +5,6 @@ import cn.jimoos.model.*;
 import cn.jimoos.repository.ProductRepository;
 import cn.jimoos.vo.ProductSkuVO;
 import cn.jimoos.vo.ProductVO;
-import com.alibaba.druid.sql.visitor.functions.Now;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -161,6 +160,8 @@ public class ProductEntity extends Product {
      */
     public void updateInfo(BeProductForm form) {
         Long now = System.currentTimeMillis();
+        // add 2021年7月22日16:39:25 补充修改商品类别
+        this.setCategoryId(form.getCategoryId());
         this.setName(form.getName());
         this.setText(form.getText());
         this.setCover(form.getCover());

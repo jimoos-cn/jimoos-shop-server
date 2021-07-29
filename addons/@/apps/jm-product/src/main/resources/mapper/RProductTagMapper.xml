@@ -83,4 +83,11 @@
             #{item,jdbcType=BIGINT}
         </foreach>
     </select>
+
+    <delete id="deleteByTagIdAndProductId">
+        delete
+        from r_product_tag
+            where product_id = #{productId,jdbcType=BIGINT}
+            and tag_id = #{tagId,jdbcType=BIGINT}
+    </delete>
 </mapper>

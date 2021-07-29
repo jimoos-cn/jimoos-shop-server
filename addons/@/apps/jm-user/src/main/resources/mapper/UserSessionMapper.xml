@@ -37,8 +37,12 @@
 
     <update id="setExpired" parameterType="map">
         UPDATE t_user_session
-        SET expire_at = #{expired}
-        WHERE user_id = #{userId}
-          AND platform = #{platform}
+        SET expire_at = #{expired,jdbcType=BIGINT}
+        <where>
+            user_id = #{userId,jdbcType=BIGINT}
+            <if test="platform != null">
+                AND platform = #{platform,jdbcType=INTEGER}
+            </if>
+        </where>
     </update>
 </mapper>

@@ -101,4 +101,24 @@ public class AdminRepository {
     public void saveAdminLoginLog(AdminLoginLog adminLoginLog) {
         adminLoginLogMapper.insertSelective(adminLoginLog);
     }
+
+    /**
+     * 验证token是否有效
+     * @param token
+     */
+    public AdminToken findByToken(String token) {
+        return adminTokenMapper.findByTokenValid(token, System.currentTimeMillis());
+    }
+
+    public int deleteExpiredToken() {
+        return adminTokenMapper.clearUpToken(System.currentTimeMillis());
+    }
+
+    public int deleteTokenById(Long adminId) {
+        return adminTokenMapper.deleteByAdminId(adminId);
+    }
+
+    public int deleteSessionByToken(String token) {
+        return adminTokenMapper.deleteByToken(token);
+    }
 }

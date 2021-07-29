@@ -1,12 +1,12 @@
 package cn.jimoos.service;
 
 import cn.jimoos.common.exception.BussException;
-import cn.jimoos.form.tag.BeProductTagCreateForm;
-import cn.jimoos.form.tag.BeProductTagDeleteForm;
-import cn.jimoos.form.tag.BeProductTagSearchForm;
-import cn.jimoos.form.tag.BeProductTagUpdateForm;
+import cn.jimoos.dto.ProductTagDto;
+import cn.jimoos.form.tag.*;
 import cn.jimoos.model.ProductTag;
 import cn.jimoos.utils.http.Page;
+
+import java.util.List;
 
 /**
  * @author :keepcleargas
@@ -47,4 +47,36 @@ public interface ProductTagService {
      * @throws BussException ProductError.TAG_NOT_FOUND
      */
     int delete(BeProductTagDeleteForm form) throws BussException;
+
+    /**
+     * 删除 某商品的绑定值
+     *
+     * @param productTagDeleteForm 删除表单
+     * @return boolean
+     */
+    boolean deleteBoundValue(RProductTagDeleteForm productTagDeleteForm) throws BussException;
+
+    /**
+     * 标签绑定表单
+     *
+     * @param rProductTagAddForms
+     * @return boolean
+     */
+    boolean addBoundValue(List<RProductTagAddForm> rProductTagAddForms);
+
+    /**
+     * 查询某商品的标签
+     *
+     * @param rProductTagSearchForm
+     * @return List<ProductTagDto>
+     */
+    List<ProductTagDto> queryBoundValue(RProductTagSearchForm rProductTagSearchForm);
+
+    /**
+     * 查询某商品未选择的标签
+     *
+     * @param rProductTagSearchForm
+     * @return List<ProductTagDto>
+     */
+    List<ProductTagDto> queryUnBoundValue(RProductTagSearchForm rProductTagSearchForm);
 }

@@ -1,16 +1,15 @@
 package cn.jimoos.rest.be;
 
 import cn.jimoos.common.exception.BussException;
-import cn.jimoos.form.tag.BeProductTagCreateForm;
-import cn.jimoos.form.tag.BeProductTagDeleteForm;
-import cn.jimoos.form.tag.BeProductTagSearchForm;
-import cn.jimoos.form.tag.BeProductTagUpdateForm;
+import cn.jimoos.dto.ProductTagDto;
+import cn.jimoos.form.tag.*;
 import cn.jimoos.model.ProductTag;
 import cn.jimoos.service.ProductTagService;
 import cn.jimoos.utils.http.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author :keepcleargas
@@ -66,5 +65,46 @@ public class BeProductTagApi {
     @PostMapping(value = "/{tagId}/delete", produces = "application/json; charset=utf-8")
     public void deleteTag(@ModelAttribute BeProductTagDeleteForm deleteForm) throws BussException {
         productTagService.delete(deleteForm);
+    }
+
+    /**
+     * 删除 某商品的绑定值
+     *
+     * @param productTagDeleteForm
+     * @throws BussException
+     */
+    @PostMapping(value = "/deleteBoundValue", produces = "application/json; charset=utf-8")
+    public void deleteBoundValue(@ModelAttribute RProductTagDeleteForm productTagDeleteForm) throws BussException {
+        productTagService.deleteBoundValue(productTagDeleteForm);
+    }
+
+    /**
+     * 增加某商品的标签绑定值 ContentType为json
+     *
+     * @param rProductTagAddForms 标签绑定表单
+     */
+    @PostMapping(value = "/addBoundValue", produces = "application/json; charset=utf-8")
+    public void addBoundValue(@RequestBody List<RProductTagAddForm> rProductTagAddForms){
+        productTagService.addBoundValue(rProductTagAddForms);
+    }
+
+    /**
+     * 查询某商品的标签
+     *
+     * @param rProductTagSearchForm 标签绑定表单
+     */
+    @PostMapping(value = "/queryBoundValue", produces = "application/json; charset=utf-8")
+    public List<ProductTagDto> queryBoundValue(@ModelAttribute RProductTagSearchForm rProductTagSearchForm){
+        return productTagService.queryBoundValue(rProductTagSearchForm);
+    }
+
+    /**
+     * 查询某商品未选择的标签
+     *
+     * @param rProductTagSearchForm 标签绑定表单
+     */
+    @GetMapping(value = "/queryUnBoundValue", produces = "application/json; charset=utf-8")
+    public List<ProductTagDto> queryUnBoundValue(@ModelAttribute RProductTagSearchForm rProductTagSearchForm){
+        return productTagService.queryUnBoundValue(rProductTagSearchForm);
     }
 }

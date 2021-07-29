@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jimoos.dao.OrderRefundMapper">
+  <resultMap id="BaseResultMap" type="cn.jimoos.model.OrderRefund">
+    <!--@mbg.generated-->
+    <!--@Table t_order_refund-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="refund_num" jdbcType="VARCHAR" property="refundNum" />
+    <result column="order_num" jdbcType="VARCHAR" property="orderNum" />
+    <result column="refund_status" jdbcType="TINYINT" property="refundStatus" />
+    <result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+    <result column="refund_amount" jdbcType="DECIMAL" property="refundAmount" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, refund_num, order_num, refund_status, order_amount, refund_amount, create_time,
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from t_order_refund
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from t_order_refund
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.OrderRefund" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_order_refund (refund_num, order_num, refund_status,
+      order_amount, refund_amount, create_time,
+      update_time)
+    values (#{refundNum,jdbcType=VARCHAR}, #{orderNum,jdbcType=VARCHAR}, #{refundStatus,jdbcType=TINYINT},
+      #{orderAmount,jdbcType=DECIMAL}, #{refundAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=BIGINT},
+      #{updateTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="cn.jimoos.model.OrderRefund" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_order_refund
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="refundNum != null">
+        refund_num,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="refundStatus != null">
+        refund_status,
+      </if>
+      <if test="orderAmount != null">
+        order_amount,
+      </if>
+      <if test="refundAmount != null">
+        refund_amount,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="refundNum != null">
+        #{refundNum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="refundStatus != null">
+        #{refundStatus,jdbcType=TINYINT},
+      </if>
+      <if test="orderAmount != null">
+        #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="refundAmount != null">
+        #{refundAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.jimoos.model.OrderRefund">
+    <!--@mbg.generated-->
+    update t_order_refund
+    <set>
+      <if test="refundNum != null">
+        refund_num = #{refundNum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=VARCHAR},
+      </if>
+      <if test="refundStatus != null">
+        refund_status = #{refundStatus,jdbcType=TINYINT},
+      </if>
+      <if test="orderAmount != null">
+        order_amount = #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="refundAmount != null">
+        refund_amount = #{refundAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.jimoos.model.OrderRefund">
+    <!--@mbg.generated-->
+    update t_order_refund
+    set refund_num = #{refundNum,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=VARCHAR},
+      refund_status = #{refundStatus,jdbcType=TINYINT},
+      order_amount = #{orderAmount,jdbcType=DECIMAL},
+      refund_amount = #{refundAmount,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+<!--auto generated by MybatisCodeHelper on 2021-07-27-->
+  <select id="findRefundByParamForPage" parameterType="cn.jimoos.form.order.be.BeRefundQueryForm" resultMap="BaseResultMap">
+    select
+        <include refid="Base_Column_List"/>
+    from t_order_refund refund
+    <where>
+      <if test="start != null">
+        AND create_time > #{start,jdbcType=BIGINT}
+      </if>
+      <if test="end != null">
+        AND create_time &lt; #{end,jdbcType=BIGINT}
+      </if>
+      <if test="orderNum != null and orderNum != ''">
+        AND order_num = #{orderNum,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by create_time desc
+    limit #{offset},#{limit}
+  </select>
+</mapper>

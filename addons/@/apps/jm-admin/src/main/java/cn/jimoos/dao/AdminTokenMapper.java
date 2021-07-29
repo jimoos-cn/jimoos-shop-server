@@ -26,4 +26,25 @@ public interface AdminTokenMapper {
     AdminToken findByAdminIdValid(@Param("adminId") Long adminId, @Param("now") long currentTimeMillis);
 
     AdminToken findByTokenValid(@Param("token") String token, @Param("now") long currentTimeMillis);
+
+    /**
+     * 清理过期token
+     * @param currentTimeMillis
+     * @return
+     */
+    int clearUpToken(@Param("now") Long currentTimeMillis);
+
+    /**
+     * 根据AdminID清 除Token
+     * @param adminId
+     * @return
+     */
+    int deleteByAdminId(@Param("adminId")Long adminId);
+
+    /**
+     * 根据token删除相关记录
+     * @param token
+     * @return
+     */
+    int deleteByToken(@Param("token")String token);
 }

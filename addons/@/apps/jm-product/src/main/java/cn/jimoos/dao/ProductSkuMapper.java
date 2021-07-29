@@ -20,6 +20,8 @@ public interface ProductSkuMapper {
 
     int updateByPrimaryKey(ProductSku record);
 
+    int updateById(ProductSku record);
+
     int batchInsert(@Param("list") List<ProductSku> list);
 
     /**

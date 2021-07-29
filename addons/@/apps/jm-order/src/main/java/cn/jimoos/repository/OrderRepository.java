@@ -3,19 +3,22 @@ package cn.jimoos.repository;
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dao.*;
 import cn.jimoos.entity.OrderEntity;
+import cn.jimoos.entity.OrderRefundEntity;
 import cn.jimoos.error.OrderError;
+import cn.jimoos.form.order.be.BeRefundQueryForm;
 import cn.jimoos.model.*;
+import cn.jimoos.utils.http.Page;
+import cn.jimoos.vo.OrderRefundVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -52,6 +55,11 @@ public class OrderRepository {
      */
     @Resource
     ShipmentMapper shipmentMapper;
+    /**
+     * 订单退款mapper
+     */
+    @Resource
+    OrderRefundMapper orderRefundMapper;
 
     /**
      * Save status.
@@ -127,12 +135,12 @@ public class OrderRepository {
     /**
      * Wrapper order entity.
      *
-     * @param Order the order
+     * @param order the order
      * @return the order entity
      */
-    public OrderEntity wrapper(Order Order) {
+    public OrderEntity wrapper(Order order) {
         OrderEntity orderEntity = new OrderEntity(this);
-        BeanUtils.copyProperties(Order, orderEntity);
+        BeanUtils.copyProperties(order, orderEntity);
         return orderEntity;
     }
 
@@ -245,5 +253,45 @@ public class OrderRepository {
         String date = new SimpleDateFormat("yyyyMMdd").format(new Date());
         String sequ = new DecimalFormat("0000000").format(orderId);
         return date + channel + r1 + r2 + sequ;
+    }
+
+    /**
+     * 保存退款订单申请
+     * @param orderRefundEntity
+     */
+    public boolean saveOrderRefund(OrderRefundEntity orderRefundEntity) {
+        int row = 0;
+        if (orderRefundEntity.getId() == null) {
+            row = orderRefundMapper.insert(orderRefundEntity);
+        }else{
+            row = orderRefundMapper.updateByPrimaryKeySelective(orderRefundEntity);
+        }
+        Assert.isTrue(row > 0,"orderRefund 保存数据失败");
+        return true;
+    }
+
+    /**
+     * 根据orderNum更新订单
+     * @param order
+     * @param orderNum
+     * @return
+     */
+    public boolean updateByOrderNum(Order order, String orderNum) {
+        int i = orderMapper.updateByOrderNum(order, orderNum);
+        Assert.isTrue(i > 0, "updateByOrderNum 更新订单失败");
+        return true;
+    }
+
+    public Page<OrderRefundVO> findRefundByParamForPage(BeRefundQueryForm beRefundQueryForm) {
+        List<OrderRefund> list = orderRefundMapper.findRefundByParamForPage(beRefundQueryForm);
+        List<OrderRefundVO> collect = list.stream().map(item -> {
+            OrderRefundVO orderRefundVO = new OrderRefundVO();
+            BeanUtils.copyProperties(item, orderRefundVO);
+            // 根据orderNum查询订单商品
+            List<OrderItem> items = orderItemMapper.findByOrderNum(item.getOrderNum());
+            orderRefundVO.setOrderItems(items);
+            return orderRefundVO;
+        }).collect(Collectors.toList());
+        return new Page<>((long)collect.size(),collect);
     }
 }

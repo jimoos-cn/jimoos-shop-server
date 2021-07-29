@@ -69,6 +69,38 @@ public class AdminEntity extends Admin {
     }
 
     /**
+     * 验证token
+     */
+    public boolean validToken(String token){
+        AdminToken adminToken = adminRepository.findByToken(token);
+        if (adminToken == null) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 登出清理某一token
+     */
+    public int deleteSessionByToken(String token){
+        return adminRepository.deleteSessionByToken(token);
+    }
+
+    /**
+     * 管理员修改密码后，清理该管理员的所有token
+     */
+    public int deleteTokenById(){
+        return adminRepository.deleteTokenById(this.getId());
+    }
+
+    /**
+     * 清理过期token
+     */
+    public int deleteExpiredToken(){
+        return adminRepository.deleteExpiredToken();
+    }
+
+    /**
      * 软删除
      */
     public void softDelete() {

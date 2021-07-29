@@ -76,7 +76,7 @@ public class UserRepository {
 
     public UserEntity save(UserEntity userEntity) {
         if (userEntity.getId() != null && userEntity.getId() > 0) {
-            userMapper.updateByPrimaryKey(userEntity);
+            userMapper.updateById(userEntity,userEntity.getId());
         } else {
             userMapper.insert(userEntity);
         }
@@ -130,10 +130,10 @@ public class UserRepository {
     /**
      * 设置 用户session 失效
      *
-     * @param userId
+     * @param userId 用户ID
      * @param platform
      */
-    public void setSessionExpired(Long userId, int platform) {
+    public void setSessionExpired(Long userId, Integer platform) {
         userSessionMapper.setExpired(userId, System.currentTimeMillis(), platform);
     }
 

@@ -65,4 +65,12 @@ public interface ProductTagMapper {
      * @return long total
      */
     long queryTableCount(Map<String, Object> qm);
+
+    /**
+     * 通过 商品ID 查询未绑定的标签
+     *
+     * @param productId
+     * @return
+     */
+    List<ProductTagDto> findByProductIdNotIn(@Param("productId") Long productId);
 }

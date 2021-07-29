@@ -28,7 +28,7 @@ public class BeAuthApi {
     AdminService adminService;
 
     /**
-     * 更新密码
+     * 后台登陆
      *
      * @param adminLoginForm 登录表单
      * @throws BussException AdminError.ADMIN_NOT_EXIST
@@ -36,5 +36,15 @@ public class BeAuthApi {
     @PostMapping(value = "/login", produces = "application/json; charset=utf-8")
     public AdminVO updatePwd(HttpServletRequest request, @ModelAttribute @Valid AdminLoginForm adminLoginForm) throws BussException {
         return adminService.login(request, adminLoginForm);
+    }
+
+    /**
+     * 后台退出 (清除token)
+     *
+     * @throws BussException AdminError.ADMIN_NOT_EXIST
+     */
+    @PostMapping(value = "/logout", produces = "application/json; charset=utf-8")
+    public boolean updatePwd(HttpServletRequest request) throws BussException {
+        return adminService.logout(request);
     }
 }

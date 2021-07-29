@@ -11,9 +11,12 @@ import cn.jimoos.model.AdminLoginLog;
 import cn.jimoos.repository.AdminRepository;
 import cn.jimoos.service.AdminService;
 import cn.jimoos.utils.http.Page;
+import cn.jimoos.utils.ip.IpUtils;
 import cn.jimoos.vo.AdminVO;
+import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +50,7 @@ public class AdminServiceImpl implements AdminService {
     AdminMapper adminMapper;
 
 
+    @SneakyThrows
     @Override
     public AdminVO login(HttpServletRequest request, AdminLoginForm adminLoginForm) throws BussException {
         AdminEntity adminEntity = adminRepository.findByAccount(adminLoginForm.getAccount());
@@ -61,8 +65,9 @@ public class AdminServiceImpl implements AdminService {
                 throw new BussException(AdminError.PWD_NOT_VALID);
             }
             Long now = System.currentTimeMillis();
-            String ip = (String) request.getAttribute("ip");
-            String userAgent = (String) request.getAttribute("agent");
+            // 2021年7月22日19:28:52 modify 使用utils中的方法
+            String ip = IpUtils.getIpAddr(request);
+            String userAgent = IpUtils.getDeviceType(request);
             AdminVO adminVo = new AdminVO();
             BeanUtils.copyProperties(adminEntity, adminVo);
             adminVo.setToken(adminEntity.newToken(ip).getToken());
@@ -151,5 +156,14 @@ public class AdminServiceImpl implements AdminService {
             return Page.create(count, adminVOs);
         }
         return Page.empty();
+    }
+
+    @Override
+    public boolean logout(HttpServletRequest request) {
+        AdminEntity adminEntity = new AdminEntity(adminRepository);
+        String token = request.getHeader("Authorization");
+        int i = adminEntity.deleteSessionByToken(token);
+        Assert.isTrue(i > 0, "后台管理账户登出失败");
+        return true;
     }
 }

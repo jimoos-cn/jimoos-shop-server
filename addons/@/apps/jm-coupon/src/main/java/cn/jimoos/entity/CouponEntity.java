@@ -10,6 +10,7 @@ import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +94,24 @@ public class CouponEntity extends Coupon {
      */
     public boolean hasUserRecord() {
         return couponRepository.countRecords(this.getId()) > 0;
+    }
+
+    /**
+     * 查询某优惠券使用数量
+     *
+     * @return true 是 false 否
+     */
+    public Long queryUseCount() {
+        return couponRepository.countRecords(this.getId());
+    }
+
+    /**
+     * 查询某优惠券关联订单的总金额
+     *
+     * @return true 是 false 否
+     */
+    public BigDecimal queryAssociatedOrderAmount() {
+        return couponRepository.queryAssociatedOrderAmount(this.getId());
     }
 
     /**

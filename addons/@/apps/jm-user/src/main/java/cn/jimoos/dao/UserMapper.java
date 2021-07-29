@@ -20,6 +20,10 @@ public interface UserMapper extends BaseMapper<User> {
 
     int updateByPrimaryKey(User record);
 
+    int updateById(@Param("updated")User updated,@Param("id")Long id);
+
+
+
     /**
      * 根据用户手机号 获取用户
      *

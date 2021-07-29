@@ -48,4 +48,21 @@ public interface ProductSkuAttrMapMapper {
      * @return ProductSkuAttrMap
      */
     ProductSkuAttrMap findAnyOneByAttrValueId(@Param("attrValueId") Long attrValueId);
+
+    /**
+     * 批量更新
+     *
+     * @param attrs
+     * @return
+     */
+    int batchUpdate(@Param("attrs") List<ProductSkuAttrMap> attrs);
+
+    /**
+     * 根据skuid 软删除关系冗余表
+     * @param updated
+     * @param skuId
+     * @return
+     */
+    int updateBySkuId(@Param("updated")ProductSkuAttrMap updated,@Param("skuId")Long skuId);
+
 }

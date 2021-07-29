@@ -181,4 +181,13 @@
         from t_coupon_record
         where coupon_id = #{couponId,jdbcType=BIGINT}
     </select>
+
+    <select id="queryAssociatedOrderAmount" resultType="java.math.BigDecimal">
+        select ifnull(sum(tOrder.real_pay),0)
+        from t_order_item_discount tid
+            left join t_order tOrder
+        on tid.order_id = tOrder.id
+        where
+            tid.discount_id = #{id,jdbcType=BIGINT}
+    </select>
 </mapper>

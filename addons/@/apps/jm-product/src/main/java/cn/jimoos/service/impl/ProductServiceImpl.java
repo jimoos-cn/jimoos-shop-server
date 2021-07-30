@@ -7,6 +7,7 @@ import cn.jimoos.dao.ProductSkuMapper;
 import cn.jimoos.dao.ProductTagMapper;
 import cn.jimoos.dto.ProductTagDto;
 import cn.jimoos.entity.ProductEntity;
+import cn.jimoos.entity.ProductSkuEntity;
 import cn.jimoos.error.ProductError;
 import cn.jimoos.factory.ProductFactory;
 import cn.jimoos.form.product.*;
@@ -105,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
                 productRepository.saveSkus(productEntity);
             } else {
                 BeProductForm.SkuInput skuInput = beProductSkusForm.getSkuInputs().get(0);
-                ProductEntity.SkuEntity skuEntity = new ProductEntity.SkuEntity(productEntity, skuInput);
+                ProductSkuEntity skuEntity = new ProductSkuEntity(productEntity, skuInput);
                 skuEntity.addAttrMaps(skuInput.getAttrs());
                 productRepository.updateOneSku(skuEntity);
                 List<ProductSkuVO> productSkuVOs = new ArrayList<>();
@@ -177,7 +178,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.delete(productEntity);
     }
 
-    private ProductSkuVO fromSkuEntity(ProductEntity.SkuEntity skuEntity) {
+    private ProductSkuVO fromSkuEntity(ProductSkuEntity skuEntity) {
         ProductSkuVO productSkuVO = new ProductSkuVO();
         productSkuVO.setPrice(skuEntity.getPrice());
         productSkuVO.setShowPrice(skuEntity.getShowPrice());

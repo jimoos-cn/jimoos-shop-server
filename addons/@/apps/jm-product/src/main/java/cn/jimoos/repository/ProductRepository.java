@@ -3,6 +3,7 @@ package cn.jimoos.repository;
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.dao.*;
 import cn.jimoos.entity.ProductEntity;
+import cn.jimoos.entity.ProductSkuEntity;
 import cn.jimoos.error.ProductError;
 import cn.jimoos.model.*;
 import org.springframework.beans.BeanUtils;
@@ -123,7 +124,7 @@ public class ProductRepository {
     public void saveSkus(ProductEntity productEntity) {
         if (productEntity != null) {
             productSkuMapper.updateDeletedByProductId(Boolean.TRUE, productEntity.getId());
-            List<ProductEntity.SkuEntity> skuEntities = productEntity.getProductSkuInputs();
+            List<ProductSkuEntity> skuEntities = productEntity.getProductSkuInputs();
             if (CollectionUtils.isEmpty(skuEntities)) {
                 return;
             }
@@ -138,7 +139,7 @@ public class ProductRepository {
                 ProductSku productSku = idToProductSkuMap.get(skuEntity.getBindAttrValueIds());
                 //批量更新 sku 下的 attr map
                 if (productSku != null) {
-                    List<ProductSkuAttrMap> skuAttrMaps = skuEntity.getSkuAttrMaps();
+                    List<ProductSkuAttrMap> skuAttrMaps = skuEntity.getAttrs();
                     productSkuAttrMaps.addAll(skuAttrMaps.stream().peek(skuAttr -> skuAttr.setSkuId(productSku.getId())).collect(Collectors.toList()));
                 }
             });
@@ -201,7 +202,7 @@ public class ProductRepository {
      *
      * @param skuEntity sku Entity
      */
-    public void updateOneSku(ProductEntity.SkuEntity skuEntity) {
+    public void updateOneSku(ProductSkuEntity skuEntity) {
         ProductSku productSku = productSkuMapper.selectByPrimaryKey(skuEntity.getId());
 
         if (productSku != null) {

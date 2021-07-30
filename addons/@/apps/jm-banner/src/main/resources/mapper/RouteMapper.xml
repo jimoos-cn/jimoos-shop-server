@@ -135,6 +135,7 @@
         <include refid="Base_Column_List"/>
         from t_route
         <where>
+            deleted = false
             <if test="type != null">
                 and `type`=#{type,jdbcType=INTEGER}
             </if>

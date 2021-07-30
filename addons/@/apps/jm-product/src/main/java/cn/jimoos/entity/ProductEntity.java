@@ -10,7 +10,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 public class ProductEntity extends Product {
     private ProductRepository productRepository;
     private List<RProductTag> rProductTagInputs = new ArrayList<>();
-    private List<SkuEntity> productSkuInputs = new ArrayList<>();
+    private List<ProductSkuEntity> productSkuInputs = new ArrayList<>();
     private UserProductCollection userProductCollectionInput;
 
     public ProductEntity(ProductRepository productRepository) {
@@ -113,7 +112,7 @@ public class ProductEntity extends Product {
      */
     public void addSkus(List<BeProductForm.SkuInput> skuInputs) {
         productSkuInputs.addAll(skuInputs.stream().map(skuInput -> {
-            SkuEntity productSku = new SkuEntity(this, skuInput);
+            ProductSkuEntity productSku = new ProductSkuEntity(this, skuInput);
             productSku.addAttrMaps(skuInput.getAttrs());
             return productSku;
         }).collect(Collectors.toList()));
@@ -173,60 +172,6 @@ public class ProductEntity extends Product {
         this.setCategoryId(form.getCategoryId());
         this.setStatus(form.getStatus());
         this.setUpdateAt(now);
-    }
-
-    @Data
-    @EqualsAndHashCode(callSuper = true)
-    @NoArgsConstructor
-    public static class SkuEntity extends ProductSku {
-        private List<ProductSkuAttrMap> skuAttrMaps = new ArrayList<>();
-
-        public SkuEntity(ProductEntity productEntity, BeProductForm.SkuInput skuInput) {
-            long now = System.currentTimeMillis();
-            // SkuEntity productSku = new SkuEntity();
-            this.setAttrValueIds("");
-            this.setCover(skuInput.getCover());
-            this.setPrice(skuInput.getPrice());
-            this.setShowPrice(skuInput.getShowPrice());
-            this.setProductId(productEntity.getId());
-            this.setMerchantId(productEntity.getMerchantId());
-            this.setCreateAt(now);
-            this.setUpdateAt(now);
-            this.setDeleted(false);
-        }
-
-        /**
-         * 绑定 SKU 销售属性值
-         *
-         * @param attrs sku attr
-         */
-        public void addAttrMaps(List<BeProductForm.Attr> attrs) {
-            skuAttrMaps.addAll(attrs.stream().map(attr -> {
-                ProductSkuAttrMap productSkuAttrMap = new ProductSkuAttrMap();
-                productSkuAttrMap.setAttrId(attr.getAttrId());
-                productSkuAttrMap.setAttrName(attr.getAttrName());
-                productSkuAttrMap.setAttrValueName(attr.getAttrValueName());
-                productSkuAttrMap.setAttrValueId(attr.getAttrValueId());
-                productSkuAttrMap.setMerchantId(this.getMerchantId());
-                productSkuAttrMap.setProductId(this.getProductId());
-                productSkuAttrMap.setCreateAt(System.currentTimeMillis());
-                productSkuAttrMap.setUpdateAt(0L);
-                productSkuAttrMap.setDeleted(Boolean.FALSE);
-                return productSkuAttrMap;
-            }).collect(Collectors.toList()));
-            //设置 bindAttrValueIds
-            this.setAttrValueIds(getBindAttrValueIds());
-        }
-
-        /**
-         * 获取 绑定 attrValueId
-         *
-         * @return String
-         */
-        public String getBindAttrValueIds() {
-            List<Long> attrValueIds = getSkuAttrMaps().stream().map(ProductSkuAttrMap::getAttrValueId).collect(Collectors.toList());
-            return StringUtils.collectionToCommaDelimitedString(attrValueIds);
-        }
     }
 
 

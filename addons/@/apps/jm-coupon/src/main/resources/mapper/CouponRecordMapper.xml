@@ -116,6 +116,7 @@
         limit #{offset},#{limit}
     </select>
 
+<!--   modify 2021-7-30 11:51:26 修改 full_mone 小于付款价格 -->
     <select id="findBestOneCouponRecord" resultMap="BaseResultMap">
         select tcr.id,
                tcr.coupon_id,
@@ -132,7 +133,7 @@
           AND tcr.status = false
           AND tcr.expired &gt; unix_timestamp(now())
           AND tcr.user_id = #{userId}
-          AND tc.full_money &gt;= #{beyond}
+          AND tc.full_money &lt;= #{beyond}
         order by reduce_money desc
         limit 1
     </select>

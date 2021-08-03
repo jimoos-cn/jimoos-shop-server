@@ -3,6 +3,7 @@ package cn.jimoos.rest.be;
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.constant.ShipmentType;
 import cn.jimoos.entity.OrderEntity;
+import cn.jimoos.form.order.CancelForm;
 import cn.jimoos.form.order.OrderDeliverForm;
 import cn.jimoos.form.order.be.BeOrderQueryForm;
 import cn.jimoos.form.order.be.BeRefundDeleteForm;
@@ -97,5 +98,15 @@ public class BeOrderApi {
     @PostMapping(value = "/refund/cancel", produces = "application/json; charset=utf-8")
     public void cancelRefund(@ModelAttribute BeRefundDeleteForm beRefundDeleteForm) {
         orderService.cancelRefund(beRefundDeleteForm);
+    }
+
+    /**
+     * 取消订单
+     *
+     * @param cancelForm cancel form
+     */
+    @PostMapping(value = "/{orderId}/cancel", produces = "application/json; charset=utf-8")
+    public void cancelOrder(@ModelAttribute CancelForm cancelForm)  {
+        orderService.cancelOrderWrapperException(cancelForm);
     }
 }

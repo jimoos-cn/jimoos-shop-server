@@ -81,6 +81,40 @@ public class PayApi {
     }
 
     /**
+     * 模拟支付
+     *
+     * @param payBusForm 支付表单
+     * @throws BussException OrderError
+     * @author qisheng.chen
+     */
+    @PostMapping(value = "/unifiedPay/test", produces = "application/json; charset=utf-8")
+    public PaymentVO unifiedPayTest(@ModelAttribute PayBussForm payBusForm) throws BussException {
+        log.debug("pay unifiedPayTest:{}", JsonMapper.defaultMapper().toJson(payBusForm));
+        String orderNum = payBusForm.getOrderNum();
+
+        Order order = orderMapper.findOneByOrderNumAndUserId(orderNum, payBusForm.getUserId());
+
+        if (order == null) {
+            throw new BussException(OrderError.ORDER_NOT_FOUND);
+        }
+        if (order.getStatus() >= OrderStatus.PAID && order.getStatus() != OrderStatus.CANCEL) {
+            throw new BussException(OrderError.ORDER_IS_PAID);
+        } else if (order.getStatus() == OrderStatus.CANCEL) {
+            throw new BussException(OrderError.ORDER_IS_CANCELED);
+        }
+        String subject = order.getSubject();
+        Integer payType = payBusForm.getPayType();
+
+        //传递用userId
+        Map<String, Object> extras = new HashMap<>(16);
+        extras.put(PayProvider.USER_ID, order.getUserId());
+        extras.put(WeixinMaPayProvider.OPEN_ID, payBusForm.getOpenId());
+        PayForm payForm = new PayForm(orderNum, payType, subject, subject, order.getRealPay(), extras);
+
+        return paymentService.payTest(payForm, payFactory.getPayProvider(payType));
+    }
+
+    /**
      * 主动查询 第三方接口订单状态
      * @param paySearchForm
      * @throws BussException

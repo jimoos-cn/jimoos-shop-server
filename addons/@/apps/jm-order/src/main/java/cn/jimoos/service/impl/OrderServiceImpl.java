@@ -276,7 +276,11 @@ public class OrderServiceImpl implements OrderService {
             OrderEntity orderEntity = orderRepository.findById(orderId);
             orderEntity.setOrderRepository(orderRepository);
             orderEntity.setShipmentRepository(shipmentRepository);
-            return OrderVO.toVO(orderEntity);
+            // 获取购买者nickname
+            UserVO userVO = userProvider.byId(orderEntity.getUserId());
+            OrderVO orderVO = OrderVO.toVO(orderEntity);
+            orderVO.setNickname(userVO.getNickname());
+            return orderVO;
         }
         return new OrderVO();
     }

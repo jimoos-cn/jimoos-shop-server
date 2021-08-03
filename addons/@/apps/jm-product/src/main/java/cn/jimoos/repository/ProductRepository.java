@@ -44,7 +44,7 @@ public class ProductRepository {
      */
     public void save(ProductEntity productEntity) {
         if (productEntity.getId() != null && productEntity.getId() > 0) {
-            productMapper.updateByPrimaryKey(productEntity);
+            productMapper.updateById(productEntity);
 
             //移除 tag 关联
             rProductTagMapper.deleteByProductId(productEntity.getId());
@@ -70,7 +70,7 @@ public class ProductRepository {
      */
     public void saveAndNoDelete(ProductEntity productEntity) {
         if (productEntity.getId() != null && productEntity.getId() > 0) {
-            productMapper.updateByPrimaryKey(productEntity);
+            productMapper.updateById(productEntity);
         } else {
             productMapper.insert(productEntity);
             List<RProductTag> rProductTags = productEntity.getRProductTagInputs();

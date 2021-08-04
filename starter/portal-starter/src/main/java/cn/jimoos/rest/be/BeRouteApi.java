@@ -2,10 +2,12 @@ package cn.jimoos.rest.be;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.RouteForm;
+import cn.jimoos.route.model.Route;
 import cn.jimoos.service.RouteService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author :keepcleargas
@@ -16,6 +18,16 @@ import javax.annotation.Resource;
 public class BeRouteApi {
     @Resource
     RouteService routeService;
+
+    /**
+     * 获取route列表
+     *
+     * @param routeForm route Form
+     */
+    @GetMapping(value = "", produces = "application/json; charset=utf-8")
+    public List<Route> queryRoute(@ModelAttribute RouteForm routeForm) {
+        return routeService.queryRoute(routeForm);
+    }
 
     /**
      * 新增route

@@ -20,6 +20,7 @@ public class OrderVO extends Order {
     List<OrderItemDiscount> orderDiscounts;
     List<OrderItemFee> orderItemFees;
     Shipment shipment;
+    String nickname;
 
     public static OrderVO fromEntity(OrderEntity orderEntity) {
         OrderVO orderVo = new OrderVO();

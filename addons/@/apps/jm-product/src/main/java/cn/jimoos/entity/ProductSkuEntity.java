@@ -1,12 +1,15 @@
 package cn.jimoos.entity;
 
+import cn.jimoos.form.product.BeProductForm;
 import cn.jimoos.model.ProductSku;
 import cn.jimoos.model.ProductSkuAttrMap;
 import cn.jimoos.repository.ProductSkuRepository;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author SiletFlower
@@ -24,6 +27,52 @@ public class ProductSkuEntity extends ProductSku{
 
     public ProductSkuEntity(ProductSkuRepository productSkuRepository) {
         this.productSkuRepository = productSkuRepository;
+    }
+
+    public ProductSkuEntity(ProductEntity productEntity, BeProductForm.SkuInput skuInput) {
+        long now = System.currentTimeMillis();
+        this.setAttrValueIds("");
+        this.setCover(skuInput.getCover());
+        this.setPrice(skuInput.getPrice());
+        this.setShowPrice(skuInput.getShowPrice());
+        this.setProductId(productEntity.getId());
+        this.setMerchantId(productEntity.getMerchantId());
+        this.setCreateAt(now);
+        this.setUpdateAt(now);
+        this.setDeleted(false);
+    }
+
+    /**
+     * 绑定 SKU 销售属性值
+     *
+     * @param attrs sku attr
+     */
+    public void addAttrMaps(List<BeProductForm.Attr> attrs) {
+        this.attrs.addAll(attrs.stream().map(attr -> {
+            ProductSkuAttrMap productSkuAttrMap = new ProductSkuAttrMap();
+            productSkuAttrMap.setAttrId(attr.getAttrId());
+            productSkuAttrMap.setAttrName(attr.getAttrName());
+            productSkuAttrMap.setAttrValueName(attr.getAttrValueName());
+            productSkuAttrMap.setAttrValueId(attr.getAttrValueId());
+            productSkuAttrMap.setMerchantId(this.getMerchantId());
+            productSkuAttrMap.setProductId(this.getProductId());
+            productSkuAttrMap.setCreateAt(System.currentTimeMillis());
+            productSkuAttrMap.setUpdateAt(0L);
+            productSkuAttrMap.setDeleted(Boolean.FALSE);
+            return productSkuAttrMap;
+        }).collect(Collectors.toList()));
+        //设置 bindAttrValueIds
+        this.setAttrValueIds(getBindAttrValueIds());
+    }
+
+    /**
+     * 获取 绑定 attrValueId
+     *
+     * @return String
+     */
+    public String getBindAttrValueIds() {
+        List<Long> attrValueIds = this.getAttrs().stream().map(ProductSkuAttrMap::getAttrValueId).collect(Collectors.toList());
+        return StringUtils.collectionToCommaDelimitedString(attrValueIds);
     }
 
 // 状态相关操作

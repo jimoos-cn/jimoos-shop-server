@@ -5,11 +5,13 @@ import cn.jimoos.entity.RouteEntity;
 import cn.jimoos.factory.RouteFactory;
 import cn.jimoos.form.RouteForm;
 import cn.jimoos.repository.RouteRepository;
+import cn.jimoos.route.model.Route;
 import cn.jimoos.service.RouteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author :keepcleargas
@@ -42,5 +44,11 @@ public class RouteServiceImpl implements RouteService {
         routeEntity.setDeleted(true);
         routeEntity.setUpdateAt(System.currentTimeMillis());
         routeRepository.update(routeEntity);
+    }
+
+    @Override
+    public List<Route> queryRoute(RouteForm routeForm) {
+        RouteEntity routeEntity = new RouteEntity(routeRepository);
+        return routeEntity.findAllRoute(routeForm);
     }
 }

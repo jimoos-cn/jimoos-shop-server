@@ -2,6 +2,9 @@ package cn.jimoos.service;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.RouteForm;
+import cn.jimoos.route.model.Route;
+
+import java.util.List;
 
 
 /**
@@ -34,4 +37,11 @@ public interface RouteService {
      * @throws BussException
      */
     void deleteRoute(Long routeId) throws BussException;
+
+    /**
+     * 获取route
+     * @param routeForm
+     * @return
+     */
+    List<Route> queryRoute(RouteForm routeForm);
 }

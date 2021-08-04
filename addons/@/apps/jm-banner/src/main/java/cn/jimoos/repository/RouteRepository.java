@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * The type Banner repository.
@@ -72,4 +73,7 @@ public class RouteRepository {
         return wrapper(route);
     }
 
+    public List<Route> findAllByParam(RouteEntity routeEntity) {
+        return routeMapper.findAllByParam(routeEntity);
+    }
 }

@@ -91,4 +91,25 @@ public class PaymentService {
         }
         return refundVO;
     }
+
+    /**
+     * 模拟支付
+     * @param payForm
+     * @param payProvider
+     * @return
+     */
+    public PaymentVO payTest(PayForm payForm, PayProvider payProvider) {
+        String orderNum = payForm.getOrderNum();
+        PaymentEntity payment = paymentRepository.findByOutTradeNo(orderNum);
+        if (payment == null) {
+            payment = paymentFactory.create(payForm);
+        } else {
+            payment.repay(payForm);
+        }
+        paymentRepository.save(payment);
+        PaymentVO payVo;
+        payVo = new PaymentVO(orderNum, payForm.getSubject(), "SUCCESS", payForm.getPayType());
+        payVo.setOutTradeNo(OutTradeNoEncoder.encodeOutTradeNo(orderNum));
+        return payVo;
+    }
 }

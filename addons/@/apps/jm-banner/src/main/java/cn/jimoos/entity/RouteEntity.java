@@ -1,10 +1,13 @@
 package cn.jimoos.entity;
 
 
+import cn.jimoos.form.RouteForm;
 import cn.jimoos.repository.RouteRepository;
 import cn.jimoos.route.model.Route;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * route
@@ -41,5 +44,15 @@ public class RouteEntity extends Route {
     public void setDeleted() {
         this.setDeleted(true);
         this.setUpdateAt(System.currentTimeMillis());
+    }
+
+    /**
+     * 查询所有route
+     */
+    public List<Route> findAllRoute(RouteForm routeForm) {
+        this.setType(routeForm.getType());
+        this.setDescription(routeForm.getDescription());
+        this.setRoute(routeForm.getRoute());
+        return routeRepository.findAllByParam(this);
     }
 }

@@ -22,6 +22,15 @@ public interface ProductMapper {
 
     int updateByPrimaryKey(Product record);
 
+
+    int updateById(@Param("updated")Product updated);
+
+
+
+
+
+
+
     int batchInsert(@Param("list") List<Product> list);
 
     /**

@@ -9,6 +9,7 @@ import cn.binarywang.wx.miniapp.config.impl.WxMaDefaultConfigImpl;
 import cn.binarywang.wx.miniapp.message.WxMaMessageHandler;
 import cn.binarywang.wx.miniapp.message.WxMaMessageRouter;
 import cn.jimoos.service.impl.BaseSettingsService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;

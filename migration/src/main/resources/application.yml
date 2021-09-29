@@ -48,4 +48,4 @@ server:
   port: 9090
 logging:
   level:
-    root: warn
+    root: info

@@ -310,6 +310,8 @@ public class OrderServiceImpl implements OrderService {
         return orders.stream().map(order -> {
             OrderVO orderVO = new OrderVO();
             BeanUtils.copyProperties(order, orderVO);
+            UserVO userVO = userProvider.byId(orderVO.getUserId());
+            orderVO.setNickname(userVO.getNickname());
             orderVO.setOrderItems(id2ItemListMap.get(order.getId()));
             orderVO.setOrderDiscounts(id2ItemDiscountListMap.get(order.getId()));
             orderVO.setOrderItemFees(id2ItemFeeListMap.get(order.getId()));

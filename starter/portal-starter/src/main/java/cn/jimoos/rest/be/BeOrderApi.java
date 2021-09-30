@@ -9,11 +9,15 @@ import cn.jimoos.form.order.be.BeOrderQueryForm;
 import cn.jimoos.form.order.be.BeRefundDeleteForm;
 import cn.jimoos.form.order.be.BeRefundQueryForm;
 import cn.jimoos.form.shipment.ShipmentDeliverForm;
+import cn.jimoos.model.OrderVoucher;
 import cn.jimoos.service.OrderService;
+import cn.jimoos.service.OrderVoucherService;
 import cn.jimoos.service.ShipmentService;
 import cn.jimoos.utils.http.Page;
 import cn.jimoos.vo.OrderRefundVO;
 import cn.jimoos.vo.OrderVO;
+import cn.jimoos.vo.order.OrderWithVoucherVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -31,8 +35,9 @@ public class BeOrderApi {
     OrderService orderService;
     @Resource
     ShipmentService shipmentService;
-
-
+    @Resource
+    OrderVoucherService orderVoucherService;
+    
     /**
      * 订单查询
      *
@@ -62,8 +67,13 @@ public class BeOrderApi {
      * @return OrderVO
      */
     @GetMapping(value = "/{orderId}/details", produces = "application/json; charset=utf-8")
-    public OrderVO queryTableByUserId(@PathVariable("orderId") Long orderId) throws BussException {
-        return orderService.getOrderDetails(orderId);
+    public OrderWithVoucherVO queryTableByUserId(@PathVariable("orderId") Long orderId) throws BussException {
+        OrderVO one = orderService.getOrderDetails(orderId);
+        OrderVoucher voucher = orderVoucherService.getOne(orderId);
+        OrderWithVoucherVO vo = new OrderWithVoucherVO();
+        BeanUtils.copyProperties(one, vo);
+        vo.setVoucher(voucher);
+        return vo;
     }
 
     /**

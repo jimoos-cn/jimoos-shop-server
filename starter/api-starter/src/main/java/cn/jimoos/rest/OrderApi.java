@@ -2,9 +2,13 @@ package cn.jimoos.rest;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.form.order.*;
+import cn.jimoos.model.OrderVoucher;
 import cn.jimoos.service.OrderComposeService;
 import cn.jimoos.service.OrderService;
+import cn.jimoos.service.OrderVoucherService;
 import cn.jimoos.vo.OrderVO;
+import cn.jimoos.vo.order.OrderWithVoucherVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,6 +27,8 @@ public class OrderApi {
     OrderComposeService orderComposeService;
     @Resource
     OrderService orderService;
+    @Resource
+    OrderVoucherService orderVoucherService;
 
     /**
      * 添加 实体配送订单
@@ -53,8 +59,13 @@ public class OrderApi {
      * @return OrderVo
      */
     @GetMapping(value = "/{orderId}", produces = "application/json; charset=utf-8")
-    public OrderVO getOrderDetail(@PathVariable("orderId") Long orderId, @RequestParam("userId") Long userId) throws BussException {
-        return orderService.getOne(userId, orderId);
+    public OrderWithVoucherVO getOrderDetail(@PathVariable("orderId") Long orderId, @RequestParam("userId") Long userId) throws BussException {
+        OrderVO one = orderService.getOrderDetails(orderId);
+        OrderVoucher voucher = orderVoucherService.getOne(orderId);
+        OrderWithVoucherVO vo = new OrderWithVoucherVO();
+        BeanUtils.copyProperties(one, vo);
+        vo.setVoucher(voucher);
+        return vo;
     }
 
     /**

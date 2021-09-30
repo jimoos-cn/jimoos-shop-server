@@ -25,6 +25,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -63,8 +64,12 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(productEntity);
         //更新sku数据
         List<BeProductForm.SkuInput> skuInputs = beProductForm.getSkus();
-        //关联sku中的cover（数据库中'cover' cannot be null）
-        skuInputs.stream().peek(sku -> sku.setCover(beProductForm.getCover())).collect(Collectors.toList());
+        //关联sku中的cover（数据库中'cover' cannot be null）如果为空或者未传则将商品的cover给sku
+        skuInputs.stream().peek(sku -> {
+            if (StringUtils.isEmpty(sku.getCover())) {
+                sku.setCover(beProductForm.getCover());
+            }
+        }).collect(Collectors.toList());
 
         if (!CollectionUtils.isEmpty(skuInputs)) {
             //添加 sku

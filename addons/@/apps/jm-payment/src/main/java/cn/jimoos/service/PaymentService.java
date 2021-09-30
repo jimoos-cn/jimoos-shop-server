@@ -42,16 +42,9 @@ public class PaymentService {
     public PaymentVO pay(PayForm payForm, PayProvider payProvider) throws BussException {
         Assert.notNull(payProvider, "支付提供方不能为空");
         String orderNum = payForm.getOrderNum();
-        PaymentEntity payment = paymentRepository.findByOutTradeNo(orderNum);
-
-        if (payment == null) {
-            payment = paymentFactory.create(payForm);
-        } else {
-            payment.repay(payForm);
-        }
-
+        // 支付增量
+        PaymentEntity payment = paymentFactory.create(payForm);
         paymentRepository.save(payment);
-
         PaymentVO payVo;
         try {
             String result = payProvider.pay(OutTradeNoEncoder.encodeOutTradeNo(orderNum), payForm.getSubject(), payForm.getBody(), payForm.getMoney(), payForm.getExtras());
@@ -63,53 +56,6 @@ public class PaymentService {
             log.error("{}支付失败:{}", payForm.getPayType(), e);
             throw new BussException(PayError.PAY_ERROR);
         }
-
-        return payVo;
-    }
-
-    /**
-     * 主动查询
-     * @param paySearchForm
-     * @param payProvider
-     */
-    public boolean query(PaySearchForm paySearchForm, PayProvider payProvider) {
-        Assert.notNull(payProvider, "支付提供方不能为空");
-        return payProvider.queryByOrder(OutTradeNoEncoder.encodeOutTradeNo(paySearchForm.getOrderNum()));
-    }
-
-    /**
-     * 退款
-     * @param payRefundForm
-     * @param payProvider
-     */
-    public RefundVO refund(PayRefundForm payRefundForm, PayProvider payProvider) {
-        Assert.notNull(payProvider, "支付提供方不能为空");
-        boolean refund = payProvider.refund(OutTradeNoEncoder.encodeOutTradeNo(payRefundForm.getOrderNum()), payRefundForm.getMoney(), payRefundForm.getRefundMoney());
-        RefundVO refundVO = new RefundVO();
-        if (refund) {
-            BeanUtils.copyProperties(payRefundForm, refundVO);
-        }
-        return refundVO;
-    }
-
-    /**
-     * 模拟支付
-     * @param payForm
-     * @param payProvider
-     * @return
-     */
-    public PaymentVO payTest(PayForm payForm, PayProvider payProvider) {
-        String orderNum = payForm.getOrderNum();
-        PaymentEntity payment = paymentRepository.findByOutTradeNo(orderNum);
-        if (payment == null) {
-            payment = paymentFactory.create(payForm);
-        } else {
-            payment.repay(payForm);
-        }
-        paymentRepository.save(payment);
-        PaymentVO payVo;
-        payVo = new PaymentVO(orderNum, payForm.getSubject(), "SUCCESS", payForm.getPayType());
-        payVo.setOutTradeNo(OutTradeNoEncoder.encodeOutTradeNo(orderNum));
         return payVo;
     }
 }

@@ -22,7 +22,8 @@ public enum OrderError implements IErrorCode {
     PRODUCT_NOT_FOUND("order.product_not_found", "商品未找到"),
     SHIPMENT_NOT_EXIST("shipment.shipment_not_exist", "发货单找不到了"),
     ORDER_REFUND_NOT_ENOUGH("order.refund_not_enough", "退款金额大于订单金额"),
-    ORDER_REFUND_NOT_EXIST("order.refund_not_exist", "退款订单不存在");
+    ORDER_REFUND_NOT_EXIST("order.refund_not_exist", "退款订单不存在"),
+    ORDER_PAYMENT_NOT_FOUND("order_payment_not_found", "线下支付凭证未找到");
 
     private String code;
     private String desc;

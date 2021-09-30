@@ -45,23 +45,4 @@ public class NotifyApi {
             return WxPayNotifyResponse.fail("失败");
         }
     }
-
-    /**
-     * 微信回调测试
-     *
-     * @param xmlData
-     * @return
-     */
-    @PostMapping("/wxPay/test")
-    public String parseOrderNotifyResultTest(@RequestBody String xmlData) throws WxPayException {
-        WxPayOrderNotifyResult notifyResult = WxPayOrderNotifyResult.fromXML(xmlData);
-        if (WX_SUCCESS.equals(notifyResult.getResultCode())) {
-            payCallbackService.wxPayCallback(notifyResult.getOutTradeNo(), "", notifyResult.getTransactionId(), notifyResult.getBankType());
-            log.info("微信支付成功" + notifyResult.toString());
-            return WxPayNotifyResponse.success("成功");
-        } else {
-            log.info("微信支付失败:" + notifyResult.toString());
-            return WxPayNotifyResponse.fail("失败");
-        }
-    }
 }

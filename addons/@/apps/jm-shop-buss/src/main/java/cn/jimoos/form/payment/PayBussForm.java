@@ -16,9 +16,19 @@ public class PayBussForm extends AbstractUserForm4L {
      */
     private String orderNum;
     /**
-     * 3 微信支付
+     * 3 微信支付  1 线下支付
      */
     private Integer payType;
 
     private String openId;
+
+    /**
+     * 线下支付凭证
+     */
+    private String content;
+
+    /**
+     * 凭证图片
+     */
+    private String picture;
 }

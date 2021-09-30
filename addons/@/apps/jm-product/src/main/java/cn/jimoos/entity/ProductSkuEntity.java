@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,6 +49,9 @@ public class ProductSkuEntity extends ProductSku{
      * @param attrs sku attr
      */
     public void addAttrMaps(List<BeProductForm.Attr> attrs) {
+        if (this.attrs == null) {
+            this.attrs = new ArrayList<ProductSkuAttrMap>();
+        }
         this.attrs.addAll(attrs.stream().map(attr -> {
             ProductSkuAttrMap productSkuAttrMap = new ProductSkuAttrMap();
             productSkuAttrMap.setAttrId(attr.getAttrId());

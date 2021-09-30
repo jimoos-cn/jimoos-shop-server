@@ -21,6 +21,7 @@ import com.obs.services.model.PostSignatureResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.IOException;
@@ -33,6 +34,11 @@ public class HuaweiObsService {
     @Resource
     HuaweiObsProperties huaweiObsProperties;
 
+
+    public Boolean checkObs() {
+        String endPoint = this.huaweiObsProperties.getEndPoint();
+        return !StringUtils.isEmpty(endPoint);
+    }
 
     public List<ObsTemporarySignVO> getTemporarySignature(ObsTemporarySignForm form) {
         List<ObsTemporarySignForm.Blob> blobs = form.getBlobs();

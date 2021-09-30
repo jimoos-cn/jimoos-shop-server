@@ -33,9 +33,6 @@ spring:
       debug:
         enabled: true
   http:
-    multipart:
-      max-file-size: 100Mb
-      max-request-size: 100Mb
     encoding:
       charset: UTF-8
       enabled: true
@@ -43,6 +40,10 @@ spring:
   output:
     ansi:
       enabled: always
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
 mybatis:
   # classpath* 此處的* 必須添加 否则会只扫描一个 jar 包，非常重要，2个小时的调试结果。
   mapper-locations: classpath*:mapper/**/*.xml
@@ -52,3 +53,6 @@ server:
 logging:
   level:
     root: info
+local:
+  storage:
+    root-path: /data/

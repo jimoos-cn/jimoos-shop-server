@@ -3,15 +3,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>jm-starter-parent</artifactId>
+        <artifactId>jm-addons-parent</artifactId>
         <groupId>cn.jimoos</groupId>
         <version>0.0.1</version>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jm-portal-starter</artifactId>
+    <groupId>cn.jimoos</groupId>
+    <artifactId>jm-storage</artifactId>
+    <version>0.0.1</version>
 
-    <name>jm-portal-starter</name>
+    <name>jm-storage</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -21,73 +30,6 @@
             <type>pom</type>
             <version>2.1.13.RELEASE</version>
             <scope>import</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-utils</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-settings</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-user</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-coupon</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>huawei-obs</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-banner</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-product</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-order</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-shop-info</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-admin</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-collection</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-shop-buss</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-storage</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -106,11 +48,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>cn.jimoos</groupId>
-            <artifactId>jm-ping</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <!--连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -170,23 +108,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

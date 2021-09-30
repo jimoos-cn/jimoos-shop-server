@@ -29,6 +29,16 @@ public class BeHuaweiObsApi {
 
 
     /**
+     * 是否有配置obs
+     *
+     * @return Boolean
+     */
+    @GetMapping(value = "/checkObs")
+    public Boolean checkObs() {
+        return huaweiObsService.checkObs();
+    }
+
+    /**
      * 使用预签名URL方式访问OBS
      * https://support.huaweicloud.com/api-obs/obs_04_0080.html
      *

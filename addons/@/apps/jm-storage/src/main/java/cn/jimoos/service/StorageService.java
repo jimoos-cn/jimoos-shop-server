@@ -2,7 +2,6 @@ package cn.jimoos.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -15,21 +14,21 @@ public class StorageService {
     @Resource
     private String rootPath;
 
+    @Resource
+    private String host;
+
     public String upload(MultipartFile file, int type, HttpServletRequest request) throws IOException {
         String oldName = file.getOriginalFilename();
         Assert.notNull(oldName, "文件名为空");
         String folderPath = type == 0 ? "image/" : "media/";
-        String url = ResourceUtils.getURL("classpath:").getPath();
-        url += "static/" + folderPath;
-        File folder = new File(url);
+        File folder = new File(rootPath + folderPath);
         if (!folder.isDirectory()) {
             folder.mkdir();
         }
         String newName = System.currentTimeMillis() +
                 oldName.substring(oldName.lastIndexOf("."));
-        file.transferTo(new File(url + newName));
-        return request.getScheme() + "://" + request.getServerName()
-                + ":" + request.getServerPort() + "/" + folderPath + newName;
+        file.transferTo(new File(rootPath + folderPath + newName));
+        return host + folderPath + newName;
     }
 
     public void delete(String url) {

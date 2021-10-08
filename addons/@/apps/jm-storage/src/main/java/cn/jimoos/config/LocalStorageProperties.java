@@ -6,4 +6,5 @@ import lombok.Data;
 public class LocalStorageProperties {
     public final static String KEY = "local.storage";
     private String rootPath;
+    private String host;
 }

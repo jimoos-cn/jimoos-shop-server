@@ -39,4 +39,9 @@ public class LocalStorageConfiguration {
     public String rootPath() {
         return localStorageProperties.getRootPath();
     }
+
+    @Bean(name = "host")
+    public String host() {
+        return localStorageProperties.getHost();
+    }
 }

@@ -14,6 +14,9 @@ public class StorageService {
     @Resource
     private String rootPath;
 
+    @Resource
+    private String host;
+
     public String upload(MultipartFile file, int type, HttpServletRequest request) throws IOException {
         String oldName = file.getOriginalFilename();
         Assert.notNull(oldName, "文件名为空");
@@ -25,8 +28,7 @@ public class StorageService {
         String newName = System.currentTimeMillis() +
                 oldName.substring(oldName.lastIndexOf("."));
         file.transferTo(new File(rootPath + folderPath + newName));
-        return request.getScheme() + "://" + request.getServerName()
-                + ":" + request.getServerPort()  + "/storage/" + folderPath + newName;
+        return host + folderPath + newName;
     }
 
     public void delete(String url) {

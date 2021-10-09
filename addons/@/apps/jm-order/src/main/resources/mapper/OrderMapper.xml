@@ -250,4 +250,20 @@
         </set>
         where order_num=#{orderNum,jdbcType=VARCHAR}
     </update>
+    
+    <select id="getSales" resultType="java.math.BigDecimal">
+        select IFNULL(sum(real_pay),0.00)
+        from
+        t_order
+        where status > 0
+        and deleted = false
+        <if test="startTime != null">
+            AND create_at &gt; #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND create_at &lt; #{endTime}
+        </if>
+    </select>
+    
+    
 </mapper>

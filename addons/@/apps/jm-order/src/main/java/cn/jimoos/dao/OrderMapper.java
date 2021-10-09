@@ -4,6 +4,7 @@ import cn.jimoos.model.Order;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -76,4 +77,9 @@ public interface OrderMapper {
      * @return long total
      */
     long queryTableCount(Map<String, Object> qm);
+
+    /**
+     * 查询 销售额
+     */
+    BigDecimal getSales(Map<String, Object> qm);
 }

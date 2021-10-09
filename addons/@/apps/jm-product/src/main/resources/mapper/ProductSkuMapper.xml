@@ -156,15 +156,24 @@
                tps.create_at,
                tps.update_at,
                tps.deleted
-                from t_product_sku tps
-                join (select id, min(price) price
-                      from t_product_sku where product_id in
-        <foreach item="item" index="index" collection="productIdCollection"
-                 open="(" separator="," close=")">
-            #{item,jdbcType=BIGINT}
-        </foreach>
-        group by product_id
-                ) b on tps.id = b.id
+        from
+                (
+                    select 
+                    case
+                        when
+                        @product_id = product_id THEN
+                        @rn := @rn + 1 ELSE @rn := 1 END AS rn,
+                        @product_id := product_id as groupById,
+                        a.*
+                        FROM
+                        ( SELECT * FROM t_product_sku where product_id in 
+                        <foreach item="item" index="index" collection="productIdCollection" open="(" separator="," close=")">
+                            #{item,jdbcType=BIGINT}
+                        </foreach> 
+                        ORDER BY product_id, price ) a,
+                        (SELECT @rn := 1 ,@product_id := 0 ) b
+                ) tps
+        where rn = 1
     </select>
 
 

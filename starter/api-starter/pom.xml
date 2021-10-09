@@ -94,6 +94,12 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.jimoos</groupId>
+            <artifactId>jm-storage</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-miniapp</artifactId>
         </dependency>

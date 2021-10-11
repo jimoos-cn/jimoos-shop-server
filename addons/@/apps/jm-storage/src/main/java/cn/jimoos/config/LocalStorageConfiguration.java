@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -37,11 +38,19 @@ public class LocalStorageConfiguration {
 
     @Bean(name = "rootPath")
     public String rootPath() {
-        return localStorageProperties.getRootPath();
+        String rootPath = localStorageProperties.getRootPath();
+        if (StringUtils.isEmpty(rootPath)) {
+            rootPath = System.getProperty("java.io.tmpdir");
+        }
+        return rootPath;
     }
 
     @Bean(name = "host")
     public String host() {
-        return localStorageProperties.getHost();
+        String host = localStorageProperties.getHost();
+        if (StringUtils.isEmpty(host)) {
+            host = "http://127.0.0.1:9001/storage/";
+        }
+        return host;
     }
 }

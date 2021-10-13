@@ -52,11 +52,6 @@ public class BeStorageApi {
         return paymentSelectService.checkPayment();
     }
 
-    @PostMapping(value = "/addPayment", produces = "application/json; charset=utf-8")
-    public void addPayment(@ModelAttribute PaymentCreateForm form) {
-        paymentSelectService.addPayment(form);
-    }
-
     @PostMapping(value = "/changePayment", produces = "application/json; charset=utf-8")
     public void changePayment(PaymentUpdateForm form) {
         paymentSelectService.changePayment(form);

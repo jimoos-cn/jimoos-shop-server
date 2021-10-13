@@ -1,10 +1,11 @@
 package cn.jimoos.config;
 
+import cn.jimoos.form.BaseSettingsCreateForm;
 import cn.jimoos.service.impl.BaseSettingsService;
+import cn.jimoos.utils.mapper.JsonMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
@@ -13,27 +14,30 @@ import javax.annotation.Resource;
 @Configuration
 @Slf4j
 public class LocalStorageConfiguration {
-    private static LocalStorageProperties localStorageProperties;
+    private LocalStorageProperties localStorageProperties;
 
     @Resource
     BaseSettingsService baseSettingsService;
 
-    @Bean
-    @DependsOn("liquibase")
-    public LocalStorageProperties getLocalStorageProperties() {
+    @PostConstruct
+    public void getLocalStorageProperties() {
         LocalStorageProperties localStorageProperties =
                 baseSettingsService.getObjectByKeyword(LocalStorageProperties.KEY, LocalStorageProperties.class);
-        return localStorageProperties == null ? new LocalStorageProperties() : localStorageProperties;
+        if (localStorageProperties == null) {
+            localStorageProperties = defaultLocalStorageProperties();
+        }
+        this.localStorageProperties = localStorageProperties;
     }
 
-    @PostConstruct
-    public void init() {
-        LocalStorageProperties properties = getLocalStorageProperties();
-        log.info("local storage properties:{}", properties);
-        if (properties == null) {
-            throw new RuntimeException("未配置本地存储");
-        }
-        localStorageProperties = properties;
+    private LocalStorageProperties defaultLocalStorageProperties() {
+        LocalStorageProperties defaultProperties = new LocalStorageProperties();
+        defaultProperties.setRootPath(System.getProperty("java.io.tmpdir"));
+        defaultProperties.setHost("http://127.0.0.1:9001/storage/");
+        BaseSettingsCreateForm form = new BaseSettingsCreateForm();
+        form.setKeyword(LocalStorageProperties.KEY);
+        form.setContent(JsonMapper.INSTANCE.toJson(defaultProperties));
+        baseSettingsService.save(form);
+        return defaultProperties;
     }
 
     @Bean(name = "rootPath")

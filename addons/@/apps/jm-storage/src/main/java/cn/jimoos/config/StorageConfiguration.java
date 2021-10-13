@@ -9,25 +9,25 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 @Configuration
-public class PaymentConfiguration {
+public class StorageConfiguration {
     @Resource
     BaseSettingsService baseSettingsService;
 
     @PostConstruct
-    public void getPaymentProperties() {
-        PaymentProperties paymentProperties =
-                baseSettingsService.getObjectByKeyword(PaymentProperties.KEY, PaymentProperties.class);
-        if (paymentProperties == null) {
-            defaultPaymentProperties();
+    public void getStorageProperties() {
+        StorageProperties storageProperties =
+                baseSettingsService.getObjectByKeyword(StorageProperties.KEY, StorageProperties.class);
+        if (storageProperties == null) {
+            defaultStorageProperties();
         }
     }
 
-    private void defaultPaymentProperties() {
-        PaymentProperties defaultProperties = new PaymentProperties();
-        defaultProperties.setOfflinePay(true);
-        defaultProperties.setWxPay(false);
+    private void defaultStorageProperties() {
+        StorageProperties defaultProperties = new StorageProperties();
+        defaultProperties.setLocalStorage(true);
+        defaultProperties.setHuaweiObs(false);
         BaseSettingsCreateForm form = new BaseSettingsCreateForm();
-        form.setKeyword(PaymentProperties.KEY);
+        form.setKeyword(StorageProperties.KEY);
         form.setContent(JsonMapper.INSTANCE.toJson(defaultProperties));
         baseSettingsService.save(form);
     }

@@ -8,6 +8,7 @@ import cn.jimoos.error.OrderError;
 import cn.jimoos.form.order.CancelForm;
 import cn.jimoos.form.order.ConfirmForm;
 import cn.jimoos.form.order.OrderForm;
+import cn.jimoos.form.order.OrderItemForm;
 import cn.jimoos.form.shipment.ShipmentConfirmForm;
 import cn.jimoos.form.shipment.ShipmentCreateForm;
 import cn.jimoos.model.OrderCart;
@@ -87,7 +88,11 @@ public class OrderComposeServiceImpl implements OrderComposeService {
         int buyFrom = (int) orderForm.getExtraMap().get("buyFrom");
         if (buyFrom == 1) {
             List<OrderCart> orderCartList = orderCartMapper.findByUserId(orderForm.getUserId(), 0, Integer.MAX_VALUE);
-            List<Long> cartIds = orderCartList.stream().filter(OrderCart::getChecked).map(OrderCart::getId).collect(Collectors.toList());
+            List<Long> productIds = orderForm.getOrderItems().stream().map(OrderItemForm::getProductId).collect(Collectors.toList());
+            List<Long> cartIds = orderCartList.stream()
+                    .filter(orderCart -> productIds.contains(orderCart.getProductId()))
+                    .map(OrderCart::getId)
+                    .collect(Collectors.toList());
             orderCartMapper.deleteByUserIdAndIdIn(orderForm.getUserId(), cartIds);
         }
         return orderVO;

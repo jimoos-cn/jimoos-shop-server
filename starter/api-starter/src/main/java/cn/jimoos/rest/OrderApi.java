@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 订单
@@ -46,9 +47,21 @@ public class OrderApi {
      * @param orderQueryForm order query form
      * @return OrderVo
      */
-    @GetMapping(value = "/query", produces = "application/json; charset=utf-8")
+//    @GetMapping(value = "/query", produces = "application/json; charset=utf-8")
     public List<OrderVO> getOrderDetail(@ModelAttribute UserOrderQueryForm orderQueryForm) {
         return orderService.userOrders(orderQueryForm);
+    }
+
+    @GetMapping(value = "/query", produces = "application/json; charset=utf-8")
+    public List<OrderWithVoucherVO> getOrderWithVoucherList(@ModelAttribute UserOrderQueryForm orderQueryForm) {
+        List<OrderVO> orders = orderService.userOrders(orderQueryForm);
+        return orders.stream().map(order -> {
+            OrderVoucher voucher = orderVoucherService.getOne(order.getId());
+            OrderWithVoucherVO vo = new OrderWithVoucherVO();
+            BeanUtils.copyProperties(order, vo);
+            vo.setVoucher(voucher);
+            return vo;
+        }).collect(Collectors.toList());
     }
 
     /**

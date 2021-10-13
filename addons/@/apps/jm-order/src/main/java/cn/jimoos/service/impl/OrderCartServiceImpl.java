@@ -38,7 +38,7 @@ public class OrderCartServiceImpl implements OrderCartService {
             //保存
             orderCartRepository.save(orderCartEntity);
         } else {
-            orderCartEntity.setNum(orderCartForm.getNum());
+            orderCartEntity.setNum(orderCartEntity.getNum() + orderCartForm.getNum());
             orderCartEntity.setChecked(orderCartForm.getChecked());
             orderCartEntity.setUpdateAt(System.currentTimeMillis());
             //保存

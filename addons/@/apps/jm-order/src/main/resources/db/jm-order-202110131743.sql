@@ -1,7 +1,7 @@
 --liquibase formatted sql
 
 --changeset yyx:3
-create table jimoos_shop.t_order_voucher
+create table t_order_voucher
 (
     id        bigint unsigned auto_increment
         primary key,

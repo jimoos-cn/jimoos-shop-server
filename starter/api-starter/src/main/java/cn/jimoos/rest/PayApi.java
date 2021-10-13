@@ -82,6 +82,7 @@ public class PayApi {
         extras.put("content", payBusForm.getContent());
         extras.put("picture", payBusForm.getPicture());
         extras.put("orderId", order.getId());
+        extras.put("openId", payBusForm.getOpenId());
         PayForm payForm = new PayForm(orderNum, payType, subject, subject, order.getRealPay(), extras);
 
         return paymentService.pay(payForm, payFactory.getPayProvider(payType));

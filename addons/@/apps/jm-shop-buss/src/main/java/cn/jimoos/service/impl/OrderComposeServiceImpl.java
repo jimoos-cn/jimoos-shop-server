@@ -2,6 +2,7 @@ package cn.jimoos.service.impl;
 
 import cn.jimoos.common.exception.BussException;
 import cn.jimoos.constant.ShipmentType;
+import cn.jimoos.dao.OrderCartMapper;
 import cn.jimoos.entity.OrderEntity;
 import cn.jimoos.error.OrderError;
 import cn.jimoos.form.order.CancelForm;
@@ -9,6 +10,7 @@ import cn.jimoos.form.order.ConfirmForm;
 import cn.jimoos.form.order.OrderForm;
 import cn.jimoos.form.shipment.ShipmentConfirmForm;
 import cn.jimoos.form.shipment.ShipmentCreateForm;
+import cn.jimoos.model.OrderCart;
 import cn.jimoos.model.OrderItemDiscount;
 import cn.jimoos.order.dic.DiscountType;
 import cn.jimoos.service.CouponService;
@@ -24,6 +26,7 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author :keepcleargas
@@ -52,6 +55,9 @@ public class OrderComposeServiceImpl implements OrderComposeService {
     @Resource
     AddressProvider addressProvider;
 
+    @Resource
+    OrderCartMapper orderCartMapper;
+
     @Override
     public OrderVO addProductOrder(OrderForm orderForm) throws BussException {
         UserAddress userAddress = addressProvider.byId(orderForm.getAddressId());
@@ -76,6 +82,13 @@ public class OrderComposeServiceImpl implements OrderComposeService {
                     couponRecordIds.add(itemDiscount.getDiscountId());
                 }
             }
+        }
+        //从购物车下单，移除购物车商品
+        int buyFrom = (int) orderForm.getExtraMap().get("buyFrom");
+        if (buyFrom == 1) {
+            List<OrderCart> orderCartList = orderCartMapper.findByUserId(orderForm.getUserId(), 0, Integer.MAX_VALUE);
+            List<Long> cartIds = orderCartList.stream().filter(OrderCart::getChecked).map(OrderCart::getId).collect(Collectors.toList());
+            orderCartMapper.deleteByUserIdAndIdIn(orderForm.getUserId(), cartIds);
         }
         return orderVO;
     }

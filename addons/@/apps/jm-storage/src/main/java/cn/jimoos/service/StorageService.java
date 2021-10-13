@@ -1,8 +1,6 @@
 package cn.jimoos.service;
 
-import cn.jimoos.config.LocalStorageProperties;
 import cn.jimoos.config.StorageProperties;
-import cn.jimoos.form.BaseSettingsCreateForm;
 import cn.jimoos.service.impl.BaseSettingsService;
 import cn.jimoos.utils.mapper.JsonMapper;
 import org.springframework.stereotype.Service;
@@ -50,9 +48,7 @@ public class StorageService {
     }
 
     public StorageProperties checkStorage() {
-        StorageProperties storageProperties =
-                baseSettingsService.getObjectByKeyword(StorageProperties.KEY, StorageProperties.class);
-        return storageProperties == null ? defaultStorage() : storageProperties;
+        return baseSettingsService.getObjectByKeyword(StorageProperties.KEY, StorageProperties.class);
     }
 
     public StorageProperties changeStorage() {
@@ -63,24 +59,6 @@ public class StorageService {
         storageProperties.setHuaweiObs(temp);
         String content = JsonMapper.INSTANCE.toJson(storageProperties);
         baseSettingsService.saveContentByKeyword(content, StorageProperties.KEY);
-        return storageProperties;
-    }
-
-    private StorageProperties defaultStorage() {
-        StorageProperties storageProperties = new StorageProperties(true, false);
-        BaseSettingsCreateForm form = new BaseSettingsCreateForm();
-        form.setContent(JsonMapper.INSTANCE.toJson(storageProperties));
-        form.setKeyword(StorageProperties.KEY);
-        baseSettingsService.save(form);
-
-        LocalStorageProperties localStorageProperties =
-                baseSettingsService.getObjectByKeyword(LocalStorageProperties.KEY, LocalStorageProperties.class);
-        if (localStorageProperties == null) {
-            localStorageProperties = new LocalStorageProperties(rootPath, host);
-            form.setContent(JsonMapper.INSTANCE.toJson(localStorageProperties));
-            form.setKeyword(LocalStorageProperties.KEY);
-            baseSettingsService.save(form);
-        }
         return storageProperties;
     }
 }

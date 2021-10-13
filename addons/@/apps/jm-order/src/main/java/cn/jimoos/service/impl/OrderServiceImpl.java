@@ -166,25 +166,36 @@ public class OrderServiceImpl implements OrderService {
             throw new BussException(OrderError.ORDER_STATUS_NOT_VALID);
         }
         orderEntity.confirm();
-
         orderRepository.saveStatus(orderEntity);
+
+        List<OrderItem> orderItems = orderEntity.getOrderItems();
+        orderItems.forEach(item -> {
+            Long productId = item.getProductId();
+            Integer num = item.getNum();
+
+        });
         return orderEntity;
     }
 
 
     @Override
-    public void remindDelivery(RemindDeliveryForm remindDeliveryForm) {
+    public boolean remindDelivery(RemindDeliveryForm remindDeliveryForm) {
         //todo 48小时外 + 48小时内 禁止重复提交 remind
         Long orderId = remindDeliveryForm.getOrderId();
         Long userId = remindDeliveryForm.getUserId();
-        OrderRemindDelivery orderRemindDelivery = new OrderRemindDelivery();
-        orderRemindDelivery.setOrderId(orderId);
-        orderRemindDelivery.setUid(userId);
-        long now = System.currentTimeMillis();
-        orderRemindDelivery.setCreateAt(now);
-        orderRemindDelivery.setUpdateAt(now);
-        orderRemindDelivery.setDeleted(false);
-        orderRemindDeliveryMapper.insert(orderRemindDelivery);
+        OrderRemindDelivery remind = orderRemindDeliveryMapper.findOneByOrderId(orderId);
+        if (remind != null) {
+            Long updateAt = remind.getUpdateAt();
+            Long now = System.currentTimeMillis();
+            if (now - updateAt <= 48 * 60 * 1000) {
+                return false;
+            } else {
+                createOrderRemindDelivery(orderId, userId);
+            }
+        } else {
+            createOrderRemindDelivery(orderId, userId);
+        }
+        return true;
     }
 
     @Override
@@ -349,5 +360,16 @@ public class OrderServiceImpl implements OrderService {
         // 有关dao层操作
         entity.save();
         entity.updateOrderStatus(OrderStatus.REFUND_CANCEL);
+    }
+
+    private void createOrderRemindDelivery(Long orderId, Long userId) {
+        OrderRemindDelivery orderRemindDelivery = new OrderRemindDelivery();
+        orderRemindDelivery.setOrderId(orderId);
+        orderRemindDelivery.setUid(userId);
+        long now = System.currentTimeMillis();
+        orderRemindDelivery.setCreateAt(now);
+        orderRemindDelivery.setUpdateAt(now);
+        orderRemindDelivery.setDeleted(false);
+        orderRemindDeliveryMapper.insert(orderRemindDelivery);
     }
 }

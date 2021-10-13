@@ -85,8 +85,8 @@ public class OrderApi {
      * @param remindDeliveryForm remind delivery form
      */
     @PostMapping(value = "/{orderId}/remindDelivery", produces = "application/json; charset=utf-8")
-    public void remindDelivery(@ModelAttribute RemindDeliveryForm remindDeliveryForm) throws BussException {
-        orderService.remindDelivery(remindDeliveryForm);
+    public boolean remindDelivery(@ModelAttribute RemindDeliveryForm remindDeliveryForm) throws BussException {
+        return orderService.remindDelivery(remindDeliveryForm);
     }
 
 

@@ -70,7 +70,7 @@ public interface OrderService {
      * @param remindDeliveryForm the remind delivery form
      * @throws BussException the buss exception
      */
-    void remindDelivery(RemindDeliveryForm remindDeliveryForm) throws BussException;
+    boolean remindDelivery(RemindDeliveryForm remindDeliveryForm) throws BussException;
 
     /**
      * 取消订单

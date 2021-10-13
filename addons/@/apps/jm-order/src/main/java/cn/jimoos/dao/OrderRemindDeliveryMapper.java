@@ -13,4 +13,6 @@ public interface OrderRemindDeliveryMapper {
     int updateByPrimaryKey(OrderRemindDelivery record);
 
     List<OrderRemindDelivery> findByOrderId(@Param("orderId") Long orderId);
+
+    OrderRemindDelivery findOneByOrderId(@Param("orderId")Long orderId);
 }

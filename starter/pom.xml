@@ -26,6 +26,5 @@
     <modules>
         <module>api-starter</module>
         <module>portal-starter</module>
-        <module>cron-starter</module>
     </modules>
 </project>

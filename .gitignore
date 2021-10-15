@@ -13,7 +13,6 @@ node_modules/
 #package.json
 target/
 !.mvn/wrapper/maven-wrapper.jar
-
 .addonCache
 ### STS ###
 .apt_generated
@@ -31,7 +30,10 @@ target/
 
 *.bak
 
-
 #hbm文件不上传
 *.hbm.xml
+
+#static portal-starter#static
+!static/.gitkeep
+static
 
